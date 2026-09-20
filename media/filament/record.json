@@ -1,0 +1,624 @@
+{
+  "run": {
+    "engine_commit": "bb597f087667edd55467bf262ef704b7acaa6e44",
+    "harness_sha256": "53d28a059d0cdd3dd58e125a42e20079bfba56b2310fdd0aa08a69d894386481",
+    "inputs": {
+      "classification": "EXAMPLE isolated diagnostic; not native-cell validation",
+      "spec": "aleph/cell/spec.example.toml",
+      "render": {
+        "width": 960,
+        "height": 640
+      },
+      "filament": {
+        "segments": 40,
+        "bend_angle_rad": 0.5,
+        "steps": 120,
+        "capture_every": 4,
+        "dt_s": 1e-07,
+        "temperature_K": 310,
+        "seed": 17,
+        "cg_iters": 50
+      },
+      "motor": {
+        "steps": 120,
+        "capture_every": 4,
+        "dt_s": 1e-07,
+        "temperature_K": 310,
+        "seed": 17,
+        "cg_iters": 50,
+        "stroke_sign": 1
+      },
+      "fluid": {
+        "box_min_um": [
+          -1.6,
+          -1.6,
+          -1.6
+        ],
+        "box_max_um": [
+          1.6,
+          1.6,
+          1.6
+        ],
+        "dx_um": 0.1,
+        "force_positions_um": [
+          [
+            -0.4,
+            0,
+            0
+          ],
+          [
+            0.4,
+            0,
+            0
+          ]
+        ],
+        "force_pN": [
+          [
+            0,
+            0.001,
+            0
+          ],
+          [
+            0,
+            -0.001,
+            0
+          ]
+        ],
+        "iterations": 80,
+        "inner": 2
+      }
+    },
+    "inputs_sha256": "2856c9577ccf536fc287902c6f89d8f8bbeefd26c0517651d2482d1ad48b93cc",
+    "spec_sha256": "dfb00a7d73e1903d17698ac9c740d4ac829661685c47c70cda2c90c91ddd165b",
+    "device": "cuda:0",
+    "device_name": "NVIDIA GeForce RTX 4090",
+    "slurm_job": "271",
+    "created_utc": "2026-09-20T06:52:34Z",
+    "warp_version": "1.14.0",
+    "cases": {
+      "fluid": "recorded",
+      "filament": "recorded",
+      "motor": "recorded"
+    }
+  },
+  "measurement": {
+    "classification": "EXAMPLE isolated diagnostic; not native-cell validation",
+    "case": "filament",
+    "parameters": {
+      "segments": 40,
+      "bend_angle_rad": 0.5,
+      "steps": 120,
+      "capture_every": 4,
+      "dt_s": 1e-07,
+      "temperature_K": 310,
+      "seed": 17,
+      "cg_iters": 50
+    },
+    "population": 41,
+    "verdict": null,
+    "physical_time": true,
+    "camera_motion": false,
+    "interpolation": false,
+    "limitations": [
+      "Short isolated trajectory; no physiological-function conclusion.",
+      "Implicit discretization and incomplete solves can bias motion.",
+      "No independent reference comparison or convergence claim."
+    ],
+    "status": "recorded",
+    "rows": [
+      {
+        "step": 0,
+        "time_s": 0.0,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.0,
+        "bound_heads": 0,
+        "max_force_pN": 0.0
+      },
+      {
+        "step": 4,
+        "time_s": 4e-07,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.003045945353268599,
+        "bound_heads": 0,
+        "max_force_pN": 97.14555406652799,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 8,
+        "time_s": 8e-07,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.004892545656966742,
+        "bound_heads": 0,
+        "max_force_pN": 150.7831840399608,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 12,
+        "time_s": 1.2e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.005846820994547886,
+        "bound_heads": 0,
+        "max_force_pN": 213.09227585298143,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 16,
+        "time_s": 1.6e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.007611835209182896,
+        "bound_heads": 0,
+        "max_force_pN": 153.140572335467,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 20,
+        "time_s": 2e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.007794111104037068,
+        "bound_heads": 0,
+        "max_force_pN": 103.08742871336652,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 24,
+        "time_s": 2.4e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.0077535297266492715,
+        "bound_heads": 0,
+        "max_force_pN": 54.2684117805757,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 28,
+        "time_s": 2.8e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.007465069986751618,
+        "bound_heads": 0,
+        "max_force_pN": 243.92301077389368,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 32,
+        "time_s": 3.2e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.00861803364993182,
+        "bound_heads": 0,
+        "max_force_pN": 182.40982479872326,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 36,
+        "time_s": 3.6e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.009027492088321543,
+        "bound_heads": 0,
+        "max_force_pN": 95.85968448668271,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 40,
+        "time_s": 4e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.009109024166982957,
+        "bound_heads": 0,
+        "max_force_pN": 227.6267954667325,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 44,
+        "time_s": 4.4e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.009194088445475165,
+        "bound_heads": 0,
+        "max_force_pN": 144.318353579892,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 48,
+        "time_s": 4.8e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.009584345175041734,
+        "bound_heads": 0,
+        "max_force_pN": 79.51734285998995,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 52,
+        "time_s": 5.199999999999999e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.011349236309799208,
+        "bound_heads": 0,
+        "max_force_pN": 193.4329396140958,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 56,
+        "time_s": 5.6e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.011499939393543155,
+        "bound_heads": 0,
+        "max_force_pN": 74.12850166489136,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 60,
+        "time_s": 6e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.011278596755393588,
+        "bound_heads": 0,
+        "max_force_pN": 242.6225168421861,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 64,
+        "time_s": 6.4e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.011214519336749593,
+        "bound_heads": 0,
+        "max_force_pN": 85.76578961274285,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 68,
+        "time_s": 6.799999999999999e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.01233512855832182,
+        "bound_heads": 0,
+        "max_force_pN": 191.9602172387286,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 72,
+        "time_s": 7.2e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.01322412543965826,
+        "bound_heads": 0,
+        "max_force_pN": 164.32598313478397,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 76,
+        "time_s": 7.6e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.01410301831248375,
+        "bound_heads": 0,
+        "max_force_pN": 84.81980378172076,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 80,
+        "time_s": 8e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.014738358345854106,
+        "bound_heads": 0,
+        "max_force_pN": 105.62059376785318,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 84,
+        "time_s": 8.4e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.014868974621952195,
+        "bound_heads": 0,
+        "max_force_pN": 159.8096435919616,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 88,
+        "time_s": 8.8e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.014928748278740625,
+        "bound_heads": 0,
+        "max_force_pN": 128.98398438475778,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 92,
+        "time_s": 9.2e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.01456829509847278,
+        "bound_heads": 0,
+        "max_force_pN": 178.41012072301996,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 96,
+        "time_s": 9.6e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.016129849081519494,
+        "bound_heads": 0,
+        "max_force_pN": 129.56963972039554,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 100,
+        "time_s": 9.999999999999999e-06,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.01652020537196611,
+        "bound_heads": 0,
+        "max_force_pN": 190.04700334891012,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 104,
+        "time_s": 1.0399999999999999e-05,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.015568494512871385,
+        "bound_heads": 0,
+        "max_force_pN": 66.1333760459959,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 108,
+        "time_s": 1.08e-05,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.015008390431036168,
+        "bound_heads": 0,
+        "max_force_pN": 73.41937182203355,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 112,
+        "time_s": 1.12e-05,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.015489928508889684,
+        "bound_heads": 0,
+        "max_force_pN": 122.58527498898626,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 116,
+        "time_s": 1.1599999999999999e-05,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.015711627693124737,
+        "bound_heads": 0,
+        "max_force_pN": 73.96214692021421,
+        "integrator_nonfinite": 0
+      },
+      {
+        "step": 120,
+        "time_s": 1.2e-05,
+        "nonfinite": 0,
+        "displacement_rms_um": 0.016572947322003977,
+        "bound_heads": 0,
+        "max_force_pN": 141.47823200903463,
+        "integrator_nonfinite": 0
+      }
+    ],
+    "frames": [
+      {
+        "file": "frames/00000.png",
+        "step": 0,
+        "time_s": 0.0
+      },
+      {
+        "file": "frames/00001.png",
+        "step": 4,
+        "time_s": 4e-07
+      },
+      {
+        "file": "frames/00002.png",
+        "step": 8,
+        "time_s": 8e-07
+      },
+      {
+        "file": "frames/00003.png",
+        "step": 12,
+        "time_s": 1.2e-06
+      },
+      {
+        "file": "frames/00004.png",
+        "step": 16,
+        "time_s": 1.6e-06
+      },
+      {
+        "file": "frames/00005.png",
+        "step": 20,
+        "time_s": 2e-06
+      },
+      {
+        "file": "frames/00006.png",
+        "step": 24,
+        "time_s": 2.4e-06
+      },
+      {
+        "file": "frames/00007.png",
+        "step": 28,
+        "time_s": 2.8e-06
+      },
+      {
+        "file": "frames/00008.png",
+        "step": 32,
+        "time_s": 3.2e-06
+      },
+      {
+        "file": "frames/00009.png",
+        "step": 36,
+        "time_s": 3.6e-06
+      },
+      {
+        "file": "frames/00010.png",
+        "step": 40,
+        "time_s": 4e-06
+      },
+      {
+        "file": "frames/00011.png",
+        "step": 44,
+        "time_s": 4.4e-06
+      },
+      {
+        "file": "frames/00012.png",
+        "step": 48,
+        "time_s": 4.8e-06
+      },
+      {
+        "file": "frames/00013.png",
+        "step": 52,
+        "time_s": 5.199999999999999e-06
+      },
+      {
+        "file": "frames/00014.png",
+        "step": 56,
+        "time_s": 5.6e-06
+      },
+      {
+        "file": "frames/00015.png",
+        "step": 60,
+        "time_s": 6e-06
+      },
+      {
+        "file": "frames/00016.png",
+        "step": 64,
+        "time_s": 6.4e-06
+      },
+      {
+        "file": "frames/00017.png",
+        "step": 68,
+        "time_s": 6.799999999999999e-06
+      },
+      {
+        "file": "frames/00018.png",
+        "step": 72,
+        "time_s": 7.2e-06
+      },
+      {
+        "file": "frames/00019.png",
+        "step": 76,
+        "time_s": 7.6e-06
+      },
+      {
+        "file": "frames/00020.png",
+        "step": 80,
+        "time_s": 8e-06
+      },
+      {
+        "file": "frames/00021.png",
+        "step": 84,
+        "time_s": 8.4e-06
+      },
+      {
+        "file": "frames/00022.png",
+        "step": 88,
+        "time_s": 8.8e-06
+      },
+      {
+        "file": "frames/00023.png",
+        "step": 92,
+        "time_s": 9.2e-06
+      },
+      {
+        "file": "frames/00024.png",
+        "step": 96,
+        "time_s": 9.6e-06
+      },
+      {
+        "file": "frames/00025.png",
+        "step": 100,
+        "time_s": 9.999999999999999e-06
+      },
+      {
+        "file": "frames/00026.png",
+        "step": 104,
+        "time_s": 1.0399999999999999e-05
+      },
+      {
+        "file": "frames/00027.png",
+        "step": 108,
+        "time_s": 1.08e-05
+      },
+      {
+        "file": "frames/00028.png",
+        "step": 112,
+        "time_s": 1.12e-05
+      },
+      {
+        "file": "frames/00029.png",
+        "step": 116,
+        "time_s": 1.1599999999999999e-05
+      },
+      {
+        "file": "frames/00030.png",
+        "step": 120,
+        "time_s": 1.2e-05
+      }
+    ],
+    "wall_seconds": 6.843338000006042,
+    "playback": {
+      "fps": 10,
+      "physical_frame_times_s": [
+        0.0,
+        4e-07,
+        8e-07,
+        1.2e-06,
+        1.6e-06,
+        2e-06,
+        2.4e-06,
+        2.8e-06,
+        3.2e-06,
+        3.6e-06,
+        4e-06,
+        4.4e-06,
+        4.8e-06,
+        5.199999999999999e-06,
+        5.6e-06,
+        6e-06,
+        6.4e-06,
+        6.799999999999999e-06,
+        7.2e-06,
+        7.6e-06,
+        8e-06,
+        8.4e-06,
+        8.8e-06,
+        9.2e-06,
+        9.6e-06,
+        9.999999999999999e-06,
+        1.0399999999999999e-05,
+        1.08e-05,
+        1.12e-05,
+        1.1599999999999999e-05,
+        1.2e-05
+      ],
+      "interpolated": false,
+      "note": "10 saved states per playback second, not real-time playback"
+    }
+  },
+  "raw_files_sha256": {
+    "raw_000088.npz": "fa111b4a7b736b20381d9bedf367a86144817f61e412ae55ab62bed156bbb52c",
+    "raw_000116.npz": "719211174f95e1319f31409e03328a7bda47f04429ddbd4480d4691874a77415",
+    "raw_000076.npz": "7f132f5de655847aa738084d3a86ccccc80d7417ada4c2444f907c114daf406f",
+    "raw_000060.npz": "596662a0cc4908bc2b6660ac99f3dd9e1ad989f1807680624f27f2550985bac7",
+    "raw_000048.npz": "72c4784dcfc93c63650d05f782673ed8a109554372e811f76c21513b5ea219ce",
+    "raw_000100.npz": "b2d2bf4681f39f677937a63537457cbf8ac788acc0f35e120c9b87e087726d2e",
+    "raw_tables.npz": "6864ffa3b9c4d77cd851f393d17b6bf0bcd13b5cffe4287f41f4d1ef78b6b673",
+    "raw_000104.npz": "cfeae4378fbebbd03424fbb822852f6523b88dcbc093970b6fee6fc77e080ec9",
+    "raw_000064.npz": "456e5e2b2c8afe9877307c1d11691809f3cb5b6106a7f6b4a14fe919e61a7b74",
+    "raw_000072.npz": "efa43d35904ed15352c4d5e7764e87bbfbfe76864a630e367e0d8a31a621f590",
+    "raw_000112.npz": "5ddf5f086b9ba01dc7ec0e965274e5cb19ded7d759d9e14bdf94c2bc4c5dcbc6",
+    "raw_000000.npz": "7dccad5cf1e2e369a5db2c958d4f4fb201a04abc60ab6b819417248d6a5bd0bb",
+    "raw_000028.npz": "77c52ab4ecbd3ac6837b628a5b81fa35925cc9d4116b8d1bb546d026d99710e3",
+    "raw_000016.npz": "3502bba7e874a08457956c0123344b12279eb57941071b9f52932bf165dfbfb1",
+    "raw_000012.npz": "96f3c7e053b6af640be7bc581e01c0f29965aeecbf8e8dac2857597c116447dc",
+    "raw_000004.npz": "99af93f2ed6b1c7c77de10e8df391b7fa6930008762f522ede950a68653b75de",
+    "raw_000008.npz": "b776d5710e4282375079be2f4653e74493177b1adc60d0d45a36d4f4f45277c9",
+    "raw_000020.npz": "64d3fd50175331d7ce13c3dea0fd492b95ac4e2664d12a93410af2563e4cde06",
+    "raw_000036.npz": "a4ec36c47ad5c494ebf3cc10e5cd5a8e23c9b31fcdc1ccb50e1ff398286a9827",
+    "raw_000032.npz": "2bf8f8be2bb5966926a0cb6c129018faff13740f337c0c43ccfcee88d92c3f96",
+    "raw_000024.npz": "61335921b4bbe9fa1f5116f96024f4c3e5b56f6dd09bd4b1b89203566565e6aa",
+    "raw_000056.npz": "ab9f955d3e4c6ca54f0a4e898c94c365dcc480e69c23c4777efdead0b7fb1408",
+    "raw_000080.npz": "cea66e22af45554ec155d09a351fdf2745931eb1be3317f331db2f07c847ae4a",
+    "raw_000096.npz": "27a3311974101746c01523837ccbd61038f2f90c2c8f97ddb343e5589b31a67d",
+    "raw_000108.npz": "6fce56f0fb9f5a4a8bb1860f7553be83fc43cdb32882e7d817a87fe510468045",
+    "raw_000120.npz": "b536b3e5cab911e11782347f6be252831d4fe0df475a776dd079a4a46737c79b",
+    "raw_000068.npz": "944383598f98b664b8274e861a177d2f7fd22c7b3155957e013615bf9468a488",
+    "raw_000040.npz": "138aa7b713bf71a0b94733437d56cec86eed450b0ea0803e2453b1397aa7665b",
+    "raw_000044.npz": "94933cbb3b4058a300a4000c4c419dcbe61eb27724491e72dc524916ba783802",
+    "raw_000092.npz": "d5ffc4e2c63da09561ceda1733a2d23ffc02946a8b9987f82f05a9b6a848970b",
+    "raw_000084.npz": "081eb01cb621086d35fa27483797f4c7058b81ca98c714bdd767a6f65d87968c",
+    "raw_000052.npz": "51692fb2f381dc2c166b995b4e9a32b063147a281a5e46d78a9f2ccd2d7df8b6"
+  },
+  "media_sha256": {
+    "poster.png": "d4ab235ce1ef057814df13ce895922a8331d4d1fdc1e3142be22307a3a09cf45",
+    "video.mp4": "3495f944ee1cf2e908475edb67a59afeb674c993dc260b337584dee73373f3ed",
+    "plot.png": "e5d116731da239b03015276e1ff37ddb22f64beae711150ea82131701f4629b0"
+  }
+}

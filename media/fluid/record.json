@@ -1,0 +1,154 @@
+{
+  "run": {
+    "engine_commit": "bb597f087667edd55467bf262ef704b7acaa6e44",
+    "harness_sha256": "53d28a059d0cdd3dd58e125a42e20079bfba56b2310fdd0aa08a69d894386481",
+    "inputs": {
+      "classification": "EXAMPLE isolated diagnostic; not native-cell validation",
+      "spec": "aleph/cell/spec.example.toml",
+      "render": {
+        "width": 960,
+        "height": 640
+      },
+      "filament": {
+        "segments": 40,
+        "bend_angle_rad": 0.5,
+        "steps": 120,
+        "capture_every": 4,
+        "dt_s": 1e-07,
+        "temperature_K": 310,
+        "seed": 17,
+        "cg_iters": 50
+      },
+      "motor": {
+        "steps": 120,
+        "capture_every": 4,
+        "dt_s": 1e-07,
+        "temperature_K": 310,
+        "seed": 17,
+        "cg_iters": 50,
+        "stroke_sign": 1
+      },
+      "fluid": {
+        "box_min_um": [
+          -1.6,
+          -1.6,
+          -1.6
+        ],
+        "box_max_um": [
+          1.6,
+          1.6,
+          1.6
+        ],
+        "dx_um": 0.1,
+        "force_positions_um": [
+          [
+            -0.4,
+            0,
+            0
+          ],
+          [
+            0.4,
+            0,
+            0
+          ]
+        ],
+        "force_pN": [
+          [
+            0,
+            0.001,
+            0
+          ],
+          [
+            0,
+            -0.001,
+            0
+          ]
+        ],
+        "iterations": 80,
+        "inner": 2
+      }
+    },
+    "inputs_sha256": "2856c9577ccf536fc287902c6f89d8f8bbeefd26c0517651d2482d1ad48b93cc",
+    "spec_sha256": "dfb00a7d73e1903d17698ac9c740d4ac829661685c47c70cda2c90c91ddd165b",
+    "device": "cuda:0",
+    "device_name": "NVIDIA GeForce RTX 4090",
+    "slurm_job": "271",
+    "created_utc": "2026-09-20T06:52:34Z",
+    "warp_version": "1.14.0",
+    "cases": {
+      "fluid": "recorded",
+      "filament": "recorded",
+      "motor": "recorded"
+    }
+  },
+  "measurement": {
+    "status": "recorded",
+    "case": "fluid",
+    "parameters": {
+      "box_min_um": [
+        -1.6,
+        -1.6,
+        -1.6
+      ],
+      "box_max_um": [
+        1.6,
+        1.6,
+        1.6
+      ],
+      "dx_um": 0.1,
+      "force_positions_um": [
+        [
+          -0.4,
+          0,
+          0
+        ],
+        [
+          0.4,
+          0,
+          0
+        ]
+      ],
+      "force_pN": [
+        [
+          0,
+          0.001,
+          0
+        ],
+        [
+          0,
+          -0.001,
+          0
+        ]
+      ],
+      "iterations": 80,
+      "inner": 2
+    },
+    "classification": "EXAMPLE isolated steady boundary problem; not native-cell validation",
+    "verdict": null,
+    "physical_time": false,
+    "residuals": [
+      1.2753842564826585e-11,
+      7.033331227008073e-09
+    ],
+    "max_speed_um_s": 0.4193377012097057,
+    "cells": [
+      32,
+      32,
+      32
+    ],
+    "velocity_storage": "staggered face fields",
+    "nonfinite": 0,
+    "limitations": [
+      "Solver residuals are reported without a pass threshold.",
+      "Display averages neighboring face values; raw staggered fields are preserved.",
+      "Opposed external point forces drive a no-slip box; no cell is simulated."
+    ]
+  },
+  "raw_files_sha256": {
+    "raw_field.npz": "43d0d3553ff259424f7e6dffa9eb4a7982c776cd4ba73d8e170beaf21bdc5061"
+  },
+  "media_sha256": {
+    "poster.png": "1021e964130a356761add625a9716271107d3c265b9c79358b88a2bdcd369eee",
+    "plot.png": "1021e964130a356761add625a9716271107d3c265b9c79358b88a2bdcd369eee"
+  }
+}

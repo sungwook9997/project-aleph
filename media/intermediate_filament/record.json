@@ -1,0 +1,53 @@
+{
+  "schema": "aleph-geometry-atlas-v1",
+  "engine_commit": "bb597f087667edd55467bf262ef704b7acaa6e44",
+  "engine_dirty": false,
+  "capture_sha256": "b1efade4f0c4491daccd93f061d7e76ed34a709860ba979a0adb246fe4669127",
+  "spec_sha256": "dfb00a7d73e1903d17698ac9c740d4ac829661685c47c70cda2c90c91ddd165b",
+  "device": "cuda:0",
+  "device_name": "NVIDIA GeForce RTX 4090",
+  "slurm_job": "272",
+  "created_utc": "2026-09-20T06:56:23Z",
+  "dt": 0,
+  "steps": 0,
+  "evidence_class": "as-built geometry only; no dynamics or physical validation",
+  "parameters": "unchanged canonical spec.example.toml; labels retain source tags",
+  "name": "intermediate_filament",
+  "n_allocated": 121440,
+  "n_active": 121440,
+  "n_segments": 121440,
+  "n_faces": 0,
+  "render_visibility": "all active nodes, segments and faces produced by this population builder; inter-population bonds not assembled; bending triples stored but not drawn",
+  "raw_sha256": "b2fad736c1dadba11c5598bae4cd378b34bf6e6853b94c0392811109fb38a09e",
+  "camera": {
+    "position": [
+      0.05340343645626433,
+      -20.031103207131228,
+      7.69737095625923
+    ],
+    "target": [
+      0.05340343645626433,
+      0.05896707803792056,
+      -0.02957915342121087
+    ],
+    "up": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "fov": 40.0,
+    "w": 1000,
+    "h": 750
+  },
+  "render": {
+    "w": 1000,
+    "h": 750,
+    "format": "png",
+    "bytes": 317949,
+    "n_nodes": 121440,
+    "n_seg": 121440,
+    "n_face": 0
+  },
+  "extent_um": 5.943807776677263,
+  "poster_sha256": "d89d270017ec3f8653f7339ca450393b0f8e6e659351457dcdffa6a52b52048d"
+}

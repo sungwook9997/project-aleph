@@ -1,0 +1,23 @@
+{
+  "schema": "aleph-geometry-atlas-v1",
+  "engine_commit": "bb597f087667edd55467bf262ef704b7acaa6e44",
+  "engine_dirty": false,
+  "capture_sha256": "b1efade4f0c4491daccd93f061d7e76ed34a709860ba979a0adb246fe4669127",
+  "spec_sha256": "dfb00a7d73e1903d17698ac9c740d4ac829661685c47c70cda2c90c91ddd165b",
+  "device": "cuda:0",
+  "device_name": "NVIDIA GeForce RTX 4090",
+  "slurm_job": "272",
+  "created_utc": "2026-09-20T06:56:23Z",
+  "dt": 0,
+  "steps": 0,
+  "evidence_class": "as-built geometry only; no dynamics or physical validation",
+  "parameters": "unchanged canonical spec.example.toml; labels retain source tags",
+  "name": "stress_fiber",
+  "n_allocated": 0,
+  "n_active": 0,
+  "n_segments": 0,
+  "n_faces": 0,
+  "render_visibility": "all active nodes, segments and faces produced by this population builder; inter-population bonds not assembled; bending triples stored but not drawn",
+  "raw_sha256": "5a7d34ef64f8bab143068465a46c34decd15f82ee185d3de081f25ba7cd753dc",
+  "absence": "The unchanged spec builds no active members; no demonstration was fabricated."
+}

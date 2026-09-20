@@ -1,0 +1,8 @@
+{
+  "classification": "EXAMPLE isolated diagnostic; not native-cell validation",
+  "spec": "aleph/cell/spec.example.toml",
+  "render": {"width": 960, "height": 640},
+  "filament": {"segments": 40, "bend_angle_rad": 0.5, "steps": 120, "capture_every": 4, "dt_s": 0.0000001, "temperature_K": 310, "seed": 17, "cg_iters": 50},
+  "motor": {"steps": 120, "capture_every": 4, "dt_s": 0.0000001, "temperature_K": 310, "seed": 17, "cg_iters": 50, "stroke_sign": 1},
+  "fluid": {"box_min_um": [-1.6,-1.6,-1.6], "box_max_um": [1.6,1.6,1.6], "dx_um": 0.1, "force_positions_um": [[-0.4,0,0],[0.4,0,0]], "force_pN": [[0,0.001,0],[0,-0.001,0]], "iterations": 80, "inner": 2}
+}
