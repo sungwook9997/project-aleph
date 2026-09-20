@@ -33,6 +33,46 @@ def build(out: Path) -> None:
             if not path.is_file():
                 raise FileNotFoundError(path)
     out = out.resolve()
+    mechanisms = json.loads((ROOT / 'data/mechanisms.json').read_text())
+    inputs = json.loads((ROOT / 'data/sweep-inputs.json').read_text())
+    relations = json.loads((ROOT / 'data/relations.json').read_text())
+    additional = json.loads((ROOT / 'data/additional-inputs.json').read_text())
+    if len({x['source']['commit'] for x in (mechanisms, inputs, relations, additional)}) != 1:
+        raise ValueError('Declaration snapshots must use the same source commit')
+    by_name = {row['name']: row for row in inputs['inputs']}
+    mapped = set()
+    mechanism_ids = set()
+    for mechanism in mechanisms['mechanisms']:
+        if mechanism['id'] in mechanism_ids:
+            raise ValueError('Duplicate mechanism')
+        mechanism_ids.add(mechanism['id'])
+        for row in mechanism['axes']:
+            original = by_name[row['name']]
+            for field in ('value', 'unit', 'tag', 'range', 'bound', 'prior', 'samplable'):
+                if row[field] != original[field]:
+                    raise ValueError('Input mapping drift: ' + row['name'])
+            mapped.add(row['name'])
+        for part in mechanism.get('parts', []):
+            if part not in seen:
+                raise ValueError('Unknown linked capture: ' + part)
+        for item in mechanism.get('evidence', []):
+            for key in ('plot', 'video', 'poster', 'record'):
+                if not item.get(key):
+                    continue
+                path = (ROOT / item[key]).resolve()
+                if not any(path.is_relative_to(ROOT / base) for base in ('data', 'media')):
+                    raise ValueError('Evidence must be inside public data/media')
+                if not path.is_file():
+                    raise FileNotFoundError(path)
+    required = {r['name'] for r in inputs['inputs'] if r['samplable'] or r['tag'] == 'SWEPT'}
+    if required - mapped:
+        raise ValueError('Unmapped declared axes: ' + str(sorted(required - mapped)))
+    for row in inputs['inputs']:
+        if row['bound'] and row['bound'] not in by_name:
+            raise ValueError('Missing bound input target')
+    nodes = {n['id'] for n in relations['nodes']}
+    if any(e['from'] not in nodes or e['to'] not in nodes for e in relations['edges']):
+        raise ValueError('Unknown relation endpoint')
     if out == ROOT or ROOT.is_relative_to(out):
         raise ValueError('Output must not replace the repository or its parent')
     if out.exists():

@@ -1,0 +1,605 @@
+{
+  "classification": "historical native condition comparison only",
+  "limitations": [
+    "Historical canonical snapshot, not validation of the current engine or comparison with a paper.",
+    "2026-09-10 audit: these builds placed cortex on the smooth sphere under a wrinkled membrane (17.97% outside), and had zero ERM bonds; cortex\u2013membrane coupling was absent.",
+    "Commit is hand-deployed COMMIT_STAMP fdf7a43c; independent host-code receipt is not established.",
+    "One seed, 200 steps at dt=1e-6 s. Sampled stored states are not independent replicates.",
+    "Projection includes every stored membrane node, binned into display pixels; other populations are hidden, not removed from the original simulation.",
+    "No interpolation, invented motion, new dynamics, pass threshold or external-data agreement.",
+    "Historical RESULT prose differs from stored rows (e.g. X0 final volume: prose 1772.64, raw 1773.639138 um^3). All graphs use preserved raw rows, not prose summaries.",
+    "Recorded scalar t=k*dt uses zero-based pre-increment k; frame filenames use completed steps k+1. Plots use completed-step elapsed time, retaining source t unchanged in raw files."
+  ],
+  "arms": {
+    "X0": {
+      "axis": "solver.surface_impermeable",
+      "value": 0.0,
+      "unit": "dimensionless normal-drag multiplier; 0 disables option",
+      "commit": "fdf7a43c (COMMIT_STAMP, hand-deployed)",
+      "population": 7504565,
+      "dt_s": 1e-06,
+      "seed": 0,
+      "source_spec_sha256": "80f7df737ec0bf40f2ce046fb44fe01323f5f4c7b390179b246d5e57b8812c1d",
+      "sources": [
+        {
+          "path": "/Users/sw1/ffn_cellsim/aleph/outputs/physics/volume_20260909/arm_X0_steps.jsonl",
+          "sha256": "ad34bbf90ea44bfd02da541960c29554d49ddc6ffc1a20af0b80cdc2ca7966c2"
+        },
+        {
+          "path": "/Users/sw1/ffn_cellsim/aleph/outputs/physics/volume_20260909/arm_X0_run_manifest.json",
+          "sha256": "9f3a16353544669a64fab8d1fabb54d065d7e26d66bb7b5f9735a75554b3e886"
+        },
+        {
+          "path": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/manifest.json",
+          "sha256": "457065d8c6d1dbe473443b09721d5d71bd2de311871e6326ee1cde6eb99029b7"
+        }
+      ],
+      "frames": [
+        {
+          "file": "media/historical-membrane/X0/00000.png",
+          "completed_step": 10,
+          "elapsed_s": 9.999999999999999e-06,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000010_pos.npy",
+          "sha256": "cb5e1bbb397c8d87c4c039189a53953779b8070e250c93b92304b992476cfb55",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00001.png",
+          "completed_step": 20,
+          "elapsed_s": 1.9999999999999998e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000020_pos.npy",
+          "sha256": "48b1b47bdc4728d0aba605da042cc05379af8494414a8161a49cb42fbe88c237",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00002.png",
+          "completed_step": 30,
+          "elapsed_s": 2.9999999999999997e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000030_pos.npy",
+          "sha256": "83dd3872fc217fa4e17b3c3ff2b6bd2047b4e3d91c2e7b56221aefd0160de82e",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00003.png",
+          "completed_step": 40,
+          "elapsed_s": 3.9999999999999996e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000040_pos.npy",
+          "sha256": "2cfb4ff56da6c2b7503f76265ff54a1d0fe6f4e5a9f5cc852dc27fc7d5dd5aed",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00004.png",
+          "completed_step": 50,
+          "elapsed_s": 4.9999999999999996e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000050_pos.npy",
+          "sha256": "f7e14ec37a2a3e971814ae76eee51ac9bf69726d1e9c322ba0498ce6698a8b1c",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00005.png",
+          "completed_step": 60,
+          "elapsed_s": 5.9999999999999995e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000060_pos.npy",
+          "sha256": "2e229a3183930a18b546c08da1e3dac21d82889eb96811820565b7332e518c19",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00006.png",
+          "completed_step": 70,
+          "elapsed_s": 7e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000070_pos.npy",
+          "sha256": "a872b819cce60682f5b19c988efe025d9f36f40aa4f08a87627596325f1103e4",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00007.png",
+          "completed_step": 80,
+          "elapsed_s": 7.999999999999999e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000080_pos.npy",
+          "sha256": "f6ffb96b89d0cbc4b2b360bee9f1cdfcf9ba672bb6327c49548ca6dab8b922a3",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00008.png",
+          "completed_step": 90,
+          "elapsed_s": 8.999999999999999e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000090_pos.npy",
+          "sha256": "0d55d294817f43b7447a08114335ecfd51da5e98603c631da6cdf8147db6e96e",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00009.png",
+          "completed_step": 100,
+          "elapsed_s": 9.999999999999999e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000100_pos.npy",
+          "sha256": "e0c88aec486c6c9337555a062911294aaa9c6a8f0f1d8f40f49da691f467bcbb",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00010.png",
+          "completed_step": 110,
+          "elapsed_s": 0.00010999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000110_pos.npy",
+          "sha256": "07d11c21a4337f98055db674ca68d860c3c50f0f4395ffd73ac1c90884d84de7",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00011.png",
+          "completed_step": 120,
+          "elapsed_s": 0.00011999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000120_pos.npy",
+          "sha256": "047df1792c0d95acefcc955b826b3871d5420e8c6e0234011c4ca6d620d1bd0b",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00012.png",
+          "completed_step": 130,
+          "elapsed_s": 0.00013,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000130_pos.npy",
+          "sha256": "55e9d0688c8edc942cbecc0d4f4f10a5c5a124c465077c75e4aa9c7532dd61aa",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00013.png",
+          "completed_step": 140,
+          "elapsed_s": 0.00014,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000140_pos.npy",
+          "sha256": "7930099839de076bcf6a1fdf7db8aec1040476a02ac3e83db4a72a1fd3c98651",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00014.png",
+          "completed_step": 150,
+          "elapsed_s": 0.00015,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000150_pos.npy",
+          "sha256": "cb3b2ea37549755b8aa01298e1cbe59ddf2c205e604d2b2d19293b2696850af0",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00015.png",
+          "completed_step": 160,
+          "elapsed_s": 0.00015999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000160_pos.npy",
+          "sha256": "f6bd9a46625c17a2227e6143fa495e6488771cb0902aadc6ccf65803490aa990",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00016.png",
+          "completed_step": 170,
+          "elapsed_s": 0.00016999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000170_pos.npy",
+          "sha256": "a31424059543cc20d127b04991aeff6c172a59045b40edfbbb02893739c9b67c",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00017.png",
+          "completed_step": 180,
+          "elapsed_s": 0.00017999999999999998,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000180_pos.npy",
+          "sha256": "2cba50d58d3dfa7ec6d725e52076d8d3f67b5c12f8396bc7e243810c8704a5c8",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00018.png",
+          "completed_step": 190,
+          "elapsed_s": 0.00018999999999999998,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000190_pos.npy",
+          "sha256": "2042330b6eeb16e4b8e9d111d9f5e97623d75fee3c1777b6eb124bf18a8d2041",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X0/00019.png",
+          "completed_step": 200,
+          "elapsed_s": 0.00019999999999999998,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X0/frames/00000200_pos.npy",
+          "sha256": "664ada34c5fcc1a54ab19c107c3067c8223d4ae8199404e87062b7578d18e218",
+          "nodes_projected": 655362
+        }
+      ],
+      "membrane_range": [
+        4592392,
+        5247754
+      ],
+      "video": "media/historical-membrane/X0.mp4",
+      "poster": "media/historical-membrane/X0/00000.png"
+    },
+    "X100": {
+      "axis": "solver.surface_impermeable",
+      "value": 100.0,
+      "unit": "dimensionless normal-drag multiplier; 0 disables option",
+      "commit": "fdf7a43c (COMMIT_STAMP, hand-deployed)",
+      "population": 7504565,
+      "dt_s": 1e-06,
+      "seed": 0,
+      "source_spec_sha256": "80f7df737ec0bf40f2ce046fb44fe01323f5f4c7b390179b246d5e57b8812c1d",
+      "sources": [
+        {
+          "path": "/Users/sw1/ffn_cellsim/aleph/outputs/physics/volume_20260909/arm_X100_steps.jsonl",
+          "sha256": "4ccc8ac3746f1d663a300a82df74b5e68121b11cef38eafd28613399ed108d31"
+        },
+        {
+          "path": "/Users/sw1/ffn_cellsim/aleph/outputs/physics/volume_20260909/arm_X100_run_manifest.json",
+          "sha256": "9ea78e47551f3c2a17be7b37a481641b782a86faf48f09055a36bb91ded625d1"
+        },
+        {
+          "path": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/manifest.json",
+          "sha256": "51febc772b43017efc822002a71def8559fb7c7945ecac29da582896551d8d5f"
+        }
+      ],
+      "frames": [
+        {
+          "file": "media/historical-membrane/X100/00000.png",
+          "completed_step": 10,
+          "elapsed_s": 9.999999999999999e-06,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000010_pos.npy",
+          "sha256": "d55a952b622faa53b150974d9258991700c6f7e2a5a7cdf51c799525ad2405f7",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00001.png",
+          "completed_step": 20,
+          "elapsed_s": 1.9999999999999998e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000020_pos.npy",
+          "sha256": "9f4aaa1131db16cc5a7c700c21448f21a8da6bbf5e198a4b6fbd1c7dcaa003a3",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00002.png",
+          "completed_step": 30,
+          "elapsed_s": 2.9999999999999997e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000030_pos.npy",
+          "sha256": "59ef7e681d3f6891f32af9e437f55caca90b1984ae6867a83925f6087ab0a588",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00003.png",
+          "completed_step": 40,
+          "elapsed_s": 3.9999999999999996e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000040_pos.npy",
+          "sha256": "a3b83c25fffbef8d1b2e31979c33e6753122a2fc33ee0f6496be38b5ed25a562",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00004.png",
+          "completed_step": 50,
+          "elapsed_s": 4.9999999999999996e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000050_pos.npy",
+          "sha256": "2081d728b68f1eb2e050b92e713921f07834b4d6e198601c6174fabfcd9782ae",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00005.png",
+          "completed_step": 60,
+          "elapsed_s": 5.9999999999999995e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000060_pos.npy",
+          "sha256": "eb91a09cd962a45dfeab81bd519e811ef6ea8c7b07cc89593610e4a79721d9b1",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00006.png",
+          "completed_step": 70,
+          "elapsed_s": 7e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000070_pos.npy",
+          "sha256": "a61e98c0ecb76fb7103603b66c855149d1904f9bd8cc721fdb692474cf60ff5e",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00007.png",
+          "completed_step": 80,
+          "elapsed_s": 7.999999999999999e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000080_pos.npy",
+          "sha256": "196f294a505e2f2b9c22592db5d5c88a72601fa998d4461a2d17096b26eb62bc",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00008.png",
+          "completed_step": 90,
+          "elapsed_s": 8.999999999999999e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000090_pos.npy",
+          "sha256": "9a88544c098e57c73a99d0e8510077f20ff4e122e348a68e3eebab6de39488f9",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00009.png",
+          "completed_step": 100,
+          "elapsed_s": 9.999999999999999e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000100_pos.npy",
+          "sha256": "41a7e196990c1f21e8320a887d584ba6e73ff88a5fc7932ea2b14ebb6d336b7d",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00010.png",
+          "completed_step": 110,
+          "elapsed_s": 0.00010999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000110_pos.npy",
+          "sha256": "2fc23edc5272d43c0b694548eb7094395c15c1a254ad0c032011ffb0584835a2",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00011.png",
+          "completed_step": 120,
+          "elapsed_s": 0.00011999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000120_pos.npy",
+          "sha256": "31549af20f78b11d9fecd40e00f23332d4409b7c26fe3f8534dbe6f34c87be81",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00012.png",
+          "completed_step": 130,
+          "elapsed_s": 0.00013,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000130_pos.npy",
+          "sha256": "74be1ab15204b9a5ecbbe1612f2070ef783dbeef3420be397526d89cf5b365e3",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00013.png",
+          "completed_step": 140,
+          "elapsed_s": 0.00014,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000140_pos.npy",
+          "sha256": "2e4f93cb0d69045288b6e0fa3d116329668632ab52ef62e3c6595cebd6770f97",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00014.png",
+          "completed_step": 150,
+          "elapsed_s": 0.00015,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000150_pos.npy",
+          "sha256": "f7aa911d7734fed9819b944a9c0aa7649cdbda709e2abad36d24e6cc07c66045",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00015.png",
+          "completed_step": 160,
+          "elapsed_s": 0.00015999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000160_pos.npy",
+          "sha256": "be85dd146062dd608aaff95e0a7a81aeb0bd144e1d00fca8b98549967ab58627",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00016.png",
+          "completed_step": 170,
+          "elapsed_s": 0.00016999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000170_pos.npy",
+          "sha256": "05b2276c0d85b4908c5fedf54fa523fa75202c63059c3e323a62db9ef3585cc8",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00017.png",
+          "completed_step": 180,
+          "elapsed_s": 0.00017999999999999998,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000180_pos.npy",
+          "sha256": "135c55663222da2b106455f46d3d0dfef31e1820cb90f0b6bdbe287c745aaa59",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00018.png",
+          "completed_step": 190,
+          "elapsed_s": 0.00018999999999999998,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000190_pos.npy",
+          "sha256": "dfd728e11c7058f51e3105759785d4c7d150ddd96b2d6d323db719547d483f30",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X100/00019.png",
+          "completed_step": 200,
+          "elapsed_s": 0.00019999999999999998,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X100/frames/00000200_pos.npy",
+          "sha256": "58dbd982057d9813d4fd8edb32e011ea866bb4ccdfd96fe285d9065e28041b7e",
+          "nodes_projected": 655362
+        }
+      ],
+      "membrane_range": [
+        4592392,
+        5247754
+      ],
+      "video": "media/historical-membrane/X100.mp4",
+      "poster": "media/historical-membrane/X100/00000.png"
+    },
+    "X1000": {
+      "axis": "solver.surface_impermeable",
+      "value": 1000.0,
+      "unit": "dimensionless normal-drag multiplier; 0 disables option",
+      "commit": "fdf7a43c (COMMIT_STAMP, hand-deployed)",
+      "population": 7504565,
+      "dt_s": 1e-06,
+      "seed": 0,
+      "source_spec_sha256": "80f7df737ec0bf40f2ce046fb44fe01323f5f4c7b390179b246d5e57b8812c1d",
+      "sources": [
+        {
+          "path": "/Users/sw1/ffn_cellsim/aleph/outputs/physics/volume_20260909/arm_X1000_steps.jsonl",
+          "sha256": "cac7ba79f243c84032c6296559da969a3b52fab0bacf6243148b7094ca82ecbd"
+        },
+        {
+          "path": "/Users/sw1/ffn_cellsim/aleph/outputs/physics/volume_20260909/arm_X1000_run_manifest.json",
+          "sha256": "334e46bf93edb88298b2bb19e1ce41ef8378b1b0f7b48137d4ba4efcd8f3cd91"
+        },
+        {
+          "path": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/manifest.json",
+          "sha256": "216aa9459bba7bc680760dd17ea6ee179b659fd7e36bcda9c68da918250d2613"
+        }
+      ],
+      "frames": [
+        {
+          "file": "media/historical-membrane/X1000/00000.png",
+          "completed_step": 10,
+          "elapsed_s": 9.999999999999999e-06,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000010_pos.npy",
+          "sha256": "91d2cb956748772e49feee62c9647ede6765b9f0eb124396ecffbe777dfb2ef6",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00001.png",
+          "completed_step": 20,
+          "elapsed_s": 1.9999999999999998e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000020_pos.npy",
+          "sha256": "baee2093ecc11bf9d971805c8aedd020344f4f3dc76cdda09d95788cfb008036",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00002.png",
+          "completed_step": 30,
+          "elapsed_s": 2.9999999999999997e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000030_pos.npy",
+          "sha256": "f8bacf5a12cfdaee13ca5852548f293e90a38b4b1e15db20e0f70ab063a14f85",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00003.png",
+          "completed_step": 40,
+          "elapsed_s": 3.9999999999999996e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000040_pos.npy",
+          "sha256": "b99305bc76a8eb6a9cb26bfcad1bc80a2fcda6d0253a6e1507cc8f6bf5bd8148",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00004.png",
+          "completed_step": 50,
+          "elapsed_s": 4.9999999999999996e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000050_pos.npy",
+          "sha256": "6e47794ee4dfae9b49eaecf78551023b587b92e110bd862f265d3abf9294ae5e",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00005.png",
+          "completed_step": 60,
+          "elapsed_s": 5.9999999999999995e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000060_pos.npy",
+          "sha256": "b8a77f10d4e9c8a94aee5a47ced2108936eb0cb9c24376cb6d5b04a54ad0a888",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00006.png",
+          "completed_step": 70,
+          "elapsed_s": 7e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000070_pos.npy",
+          "sha256": "e85be2db1a09107793a33496c6a054b1d2934797aa2862ec3d615876ff6bb4f1",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00007.png",
+          "completed_step": 80,
+          "elapsed_s": 7.999999999999999e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000080_pos.npy",
+          "sha256": "68c06bb12c5c96318c50efc91490a6fb097bc7676a37d82ff5f000a25d046288",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00008.png",
+          "completed_step": 90,
+          "elapsed_s": 8.999999999999999e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000090_pos.npy",
+          "sha256": "7e94ca149677c63703bdcaaef330e2d077614f0e688060ea4404bbc5058be278",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00009.png",
+          "completed_step": 100,
+          "elapsed_s": 9.999999999999999e-05,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000100_pos.npy",
+          "sha256": "a38e7c9f0694546bf11e1ea095b0dda37f24fc26efe07431534e10cbd10444d2",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00010.png",
+          "completed_step": 110,
+          "elapsed_s": 0.00010999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000110_pos.npy",
+          "sha256": "94fe62cd392d1f227f945eff97b8ab511fa8f274988887b0e7bd6922b0da0f79",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00011.png",
+          "completed_step": 120,
+          "elapsed_s": 0.00011999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000120_pos.npy",
+          "sha256": "9955a12bcf429b46fd78e770415559b8b49b9d7516a4052eaff2c6d695bac562",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00012.png",
+          "completed_step": 130,
+          "elapsed_s": 0.00013,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000130_pos.npy",
+          "sha256": "7c82e29dd1dc68265a31104a1f6f98ae7adfac7fb0217aa03008b1a1c2cba6a4",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00013.png",
+          "completed_step": 140,
+          "elapsed_s": 0.00014,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000140_pos.npy",
+          "sha256": "ec63ed3a9047b742f7013de4537be0f0ec6dd520256f0cc69ff2e8f54e0f9345",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00014.png",
+          "completed_step": 150,
+          "elapsed_s": 0.00015,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000150_pos.npy",
+          "sha256": "fd13c3daed12bfbd281324ed1cb90db91f3c150840db56cc3110cf9727de8d42",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00015.png",
+          "completed_step": 160,
+          "elapsed_s": 0.00015999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000160_pos.npy",
+          "sha256": "a7b7379733a7e3b2126374f71b5a308036dfb3fe582147bb0724b85a29297fc1",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00016.png",
+          "completed_step": 170,
+          "elapsed_s": 0.00016999999999999999,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000170_pos.npy",
+          "sha256": "cc62a6cf46dd8da3cf317428e8aca6cdbd1eafa41376afb6bfdef15ec7074c44",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00017.png",
+          "completed_step": 180,
+          "elapsed_s": 0.00017999999999999998,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000180_pos.npy",
+          "sha256": "ff94a7099294f8a41d8795f10498d51f9550b3b5e018a400a06a21bc3dc16882",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00018.png",
+          "completed_step": 190,
+          "elapsed_s": 0.00018999999999999998,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000190_pos.npy",
+          "sha256": "a7a14eb56a561005227685700b340ba04f848119e474e384c9ea7d1054bbda52",
+          "nodes_projected": 655362
+        },
+        {
+          "file": "media/historical-membrane/X1000/00019.png",
+          "completed_step": 200,
+          "elapsed_s": 0.00019999999999999998,
+          "source": "/Users/sw1/ffn_cellsim_runs_incoming/workstation_20260909/job70_vx_0909_2235/arm_X1000/frames/00000200_pos.npy",
+          "sha256": "98288b320fe31c1711fa95b388bb4e164d5e1378f751c839511794b43daad0cd",
+          "nodes_projected": 655362
+        }
+      ],
+      "membrane_range": [
+        4592392,
+        5247754
+      ],
+      "video": "media/historical-membrane/X1000.mp4",
+      "poster": "media/historical-membrane/X1000/00000.png"
+    }
+  },
+  "plots": [
+    "media/historical-membrane/volume-response.png",
+    "media/historical-membrane/area-response.png",
+    "media/historical-membrane/solver-response.png"
+  ],
+  "script_sha256": "238c3112fbe82e0a4ec87a877a556ab60c71c3de5b3c8f957205096cf23bdb5f",
+  "display": {
+    "projection": "x-z all membrane nodes",
+    "density_transform": "log1p, display only",
+    "density_color_max_count": 150,
+    "fixed_extent_um": 8.032293968200683,
+    "fps": 5,
+    "interpolation": false
+  }
+}

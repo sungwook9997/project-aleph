@@ -1,5 +1,6 @@
 'use strict';
 const $ = (selector) => document.querySelector(selector);
+let mechanismRegistry = [], parameterRegistry = [], relationRegistry = null;
 let cards = [], activeId = null, filter = 'all', query = '';
 const labels = {absent: '현재 입력에서 없음', recorded: '실행 기록 있음', pending: '촬영 대기', failed: '실행 확인 필요', geometry: '구조 촬영 · 동역학 미검증'};
 function element(tag, className, text) { const node = document.createElement(tag); if (className) node.className = className; if (text !== undefined) node.textContent = text; return node; }
@@ -105,4 +106,115 @@ function chooseFromHash() { const id = currentHash(); const card = cards.find(c 
 document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => { filter = button.dataset.filter; document.querySelectorAll('[data-filter]').forEach(item => { item.classList.toggle('active',item === button); item.setAttribute('aria-pressed',String(item === button)); }); renderList(); }));
 $('#search').addEventListener('input', event => { query = event.target.value.trim().toLocaleLowerCase(); renderList(); });
 window.addEventListener('hashchange',chooseFromHash);
-fetch('./data/catalog.json').then(response => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.json(); }).then(data => { if (!Array.isArray(data.cards)) throw new Error('Invalid catalog'); cards = data.cards; const coverage = $('#coverage'); for (const [count,title] of [[cards.length,'공개 구성 요소'],[cards.filter(c=>c.status==='geometry').length,'구조 촬영'],[cards.filter(c=>c.video).length,'동역학 실행'],[new Set(cards.flatMap(c=>[c.video,...(c.gallery||[]).filter(g=>g.kind==='video').map(g=>g.path)]).filter(Boolean)).size,'영상 보기'],[new Set(cards.flatMap(c=>[c.plot,...(c.gallery||[]).filter(g=>g.kind==='image').map(g=>g.path),...(c.comparisons||[]).map(r=>r.plot)]).filter(Boolean)).size,'관측·구조·논문 그래프'],[cards.filter(c=>c.status==='pending').length,'촬영 대기'],[cards.filter(c=>c.status==='absent').length,'현재 입력에서 없음']]) { const item = element('span'); item.append(element('strong','',String(count)), document.createTextNode(title)); coverage.append(item); } if (data.updated) $('#updated').textContent = `Updated ${data.updated}`; chooseFromHash(); }).catch(() => { $('#load-error').hidden = false; $('#load-error').textContent = '실행 목록을 불러오지 못했습니다. 잠시 후 새로고침하거나 GitHub의 공개 기록을 확인해 주세요.'; $('#detail').replaceChildren(element('p','empty-state','근거 목록 연결 대기')); });
+fetch('./data/catalog.json').then(response => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.json(); }).then(data => { if (!Array.isArray(data.cards)) throw new Error('Invalid catalog'); cards = data.cards; loadMechanisms(); $('#coverage').textContent = '아래 자료는 개별 실행과 구조 기록입니다. 자료의 개수는 물리 검증의 수준을 나타내지 않습니다.'; if (data.updated) $('#updated').textContent = `Updated ${data.updated}`; chooseFromHash(); }).catch(() => { $('#load-error').hidden = false; $('#load-error').textContent = '실행 목록을 불러오지 못했습니다. 잠시 후 새로고침하거나 GitHub의 공개 기록을 확인해 주세요.'; $('#detail').replaceChildren(element('p','empty-state','근거 목록 연결 대기')); });
+
+function displayInput(value) {
+  if (value === undefined || value === null || value === '') return '미기재';
+  return typeof value === 'object' ? JSON.stringify(value) : String(value);
+}
+function mechanismSubheading(parent, text) { parent.append(element('h4', '', text)); }
+function renderMechanisms(data) {
+  mechanismRegistry = data.mechanisms; renderDependencySelector();
+  const grid = $('#mechanism-grid'); grid.replaceChildren();
+  const frontier = element('details', 'frontier-group'); const frontierSummary = element('summary', '', '선언된 확장 과정 · 실행 미연결'); frontier.append(frontierSummary, element('p', 'frontier-note', '아래 항목은 입력과 메커니즘이 선언되어 있지만 실행에 연결되지 않은 과정입니다. 샘플링 가능한 prior가 있어도 실행 구현을 뜻하지 않습니다.')); const frontierGrid = element('div', 'mechanism-grid frontier-grid'); frontier.append(frontierGrid);
+  for (const mechanism of data.mechanisms) {
+    const details = element('details', 'mechanism-card'); details.id = `mechanism-${mechanism.id}`;
+    const summary = element('summary');
+    const heading = element('span', 'mechanism-summary-title'); heading.append(element('small', '', mechanism.group || 'PHYSICS'), element('strong', '', mechanism.title));
+    summary.append(heading, element('span', 'mechanism-expand', '+')); details.append(summary);
+    const body = element('div', 'mechanism-body'); body.append(element('p', 'mechanism-description', mechanism.description || '설명 미기재'));
+    if (mechanism.implementationState) body.append(element('p', 'mechanism-wiring', `물리 구현 상태 · ${mechanism.implementationState}`));
+    if (mechanism.formula) { mechanismSubheading(body, '메커니즘의 수식'); body.append(element('pre', 'mechanism-formula', mechanism.formula)); }
+    if (Array.isArray(mechanism.derivation) && mechanism.derivation.length) { const section=element('section','derivation');mechanismSubheading(section,'유도 과정');if(mechanism.derivationScope)section.append(element('p','derivation-scope',mechanism.derivationScope));const steps=element('ol');for(const step of mechanism.derivation){const li=element('li');li.append(element('h5','',step.title || '유도 단계'));if(step.expression)li.append(element('pre','mechanism-formula',step.expression));if(step.explanation)li.append(element('p','',step.explanation));steps.append(li);}section.append(steps);body.append(section);}
+    mechanismSubheading(body, '현재 구현');
+    const implementations = element('ul', 'mechanism-implementations');
+    for (const item of mechanism.implementation || []) { const li = element('li'); li.append(element('code', '', item.path || '경로 미기재'), element('p', '', item.role || '역할 미기재')); implementations.append(li); }
+    body.append(implementations);
+    mechanismSubheading(body, '입력 축과 prior 준비 상태');
+    if (Array.isArray(mechanism.axes) && mechanism.axes.length) {
+      const axesDisclosure=element('details','axes-disclosure');axesDisclosure.append(element('summary','',`관련 입력 ${mechanism.axes.length}개 · 펼쳐 보기`));
+      axesDisclosure.append(element('p','axis-start-note','시작값은 정답이 아닙니다. 샘플링 가능은 prior 준비 상태이며 물리 구현 연결을 뜻하지 않습니다.'));
+      const axes = element('div', 'mechanism-axes');
+      for (const axis of mechanism.axes) {
+        const item = element('article', 'sweep-axis'); const name = element('h5'); name.append(element('code', '', axis.name || '축 이름 미기재'), element('span', 'axis-tag', axis.tag || '태그 미기재')); item.append(name);
+        const dl = element('dl'), prior=axis.prior || {};
+        for (const [label, value] of [['단위',axis.unit],['시작값',axis.value],['Family',prior.family],['범위',prior.band ?? axis.range],['폭',prior.spread],['연결된 입력',axis.bound],['Prior 준비',priorReadiness(axis)]]) { if ((label==='연결된 입력'||label==='폭') && value==null) continue;dl.append(element('dt','',label),element('dd','',displayInput(value))); }
+        item.append(dl);
+        if(axis.wired===false)item.append(element('p','axis-unwired','입력 선언 · 실행 미연결'));
+        const raw=element('details','axis-definition');raw.append(element('summary','','출처와 전체 정의'));
+        for(const [label,value]of [['원문 출처',axis.source||axis.sourcePath],['전체 prior',axis.prior],['샘플링 미준비 사유',axis.sampling_refusal]]) if(value!=null){raw.append(element('strong','',label),element('pre','',typeof value==='object'?JSON.stringify(value,null,2):String(value)));}
+        item.append(raw);axes.append(item);
+      }
+      axesDisclosure.append(axes);body.append(axesDisclosure);
+    } else body.append(element('p', 'mechanism-note', '연결된 스윕 축이 아직 없습니다.'));
+    mechanismSubheading(body, '기록할 응답 · 관측량');
+    const observables = element('ul', 'mechanism-observables'); for (const text of mechanism.observables || []) observables.append(element('li','',text)); body.append(observables);
+    mechanismSubheading(body, '논문 데이터와의 비교'); body.append(element('p','mechanism-comparison',mechanism.comparison || '비교 방법이 아직 연결되지 않았습니다.'));
+    const status = element('div','mechanism-run-status'); status.append(element('strong','',mechanism.status || '스윕 결과 미연결'),element('p','',mechanism.evidence?.length ? '연결된 자료의 조건과 설명을 확인하세요. 개별 실행이나 구조 이미지만으로 스윕 응답 검증을 대신할 수 없습니다.' : '이 항목에 연결된 실제 스윕 응답 데이터와 영상은 아직 없습니다. 아래 개별 실행은 스윕 검증 결과가 아닙니다.')); body.append(status);
+    if (Array.isArray(mechanism.evidence) && mechanism.evidence.length) {
+      mechanismSubheading(body,'연결된 응답 자료');
+      for (const entry of mechanism.evidence) {
+        const figure=element('figure','mechanism-evidence');
+        figure.append(element('h5','',entry.title || '응답 자료'));
+        if(safePath(entry.video)) {
+          const video=element('video');video.src=safePath(entry.video);video.controls=true;video.playsInline=true;video.preload='metadata';
+          if(safePath(entry.poster))video.poster=safePath(entry.poster);
+          video.setAttribute('aria-label',entry.title || '조건별 응답 영상');
+          video.addEventListener('error',()=>{video.replaceWith(element('p','media-caption','영상을 불러오지 못했습니다. 원본 영상 링크를 확인해 주세요.'));},{once:true});
+          figure.append(video,link('원본 영상 ↗',entry.video));
+        } else if(safePath(entry.poster)) addImage(figure,entry.poster,'기록 이미지','still',entry.title || '조건별 기록 이미지');
+        if(safePath(entry.plot)) addImage(figure,entry.plot,'응답 그래프','plot',entry.title || '응답 자료');
+        if(entry.caption)figure.append(element('figcaption','',entry.caption));
+        if(safePath(entry.record))figure.append(link('원본 기록 ↗',entry.record));
+        body.append(figure);
+      }
+    }
+    if (Array.isArray(mechanism.parts) && mechanism.parts.length) {
+      mechanismSubheading(body,'관련 실행 기록');
+      body.append(element('p','mechanism-note','아래 형상과 단일 조건 영상은 스윕 동영상이 아닙니다. 각각의 기록 조건과 한계는 상세에서 확인하세요.'));
+      const links = element('div','mechanism-part-links');
+      for (const id of mechanism.parts) {
+        const card=cards.find(card=>card.id===id); const item=element('article','mechanism-part-preview');
+        if(safePath(card?.video)) { const video=element('video');video.src=safePath(card.video);video.controls=true;video.playsInline=true;video.preload='metadata';if(safePath(card.poster))video.poster=safePath(card.poster);video.setAttribute('aria-label',`${card.title} 단일 조건 실행 영상`);item.append(video); }
+        const a=element('a','');a.href=`#part=${encodeURIComponent(id)}`;a.dataset.partId=id;
+        if(!card?.video && safePath(card?.poster)){const image=element('img');image.src=safePath(card.poster);image.alt=`${card.title} 구조 또는 단일 조건 기록`;image.loading='lazy';a.append(image);}
+        a.append(element('span','',`${card?.title || id} · 기록 상세 ↗`));
+        a.addEventListener('click',()=>{setTimeout(()=>$('#evidence').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'}),0);});item.append(a);links.append(item);
+      }
+      body.append(links);
+    }
+    details.append(body); (mechanism.group === '선언된 확장 과정' ? frontierGrid : grid).append(details);
+  }
+  if (frontierGrid.children.length) grid.append(frontier);
+  if (!data.mechanisms.length) grid.append(element('p','empty-state','공개된 메커니즘 정의가 아직 없습니다.'));
+  const source = $('#mechanism-source'); source.replaceChildren(); const provenance=data.source||{};
+  source.append(element('span','','입력 정의 출처'),element('span','',`코드 버전 ${displayInput(provenance.commit)}`));
+  const sourceFiles=Array.isArray(provenance.files)?provenance.files:(provenance.path?[{path:provenance.path,sha256:provenance.sha256}]:[]);
+  for(const file of sourceFiles){const entry=element('span','mechanism-source-file');entry.append(element('code','',file.path || '경로 미기재'));if(file.sha256)entry.append(element('span','',` SHA-256 ${file.sha256}`));source.append(entry);}
+
+}
+function loadMechanisms() { fetch('./data/mechanisms.json').then(response=>{if(!response.ok)throw new Error('Mechanisms unavailable');return response.json();}).then(data=>{if(!Array.isArray(data.mechanisms))throw new Error('Invalid mechanisms');renderMechanisms(data);}).catch(()=>{$('#mechanism-grid').replaceChildren(element('p','empty-state','메커니즘 입력 정의를 불러오지 못했습니다. 새로고침하거나 공개 자료를 확인해 주세요.'));});
+}
+function priorReadiness(row){const family=row.prior?.family;if(row.bound||family==='bound')return '연결 입력을 따름';if(family==='numerical')return '수치 설정';if(family==='replicate')return '반복 seed';return row.samplable===true?'샘플링 가능':row.samplable===false?'탐색 폭 미정':'해당 없음';}
+function focusParameter(name){$('#parameter-category').value='all';$('#parameter-search').value=name;renderParameters();$('#parameters').scrollIntoView();$('#parameter-search').focus({preventScroll:true});}
+function jumpMechanism(id){const target=document.getElementById(`mechanism-${id}`);if(!target)return;target.open=true;const outer=target.closest('.frontier-group');if(outer)outer.open=true;target.scrollIntoView();target.querySelector('summary').focus({preventScroll:true});}
+function renderDependencySelector(){const select=$('#mechanism-select');select.replaceChildren();for(const item of mechanismRegistry){const option=element('option','',item.title);option.value=item.id;select.append(option);}renderDependencyMap(select.value);}
+function renderDependencyMap(id){const map=$('#dependency-map');map.replaceChildren();const m=mechanismRegistry.find(item=>item.id===id);if(!m)return;const cols=[['메커니즘',[{text:m.title,note:m.implementationState,action:()=>jumpMechanism(id)}]],['입력 축',(m.axes||[]).map(a=>({text:a.name,note:a.wired===false?'선언 · 실행 미연결':'입력 선언',action:()=>focusParameter(a.name)}))],['현재 구현',(m.implementation||[]).map(i=>({text:i.path,note:i.role,action:()=>jumpMechanism(id)}))],['관측할 응답',(m.observables||[]).map(text=>({text,note:'관측 정의 · 계산 결과 아님',action:()=>jumpMechanism(id)}))]];for(const [title,nodes] of cols){const col=element('section','dependency-column');col.append(element('h3','',`${title} · ${nodes.length}`));const nodeList=element('div','dependency-node-list');nodeList.tabIndex=0;nodeList.setAttribute('role','region');nodeList.setAttribute('aria-label',`${title} 목록, 스크롤하여 전체 확인`);for(const n of nodes){const button=element('button','dependency-node');button.type='button';button.append(element('strong','',n.text));if(n.note)button.append(element('span','',n.note));button.addEventListener('click',n.action);nodeList.append(button);}col.append(nodeList);if(title==='입력 축'){const all=element('a','dependency-all-inputs','전체 입력 표에서 보기 ↓');all.href='#parameters';col.append(all);}map.append(col);}map.append(element('p','dependency-status',`응답 자료 상태 · ${m.status||'스윕 결과 미연결'}. 연결은 구현·측정 계획이며 통계적 상관이나 인과 효과를 계산한 결과가 아닙니다.`));}
+$('#mechanism-select').addEventListener('change',e=>renderDependencyMap(e.target.value));
+function renderParameters(){const q=$('#parameter-search').value.trim().toLocaleLowerCase(),category=$('#parameter-category').value;const rows=parameterRegistry.filter(r=>(category==='all'||r.category===category)&&[r.name,r.unit,r.tag,r.bound,r.source,r.prior?.family].map(displayInput).join(' ').toLocaleLowerCase().includes(q));const cell=parameterRegistry.filter(r=>r.category==='세포 추론 입력').length;$('#parameter-count').textContent=`세포 추론 입력 ${cell}개 · 실험/기구/실행 입력 ${parameterRegistry.length-cell}개 · 검색 결과 ${rows.length}개`;const body=$('#parameter-rows');body.replaceChildren();for(const r of rows){const tr=element('tr'),name=element('th');name.scope='row';name.append(element('code','',r.name),element('small','parameter-row-category',r.category));const details=element('details','parameter-source');details.append(element('summary','','출처와 준비 상태'));for(const [label,v]of [['원문 출처',r.source||r.sourcePath],['샘플링 미준비 사유',r.sampling_refusal]])if(v)details.append(element('p','',`${label} · ${displayInput(v)}`));name.append(details);tr.append(name);const prior=r.prior||{};for(const v of [r.unit||'파일에 단위 선언 없음',r.value,r.tag,prior.family,prior.band??r.range,prior.spread])tr.append(element('td','',displayInput(v)));const bound=element('td');if(r.bound){const b=element('button','parameter-bound',displayInput(r.bound));b.type='button';b.addEventListener('click',()=>focusParameter(displayInput(r.bound)));bound.append(b);}else bound.textContent='—';tr.append(bound,element('td','',priorReadiness(r)));body.append(tr);}if(!rows.length){const tr=element('tr'),td=element('td','','일치하는 입력이 없습니다.');td.colSpan=9;tr.append(td);body.append(tr);}}
+$('#parameter-search').addEventListener('input',renderParameters);$('#parameter-category').addEventListener('change',renderParameters);
+async function loadParameterRegister(){const results=await Promise.allSettled(['./data/sweep-inputs.json','./data/additional-inputs.json'].map(async path=>{const r=await fetch(path);if(!r.ok)throw Error(path);return r.json();}));parameterRegistry=[];results.forEach((result,index)=>{if(result.status==='fulfilled'&&Array.isArray(result.value.inputs))parameterRegistry.push(...result.value.inputs.map(r=>({...r,category:r.category||(index===0?'세포 추론 입력':'실행 설정')})));});renderParameters();const provenance=element('div','parameter-provenance');results.forEach((result,index)=>{if(result.status!=='fulfilled')return;const source=result.value.source||{};const block=element('div');block.append(link(index===0?'세포 입력 전체 JSON ↗':'실험·기구·실행 입력 전체 JSON ↗',index===0?'./data/sweep-inputs.json':'./data/additional-inputs.json'),element('p','',`코드 버전 ${source.commit||'미기재'}`));for(const file of source.files||[])block.append(element('code','',typeof file==='string'?file:file.path));provenance.append(block);});$('#parameters').append(provenance);if(results.some(r=>r.status==='rejected'))$('#parameter-count').append(document.createTextNode(' · 일부 입력 파일을 불러오지 못했습니다.'));}loadParameterRegister();
+function renderPhysicalRelations(id){const host=$('#relation-list');host.replaceChildren();const data=relationRegistry;if(!data)return;renderRelationGraph(id);const nodeName=id=>data.nodes.find(n=>n.id===id)?.label||id;for(const edge of data.edges.filter(e=>e.from===id||e.to===id)){const p=element('p',`physical-edge ${edge.status==='declared'?'declared':''}`);p.append(element('strong','',`${nodeName(edge.from)} → ${nodeName(edge.to)}`),element('span','',`${edge.kind} · ${edge.status==='wired'?'구현 연결':'선언 · 실행 미연결'}`));host.append(p);}if(!host.children.length)host.append(element('p','','선택 집단의 연결 선언이 없습니다.'));for(const b of data.bindings||[])if(b.from===id||b.to===id)host.append(element('p','physical-binding',`입력 연결 · ${b.from} → ${b.to}`));}
+$('#relation-select').addEventListener('change',e=>renderPhysicalRelations(e.target.value));fetch('./data/relations.json').then(r=>{if(!r.ok)throw Error('No relation data');return r.json();}).then(data=>{relationRegistry=data;const select=$('#relation-select');for(const n of data.nodes){const option=element('option','',n.label||n.id);option.value=n.id;select.append(option);}renderPhysicalRelations(select.value);}).catch(()=>{$('#relation-list').textContent='관계 정의를 아직 불러오지 못했습니다.';});
+
+function renderRelationGraph(selectedId){
+  const select=$('#relation-select');let host=$('#relation-graph');if(!host){host=element('div','relation-graph');host.id='relation-graph';select.closest('label').after(host);}host.replaceChildren();
+  const data=relationRegistry;if(!data||!Array.isArray(data.nodes))return;
+  const ns='http://www.w3.org/2000/svg';const svgNode=(tag,attrs={})=>{const node=document.createElementNS(ns,tag);for(const [key,value]of Object.entries(attrs))node.setAttribute(key,String(value));return node;};
+  const svg=svgNode('svg',{viewBox:'0 0 900 680',role:'group','aria-label':'선언된 물리 집단 관계. 노드를 선택하면 이웃 관계가 강조됩니다.'});
+  const positions=new Map();data.nodes.forEach((node,index)=>{const angle=-Math.PI/2+index*2*Math.PI/data.nodes.length;positions.set(node.id,{x:450+330*Math.cos(angle),y:330+260*Math.sin(angle)});});
+  const neighbors=new Set([selectedId]);for(const edge of data.edges||[])if(edge.from===selectedId||edge.to===selectedId){neighbors.add(edge.from);neighbors.add(edge.to);}
+  for(const edge of data.edges||[]){const a=positions.get(edge.from),b=positions.get(edge.to);if(!a||!b)continue;const selected=edge.from===selectedId||edge.to===selectedId;const edgeClass=`relation-line ${edge.status==='declared'?'declared':''} ${selected?'highlighted':'muted'}`;const line=edge.from===edge.to?svgNode('path',{d:`M ${a.x-18} ${a.y-18} C ${a.x-58} ${a.y-82}, ${a.x+58} ${a.y-82}, ${a.x+18} ${a.y-18}`,fill:'none',class:edgeClass}):svgNode('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,class:edgeClass});const title=svgNode('title');title.textContent=`${edge.from} — ${edge.to}: ${edge.kind}, ${edge.status==='declared'?'선언 · 미연결':'구현 연결'}`;line.append(title);svg.append(line);}
+  for(const node of data.nodes){const p=positions.get(node.id);const group=svgNode('g',{class:`relation-node ${node.id===selectedId?'selected':''} ${neighbors.has(node.id)?'neighbor':''}`,role:'button',tabindex:'0','aria-label':`${node.label||node.id} 관계 보기`,'aria-pressed':node.id===selectedId?'true':'false'});group.append(svgNode('circle',{cx:p.x,cy:p.y,r:26}));const text=svgNode('text',{x:p.x,y:p.y+44,'text-anchor':'middle'});text.textContent=node.label||node.id;group.append(text);const activate=()=>{select.value=node.id;renderPhysicalRelations(node.id);host.querySelector(`[data-node-index="${data.nodes.indexOf(node)}"]`)?.focus({preventScroll:true});};group.setAttribute('data-node-index',String(data.nodes.indexOf(node)));group.addEventListener('click',activate);group.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();activate();}});svg.append(group);}
+  host.append(svg,element('p','relation-map-note','실선: 구현 연결 · 점선: 선언된 미연결 관계. 선은 코드의 관계 표현이며 힘의 방향이나 현재 결합 점유를 나타내지 않습니다. 선택한 노드의 관계 종류는 아래 목록에서 확인하세요.'));
+}

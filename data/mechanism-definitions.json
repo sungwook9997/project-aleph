@@ -1,0 +1,1896 @@
+{
+  "commit": "76491cab5358d5044eb3c261aaa3617d862e118b",
+  "mechanisms": [
+    {
+      "id": "stokes",
+      "title": "Stokes 유동",
+      "group": "유체와 열운동",
+      "description": "세포 전체가 하나의 용매 유동장을 공유합니다. 용매 점도는 입력이며, 세포와 네트워크의 복합 점도는 관측으로 얻어야 합니다.",
+      "implementation": [
+        {
+          "path": "aleph/physics/fluid_mac.py",
+          "role": "엇갈린 격자에서 속도와 압력, 비압축 조건을 풉니다."
+        }
+      ],
+      "selectors": [
+        "fluid.eta_solvent",
+        "fluid.density",
+        "fluid.dx",
+        "fluid.padding",
+        "resolution.spacing"
+      ],
+      "observables": [
+        "하중·점도별 속도장과 압력장",
+        "운동량 잔차와 발산 잔차",
+        "같은 형상에서 힘–속도 응답"
+      ],
+      "comparison": "Stokes 해석해와의 수치 비교와 실제 세포 유변학 실험을 구분합니다. 세포의 겉보기 점도를 용매 점도 입력과 직접 동일시하지 않습니다.",
+      "parts": [
+        "fluid"
+      ],
+      "formula": "η∇²u − αu − ∇p + f = 0; ∇·u = 0",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "저 Reynolds 수의 힘 평형",
+          "expression": "0 = −∇p + η∇²u + f_body − αu",
+          "explanation": "관성항을 무시한 용매의 힘 평형입니다. αu는 분배된 노드 항력의 반응 항입니다."
+        },
+        {
+          "title": "비압축 제약",
+          "expression": "∇·u = 0",
+          "explanation": "압력은 속도장의 비압축 조건을 만족시키도록 함께 계산됩니다. 벽과 물체의 조건이 해를 바꿉니다."
+        },
+        {
+          "title": "이산화 후 응답",
+          "expression": "(u,p) = solve(η, geometry, loads, boundary, resolution)",
+          "explanation": "MAC 격자의 계산 결과에서 속도장과 압력장, 잔차를 읽습니다. 점도나 하중 축을 바꾼 응답은 실제 실행으로 얻어야 합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "fluid-exchange",
+      "title": "노드·표면과 유체의 힘 교환",
+      "group": "유체와 열운동",
+      "description": "노드와 삼각면의 운동이 용매에 힘을 전달하고 용매가 다시 구조에 작용합니다. 단순히 같은 위치에 그렸다는 사실은 결합의 근거가 아닙니다.",
+      "implementation": [
+        {
+          "path": "aleph/physics/integrate.py",
+          "role": "구조 운동과 용매 응답을 한 월드의 시간 적분에 연결합니다."
+        },
+        {
+          "path": "aleph/physics/fluid_mac.py",
+          "role": "힘 분배와 속도 보간을 수행합니다."
+        }
+      ],
+      "selectors": [
+        "fluid.",
+        "resolution.spacing"
+      ],
+      "observables": [
+        "구조와 용매의 상대 속도",
+        "힘 전달·소산과 격자 해상도 의존성"
+      ],
+      "comparison": "구형 물체의 항력 등 조건이 정의된 해석 문제로 수치 응답을 확인한 뒤, 실험 형상과 경계를 맞춘 외부 데이터와 비교합니다.",
+      "parts": [
+        "coupling",
+        "fluid"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "과거 조건 비교 연결 · 현재 버전 스윕 미측정",
+      "derivation": [
+        {
+          "title": "구조와 유체의 상대 속도",
+          "expression": "w = v − Iu",
+          "explanation": "I는 유체 속도를 노드 위치로 보간하는 연산입니다."
+        },
+        {
+          "title": "서로 반대인 힘 전달",
+          "expression": "F_node = −Γw; f_fluid = SΓw",
+          "explanation": "S는 힘을 격자로 분배합니다. 같은 위치에 놓였다는 사실만으로 이 교환이 발생하지 않습니다."
+        },
+        {
+          "title": "일과 소산의 확인",
+          "expression": "P_diss = wᵀΓw ≥ 0",
+          "explanation": "Γ가 양의 준정부호이며 분배·보간이 적절히 짝지어진 조건에서의 검사식입니다. 실제 경계·커널 지지영역과 구현 경로를 확인해야 합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다.",
+      "evidence": [
+        {
+          "title": "법선 항력 조건에 따른 막·핵막 부피 응답",
+          "plot": "media/historical-membrane/volume-response.png",
+          "record": "data/historical-membrane/manifest.json",
+          "caption": "과거 canonical 엔진 fdf7a43c의 3조건 기록. 750만 노드 실행 중 막 655,362개 노드의 저장 상태만 표시합니다. 당시 ERM 결합 0과 피질 배치 결함이 있었고 호스트 코드 일치 확인서가 확립되지 않았습니다. 현재 엔진의 적합성이나 논문 일치 증거가 아닙니다. 그래프는 원본 JSONL 기준이며 과거 결과 문서의 일부 수치와 다릅니다."
+        },
+        {
+          "title": "조건별 막·핵막의 면적 응답",
+          "plot": "media/historical-membrane/area-response.png",
+          "record": "data/historical-membrane/manifest.json",
+          "caption": "과거 canonical 엔진 fdf7a43c의 3조건 기록. 750만 노드 실행 중 막 655,362개 노드의 저장 상태만 표시합니다. 당시 ERM 결합 0과 피질 배치 결함이 있었고 호스트 코드 일치 확인서가 확립되지 않았습니다. 현재 엔진의 적합성이나 논문 일치 증거가 아닙니다. 그래프는 원본 JSONL 기준이며 과거 결과 문서의 일부 수치와 다릅니다."
+        },
+        {
+          "title": "조건별 면적 제약과 기계 풀이 잔차",
+          "plot": "media/historical-membrane/solver-response.png",
+          "record": "data/historical-membrane/manifest.json",
+          "caption": "과거 canonical 엔진 fdf7a43c의 3조건 기록. 750만 노드 실행 중 막 655,362개 노드의 저장 상태만 표시합니다. 당시 ERM 결합 0과 피질 배치 결함이 있었고 호스트 코드 일치 확인서가 확립되지 않았습니다. 현재 엔진의 적합성이나 논문 일치 증거가 아닙니다. 그래프는 원본 JSONL 기준이며 과거 결과 문서의 일부 수치와 다릅니다."
+        },
+        {
+          "title": "법선 항력 배율 0 · X0",
+          "video": "media/historical-membrane/X0.mp4",
+          "poster": "media/historical-membrane/X0/00000.png",
+          "record": "data/historical-membrane/manifest.json",
+          "caption": "과거 canonical 엔진 fdf7a43c의 3조건 기록. 750만 노드 실행 중 막 655,362개 노드의 저장 상태만 표시합니다. 당시 ERM 결합 0과 피질 배치 결함이 있었고 호스트 코드 일치 확인서가 확립되지 않았습니다. 현재 엔진의 적합성이나 논문 일치 증거가 아닙니다. 실제 물리 시간 10–200 µs, 저장 상태 20개, 보간 없음. 축은 solver.surface_impermeable이며 0은 이 옵션 비활성화입니다."
+        },
+        {
+          "title": "법선 항력 배율 100 · X100",
+          "video": "media/historical-membrane/X100.mp4",
+          "poster": "media/historical-membrane/X100/00000.png",
+          "record": "data/historical-membrane/manifest.json",
+          "caption": "과거 canonical 엔진 fdf7a43c의 3조건 기록. 750만 노드 실행 중 막 655,362개 노드의 저장 상태만 표시합니다. 당시 ERM 결합 0과 피질 배치 결함이 있었고 호스트 코드 일치 확인서가 확립되지 않았습니다. 현재 엔진의 적합성이나 논문 일치 증거가 아닙니다. 실제 물리 시간 10–200 µs, 저장 상태 20개, 보간 없음. 축은 solver.surface_impermeable이며 0은 이 옵션 비활성화입니다."
+        },
+        {
+          "title": "법선 항력 배율 1000 · X1000",
+          "video": "media/historical-membrane/X1000.mp4",
+          "poster": "media/historical-membrane/X1000/00000.png",
+          "record": "data/historical-membrane/manifest.json",
+          "caption": "과거 canonical 엔진 fdf7a43c의 3조건 기록. 750만 노드 실행 중 막 655,362개 노드의 저장 상태만 표시합니다. 당시 ERM 결합 0과 피질 배치 결함이 있었고 호스트 코드 일치 확인서가 확립되지 않았습니다. 현재 엔진의 적합성이나 논문 일치 증거가 아닙니다. 실제 물리 시간 10–200 µs, 저장 상태 20개, 보간 없음. 축은 solver.surface_impermeable이며 0은 이 옵션 비활성화입니다."
+        }
+      ]
+    },
+    {
+      "id": "thermal",
+      "title": "열운동과 이완",
+      "group": "유체와 열운동",
+      "description": "온도와 기계·유체 응답이 함께 노드의 열적 움직임을 결정합니다. 짧은 궤적의 변위만으로 평형 분포나 이완 시간을 확정할 수 없습니다.",
+      "implementation": [
+        {
+          "path": "aleph/physics/integrate.py",
+          "role": "열적 힘과 기계적 응답을 시간 적분합니다."
+        }
+      ],
+      "selectors": [
+        "cell.temperature",
+        "cell.seed",
+        "fluid.eta_solvent"
+      ],
+      "observables": [
+        "반복 seed별 변위·상관함수",
+        "평형 모드 분산과 이완 시간"
+      ],
+      "comparison": "독립적인 평형 통계·확산 기준과 비교합니다. 논문의 관찰 시간·노출 시간·공간 해상도를 맞추며 seed간 산포를 함께 표시해야 합니다.",
+      "parts": [
+        "filament",
+        "motor"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "열 에너지와 소산",
+          "expression": "kBT; mobility M = Γ⁻¹",
+          "explanation": "온도와 기계적 소산이 열적 움직임의 척도를 정합니다."
+        },
+        {
+          "title": "외부 평형 기준",
+          "expression": "Cov(Δx) = 2 kBT M Δt",
+          "explanation": "일정한 mobility인 자유 과감쇠 계의 비교식입니다. 공간 의존 mobility·제약·유체 결합에는 추가 처리가 필요하므로 현재 전체 엔진의 단일 업데이트 식으로 부르지 않습니다."
+        },
+        {
+          "title": "측정",
+          "expression": "MSD(t), autocorrelation(t), mode variance",
+          "explanation": "짧은 기록의 RMS 변위와 장시간 평형·확산 검증을 구분합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "filament-bending",
+      "title": "필라멘트 굽힘",
+      "group": "필라멘트와 네트워크",
+      "description": "세 노드 관계의 굽힘 에너지가 형상 변화를 저항합니다. 액틴·미세소관 등은 재료와 구조 입력이 다르지만 공통 연산자를 사용합니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/build/part.py",
+          "role": "재료 굽힘 강성과 노드 간격으로 세 노드 관계를 구성합니다."
+        },
+        {
+          "path": "aleph/physics/operators.py",
+          "role": "모든 집단의 관계 테이블에 같은 힘 연산자를 적용합니다."
+        }
+      ],
+      "selectors": [
+        "material.actin.kappa",
+        "material.microtubule.kappa",
+        "material.if.E",
+        "resolution.spacing"
+      ],
+      "observables": [
+        "곡률별 굽힘 에너지와 복원력",
+        "접선 상관·모드 분산",
+        "하중별 좌굴 형상과 해상도 의존성"
+      ],
+      "comparison": "문헌의 persistence length나 굽힘 실험을 비교 관측량으로 둡니다. 입력 κ에서 다시 계산한 κ를 독립 실험 검증으로 세지 않습니다.",
+      "parts": [
+        "filament",
+        "microtubule",
+        "intermediate_filament"
+      ],
+      "formula": "E = α/2 (|xᵢ − 2xⱼ + xₖ| − s₀)²",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "세 노드의 굽힘 좌표",
+          "expression": "d = xᵢ − 2xⱼ + xₖ; α = κ/ℓ³",
+          "explanation": "κ는 재료 굽힘 강성(pN·µm²), ℓ은 분절 길이입니다. α의 단위는 pN/µm입니다. 조립 단계가 초기 구조의 |d|를 s₀로 전달합니다."
+        },
+        {
+          "title": "기준 곡률로부터 에너지",
+          "expression": "E = ½α(|d| − s₀)²",
+          "explanation": "s₀=0이면 직선 기준입니다. 초기 휜 구조에서는 그 기준 곡률과의 차이를 사용합니다."
+        },
+        {
+          "title": "연쇄 미분",
+          "expression": "g = α(|d| − s₀)d/|d|; (Fᵢ,Fⱼ,Fₖ) = (−g,2g,−g)",
+          "explanation": "d를 각 노드 위치로 미분한 계수 1,−2,1에서 나옵니다. 내부 힘의 합은 0입니다. |d|=0의 처리는 커널의 별도 분기를 따릅니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "axial",
+      "title": "필라멘트 축방향 응답과 길이 제약",
+      "group": "필라멘트와 네트워크",
+      "description": "분절의 축방향 힘과 길이 제약이 적용되는 관계를 구분합니다. 하중–변형 응답과 수치 제약 오차는 서로 다른 관측입니다.",
+      "implementation": [
+        {
+          "path": "aleph/physics/operators.py",
+          "role": "모든 집단의 관계 테이블에 같은 힘 연산자를 적용합니다."
+        },
+        {
+          "path": "aleph/physics/constraint.py",
+          "role": "선언된 분절 길이 제약을 처리합니다."
+        }
+      ],
+      "selectors": [
+        "material.actin.EA",
+        "material.microtubule.EA",
+        "material.if.E",
+        "resolution.spacing"
+      ],
+      "observables": [
+        "인장 하중–연장률",
+        "길이 제약 오차와 시간 간격 의존성"
+      ],
+      "comparison": "인장 실험의 길이·하중·고정 조건과 맞춰 비교합니다. 제약을 둔 분절과 성장 끝 분절을 동일한 물리 관측으로 섞지 않습니다.",
+      "parts": [
+        "filament"
+      ],
+      "formula": "Fᵢ = k(L − L₀) d̂; Fⱼ = −Fᵢ",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "변형 에너지",
+          "expression": "E = ½ k (L − L₀)²; L = |xⱼ − xᵢ|",
+          "explanation": "분절 또는 살아 있는 결합의 길이와 기준 길이를 사용합니다. k의 단위는 pN/µm입니다."
+        },
+        {
+          "title": "에너지의 위치 미분",
+          "expression": "Fᵢ = −∂E/∂xᵢ = k(L − L₀)d̂; Fⱼ = −Fᵢ",
+          "explanation": "두 끝의 힘이 반대여서 내부 힘의 합이 0입니다. 하중–연장 응답은 이 힘을 시간 적분해 측정합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "crosslink",
+      "title": "가교 결합과 응력 이완",
+      "group": "필라멘트와 네트워크",
+      "description": "서로 다른 필라멘트의 결합이 하중을 전달하고 결합·해리가 네트워크 재배열을 만듭니다. 결합 수와 강도, 수명은 서로 다른 입력입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/bonds.py",
+          "role": "입력으로 관계 종류와 상태 전이표를 구성합니다."
+        },
+        {
+          "path": "aleph/physics/kinetics.py",
+          "role": "현재 하중에서 결합·해리·stroke 전이를 계산합니다."
+        }
+      ],
+      "selectors": [
+        "crosslink."
+      ],
+      "observables": [
+        "시간에 따른 결합 점유율·수명",
+        "변형 후 응력 이완",
+        "가교 입력별 네트워크 구조"
+      ],
+      "comparison": "네트워크 이완 실험은 농도·변형 이력·시간창이 일치해야 합니다. 한 결합의 해리율 비교와 전체 네트워크 응력 이완 비교를 분리합니다.",
+      "parts": [
+        "cortex",
+        "filament"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "한 스텝 안에서 전이에 쓰는 하중",
+          "expression": "f = k[e₀ + (e − e₀)/(1 + k c)]",
+          "explanation": "e=L−L₀, e₀는 스텝 시작의 연장량, c는 주변 구조의 held-mode compliance(µm/pN)입니다. c=0이면 고정된 위치의 k·e가 됩니다. 이 보정은 전이율용 하중이며 공통 기계 힘 식을 대체하지 않습니다."
+        },
+        {
+          "title": "변형 에너지",
+          "expression": "E = ½ k (L − L₀)²; L = |xⱼ − xᵢ|",
+          "explanation": "분절 또는 살아 있는 결합의 길이와 기준 길이를 사용합니다. k의 단위는 pN/µm입니다."
+        },
+        {
+          "title": "에너지의 위치 미분",
+          "expression": "Fᵢ = −∂E/∂xᵢ = k(L − L₀)d̂; Fⱼ = −Fᵢ",
+          "explanation": "두 끝의 힘이 반대여서 내부 힘의 합이 0입니다. 하중–연장 응답은 이 힘을 시간 적분해 측정합니다."
+        },
+        {
+          "title": "현재 하중에서 전이율",
+          "expression": "rₛₜ(f) = rₛₜ⁰ exp(min(f/fcharₛₜ, 50))",
+          "explanation": "이미 살아 있는 결합의 전이율입니다. 부호를 포함한 fchar가 하중 의존 방향을 정합니다. fchar=0은 하중 의존 항을 쓰지 않습니다. 지수 50 상한은 현재 커널의 수치 처리이며 생물학적 상수가 아닙니다."
+        },
+        {
+          "title": "대기 시간과 전이 선택",
+          "expression": "Rₛ = Σₜ rₛₜ; P(τ>t)=exp(−Rₛt); P(s→t)=rₛₜ/Rₛ",
+          "explanation": "이미 살아 있는 결합에서 가능한 전이를 합해 대기 시간과 다음 상태를 선택합니다. R=0이면 전이가 없습니다. 자유 슬롯의 새 결합은 별도의 attachment 커널이 처리합니다."
+        },
+        {
+          "title": "상태와 힘의 되먹임",
+          "expression": "state → attachment / stroke → geometry → f → rates",
+          "explanation": "stroke나 결합 위치가 변하면 하중을 다시 읽습니다. 주어진 시간 안에서 사건을 반복하며 사건 상한 도달은 별도 진단에 남습니다."
+        },
+        {
+          "title": "자유 슬롯의 새 결합",
+          "expression": "P_attempt = 1 − exp(−k_on Δt)",
+          "explanation": "attachment 커널은 자유 슬롯마다 시도 여부를 뽑고 reach 안의 후보를 찾습니다. strain·Boltzmann 옵션에 따라 후보 선택과 결합 확률이 추가로 달라집니다. 이 과정 전체를 위의 살아 있는 결합 jump chain과 동일시하지 않습니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "motor-cycle",
+      "title": "NMII 결합·stroke·해리",
+      "group": "능동 운동과 결합",
+      "description": "모터 머리의 상태 전이와 결합 위치 이동이 힘을 만듭니다. 힘–속도 곡선을 결과로 측정하며, 그 곡선을 먼저 정답으로 넣는 방식으로 설명하지 않습니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/build/nmii.py",
+          "role": "양극성 미니필라멘트의 노드와 머리 구조를 만듭니다."
+        },
+        {
+          "path": "aleph/cell/bonds.py",
+          "role": "입력으로 관계 종류와 상태 전이표를 구성합니다."
+        },
+        {
+          "path": "aleph/physics/kinetics.py",
+          "role": "현재 하중에서 결합·해리·stroke 전이를 계산합니다."
+        }
+      ],
+      "selectors": [
+        "crossbridge.",
+        "nmii."
+      ],
+      "observables": [
+        "하중–속도와 정지 부근 응답",
+        "상태 점유율·결합 시간·stroke 횟수",
+        "모터 입력별 필라멘트 상대 이동"
+      ],
+      "comparison": "단일 머리·미니필라멘트·네트워크의 관측을 구분하고, isoform·온도·ATP 조건을 맞춘 논문과 비교해야 합니다. 현재 짧은 시연은 힘–속도 스윕이 아닙니다.",
+      "parts": [
+        "motor",
+        "nmii"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "한 스텝 안에서 전이에 쓰는 하중",
+          "expression": "f = k[e₀ + (e − e₀)/(1 + k c)]",
+          "explanation": "e=L−L₀, e₀는 스텝 시작의 연장량, c는 주변 구조의 held-mode compliance(µm/pN)입니다. c=0이면 고정된 위치의 k·e가 됩니다. 이 보정은 전이율용 하중이며 공통 기계 힘 식을 대체하지 않습니다."
+        },
+        {
+          "title": "현재 하중에서 전이율",
+          "expression": "rₛₜ(f) = rₛₜ⁰ exp(min(f/fcharₛₜ, 50))",
+          "explanation": "이미 살아 있는 결합의 전이율입니다. 부호를 포함한 fchar가 하중 의존 방향을 정합니다. fchar=0은 하중 의존 항을 쓰지 않습니다. 지수 50 상한은 현재 커널의 수치 처리이며 생물학적 상수가 아닙니다."
+        },
+        {
+          "title": "대기 시간과 전이 선택",
+          "expression": "Rₛ = Σₜ rₛₜ; P(τ>t)=exp(−Rₛt); P(s→t)=rₛₜ/Rₛ",
+          "explanation": "이미 살아 있는 결합에서 가능한 전이를 합해 대기 시간과 다음 상태를 선택합니다. R=0이면 전이가 없습니다. 자유 슬롯의 새 결합은 별도의 attachment 커널이 처리합니다."
+        },
+        {
+          "title": "상태와 힘의 되먹임",
+          "expression": "state → attachment / stroke → geometry → f → rates",
+          "explanation": "stroke나 결합 위치가 변하면 하중을 다시 읽습니다. 주어진 시간 안에서 사건을 반복하며 사건 상한 도달은 별도 진단에 남습니다."
+        },
+        {
+          "title": "자유 슬롯의 새 결합",
+          "expression": "P_attempt = 1 − exp(−k_on Δt)",
+          "explanation": "attachment 커널은 자유 슬롯마다 시도 여부를 뽑고 reach 안의 후보를 찾습니다. strain·Boltzmann 옵션에 따라 후보 선택과 결합 확률이 추가로 달라집니다. 이 과정 전체를 위의 살아 있는 결합 jump chain과 동일시하지 않습니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "erm",
+      "title": "ERM 막–피질 결합",
+      "group": "능동 운동과 결합",
+      "description": "막과 피질 사이의 결합 수·도달 거리·결합률을 바꾸면 힘 전달과 분리가 달라질 수 있습니다. 결합 입력과 관측되는 막 장력을 구분합니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/bonds.py",
+          "role": "입력으로 관계 종류와 상태 전이표를 구성합니다."
+        },
+        {
+          "path": "aleph/physics/kinetics.py",
+          "role": "현재 하중에서 결합·해리·stroke 전이를 계산합니다."
+        }
+      ],
+      "selectors": [
+        "erm."
+      ],
+      "observables": [
+        "막–피질 결합 점유율과 간격",
+        "분리·재결합의 시간 변화",
+        "tether 측정에서의 힘과 형태"
+      ],
+      "comparison": "막 tether 실험은 막의 역학과 피질 결합의 영향을 함께 받습니다. Tsujita 자료와 비교하려면 동일한 당김 실험과 관측 정의를 먼저 맞춰야 합니다.",
+      "parts": [
+        "membrane",
+        "cortex"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "한 스텝 안에서 전이에 쓰는 하중",
+          "expression": "f = k[e₀ + (e − e₀)/(1 + k c)]",
+          "explanation": "e=L−L₀, e₀는 스텝 시작의 연장량, c는 주변 구조의 held-mode compliance(µm/pN)입니다. c=0이면 고정된 위치의 k·e가 됩니다. 이 보정은 전이율용 하중이며 공통 기계 힘 식을 대체하지 않습니다."
+        },
+        {
+          "title": "변형 에너지",
+          "expression": "E = ½ k (L − L₀)²; L = |xⱼ − xᵢ|",
+          "explanation": "분절 또는 살아 있는 결합의 길이와 기준 길이를 사용합니다. k의 단위는 pN/µm입니다."
+        },
+        {
+          "title": "에너지의 위치 미분",
+          "expression": "Fᵢ = −∂E/∂xᵢ = k(L − L₀)d̂; Fⱼ = −Fᵢ",
+          "explanation": "두 끝의 힘이 반대여서 내부 힘의 합이 0입니다. 하중–연장 응답은 이 힘을 시간 적분해 측정합니다."
+        },
+        {
+          "title": "현재 하중에서 전이율",
+          "expression": "rₛₜ(f) = rₛₜ⁰ exp(min(f/fcharₛₜ, 50))",
+          "explanation": "이미 살아 있는 결합의 전이율입니다. 부호를 포함한 fchar가 하중 의존 방향을 정합니다. fchar=0은 하중 의존 항을 쓰지 않습니다. 지수 50 상한은 현재 커널의 수치 처리이며 생물학적 상수가 아닙니다."
+        },
+        {
+          "title": "대기 시간과 전이 선택",
+          "expression": "Rₛ = Σₜ rₛₜ; P(τ>t)=exp(−Rₛt); P(s→t)=rₛₜ/Rₛ",
+          "explanation": "이미 살아 있는 결합에서 가능한 전이를 합해 대기 시간과 다음 상태를 선택합니다. R=0이면 전이가 없습니다. 자유 슬롯의 새 결합은 별도의 attachment 커널이 처리합니다."
+        },
+        {
+          "title": "상태와 힘의 되먹임",
+          "expression": "state → attachment / stroke → geometry → f → rates",
+          "explanation": "stroke나 결합 위치가 변하면 하중을 다시 읽습니다. 주어진 시간 안에서 사건을 반복하며 사건 상한 도달은 별도 진단에 남습니다."
+        },
+        {
+          "title": "자유 슬롯의 새 결합",
+          "expression": "P_attempt = 1 − exp(−k_on Δt)",
+          "explanation": "attachment 커널은 자유 슬롯마다 시도 여부를 뽑고 reach 안의 후보를 찾습니다. strain·Boltzmann 옵션에 따라 후보 선택과 결합 확률이 추가로 달라집니다. 이 과정 전체를 위의 살아 있는 결합 jump chain과 동일시하지 않습니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "surface-tension",
+      "title": "막의 면적 응답과 장력",
+      "group": "막과 핵",
+      "description": "삼각면에서 면적 변화에 대한 힘과 압력이 작용합니다. 입력 membrane.tension과 실험에서 추정하는 겉보기 장력은 자동으로 같은 양이 아닙니다.",
+      "implementation": [
+        {
+          "path": "aleph/physics/operators.py",
+          "role": "모든 집단의 관계 테이블에 같은 힘 연산자를 적용합니다."
+        },
+        {
+          "path": "aleph/cell/build/membrane.py",
+          "role": "막의 면과 입력 물성을 구성합니다."
+        }
+      ],
+      "selectors": [
+        "membrane.tension",
+        "membrane.area_modulus",
+        "membrane.pressure",
+        "membrane.mu_2d",
+        "envelope.mu_2d",
+        "membrane.volume_modulus",
+        "envelope.volume_modulus"
+      ],
+      "observables": [
+        "면적·부피와 힘의 시간 변화",
+        "장력 입력별 변형·tether 응답"
+      ],
+      "comparison": "같은 프로토콜에서 생성한 힘–변위·tether force를 논문 관측과 비교합니다. 변환식을 쓸 경우 직접 측정값과 모델을 통해 추정한 값을 구분합니다.",
+      "parts": [
+        "surface",
+        "membrane"
+      ],
+      "formula": "F_tension = −σ ∂A/∂x; F_pressure = p A n̂ / 3",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "면적·부피에 대한 에너지",
+          "expression": "E = σ A − p V",
+          "explanation": "일정한 σ,p일 때의 기본 항입니다. 추가 면적·부피 탄성 항이나 제약의 설정은 실행 조건을 따로 확인해야 합니다."
+        },
+        {
+          "title": "위치 미분으로 면 힘",
+          "expression": "Fᵢ = −σ ∂A/∂xᵢ + p A n̂ / 3",
+          "explanation": "방향을 가진 삼각면의 면적과 닫힌 표면 부피를 미분합니다. 압력 힘은 각 삼각면의 세 꼭짓점에 분배됩니다."
+        },
+        {
+          "title": "관측으로 환산",
+          "expression": "A(t), V(t), F_probe(t), x_probe(t)",
+          "explanation": "입력 장력 σ를 곧바로 실험 추정 장력이라고 부르지 않습니다. 관측 프로토콜에서 얻은 힘과 변형을 먼저 비교합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "surface-bending",
+      "title": "막·핵막의 굽힘",
+      "group": "막과 핵",
+      "description": "인접 삼각면의 기울기 차이가 굽힘 에너지를 만듭니다. 주름과 열적 움직임, 변형 실험에서 굽힘 입력의 영향을 살펴봅니다.",
+      "implementation": [
+        {
+          "path": "aleph/physics/operators.py",
+          "role": "모든 집단의 관계 테이블에 같은 힘 연산자를 적용합니다."
+        },
+        {
+          "path": "aleph/cell/build/envelope.py",
+          "role": "핵막 면과 굽힘 입력을 구성합니다."
+        }
+      ],
+      "selectors": [
+        "membrane.kappa_bend",
+        "envelope.kappa_bend"
+      ],
+      "observables": [
+        "곡률·면 법선 상관과 변형 에너지",
+        "굽힘 입력별 힘–변형 응답",
+        "면 뒤집힘과 수치 민감도"
+      ],
+      "comparison": "열적 요동이나 변형 실험의 공간·시간 해상도를 맞춥니다. 수치 불안정으로 생긴 주름을 생물학적 형상 변화로 해석하지 않습니다.",
+      "parts": [
+        "surface",
+        "membrane",
+        "envelope"
+      ],
+      "formula": "E_hinge = κ̃ (1 − n̂₁·n̂₂)",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "인접 면의 법선",
+          "expression": "n̂₁, n̂₂ = 면의 변에서 계산한 단위 법선",
+          "explanation": "같은 표면의 인접 삼각면 쌍이 하나의 굽힘 관계를 이룹니다."
+        },
+        {
+          "title": "법선 차이의 에너지",
+          "expression": "E = κ̃(1 − n̂₁·n̂₂)",
+          "explanation": "작은 이면각 θ에서는 1−cosθ≈θ²/2입니다. 이는 작은 각도에서의 해석이며 커널 에너지 자체는 내적을 사용합니다."
+        },
+        {
+          "title": "힘과 변형",
+          "expression": "Fᵢ = −∂E/∂xᵢ",
+          "explanation": "법선의 위치 의존성을 포함해 미분합니다. 굽힘 계수 입력별 형상·힘 응답을 기록하며 평형이나 수렴은 별도 측정합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "excess-area",
+      "title": "여유 면적·주름·미세융모",
+      "group": "막과 핵",
+      "description": "막의 면적이 초기 주름과 돌출 구조에 어떻게 배분되는지 바꿉니다. 구조의 존재와 실제로 펼쳐지는 동역학은 별도 근거입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/build/part.py",
+          "role": "주름·돌출을 가진 표면 기하를 구성합니다."
+        },
+        {
+          "path": "aleph/cell/build/microvillus.py",
+          "role": "미세융모 내부 필라멘트 집단을 구성합니다."
+        }
+      ],
+      "selectors": [
+        "membrane.excess_area",
+        "envelope.excess_area",
+        "membrane.wrinkle",
+        "microvillus."
+      ],
+      "observables": [
+        "입력 여유 면적과 실제 생성 면적",
+        "주름·돌출 분포",
+        "변형 중 면적 이용과 힘 응답"
+      ],
+      "comparison": "현미경의 표면 형태·돌출 밀도와 역학 실험의 면적 변화를 별도로 비교합니다. 초기 구조 이미지를 면적 저장고의 동역학 검증으로 부르지 않습니다.",
+      "parts": [
+        "membrane",
+        "envelope",
+        "microvillus"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "여유 면적의 정의",
+          "expression": "f = A/A_reference − 1",
+          "explanation": "기준 면적과 실제 면적의 차이를 무차원 비율로 표현합니다. 실제 builder의 주름·돌출 면적 배분을 함께 확인합니다."
+        },
+        {
+          "title": "기하 입력과 동역학의 구분",
+          "expression": "(f, tube geometry, density) → initial surface → A(t), F(t)",
+          "explanation": "초기 구조 생성과 힘을 받은 후 주름이 펴지는 과정은 별개입니다. 후자는 실제 실행 기록이 있어야 합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "lamina",
+      "title": "핵 라미나 네트워크",
+      "group": "막과 핵",
+      "description": "핵막 아래 라민 구조가 변형 하중을 전달합니다. 네트워크 구조와 재료 응답을 분리해서 관찰합니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/build/lamina.py",
+          "role": "핵막 아래 라미나 집단을 구성합니다."
+        },
+        {
+          "path": "aleph/physics/operators.py",
+          "role": "모든 집단의 관계 테이블에 같은 힘 연산자를 적용합니다."
+        }
+      ],
+      "selectors": [
+        "lamina."
+      ],
+      "observables": [
+        "구조 밀도·배치",
+        "변형 중 라미나 하중과 핵 형상"
+      ],
+      "comparison": "핵 변형 실험의 변형량·속도에 따라 비교합니다. 라미나 turnover는 아래 미연결 항목으로 구분합니다.",
+      "parts": [
+        "lamina",
+        "envelope"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "기하에서 집단 수",
+          "expression": "N_vertices ≈ round(4πR_nuc² / L_lamin²)",
+          "explanation": "현재 builder의 초기 라미나 꼭짓점 수 산식입니다. 밀도와 해상도를 혼동하지 않습니다."
+        },
+        {
+          "title": "관계 구성",
+          "expression": "vertices → nearest-neighbour edges → resolved strand nodes",
+          "explanation": "이웃 관계를 만들고 분절로 해상합니다. 주름진 핵막 아래로 배치한 뒤 실제 기준 길이를 계산합니다."
+        },
+        {
+          "title": "변형 에너지",
+          "expression": "E = ½ k (L − L₀)²; L = |xⱼ − xᵢ|",
+          "explanation": "분절 또는 살아 있는 결합의 길이와 기준 길이를 사용합니다. k의 단위는 pN/µm입니다."
+        },
+        {
+          "title": "에너지의 위치 미분",
+          "expression": "Fᵢ = −∂E/∂xᵢ = k(L − L₀)d̂; Fⱼ = −Fᵢ",
+          "explanation": "두 끝의 힘이 반대여서 내부 힘의 합이 0입니다. 하중–연장 응답은 이 힘을 시간 적분해 측정합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "chromatin",
+      "title": "염색질 구조와 핵 변형",
+      "group": "막과 핵",
+      "description": "염색질의 분절·가교와 라미나에 대한 관계가 핵 내부의 하중 경로를 만듭니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/build/chromatin.py",
+          "role": "염색질 구조를 생성합니다."
+        },
+        {
+          "path": "aleph/cell/bonds.py",
+          "role": "입력으로 관계 종류와 상태 전이표를 구성합니다."
+        },
+        {
+          "path": "aleph/physics/operators.py",
+          "role": "모든 집단의 관계 테이블에 같은 힘 연산자를 적용합니다."
+        }
+      ],
+      "selectors": [
+        "chromatin."
+      ],
+      "observables": [
+        "염색질 가교·배치별 핵 힘–변형",
+        "라미나와 염색질의 힘 기여"
+      ],
+      "comparison": "단리 핵과 살아 있는 세포의 실험을 구분하고 변형률·속도·처리 조건을 맞춥니다. 원인 분리는 입력 축을 독립적으로 바꾼 실행이 필요합니다.",
+      "parts": [
+        "chromatin",
+        "lamina",
+        "envelope"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "도메인과 관계",
+          "expression": "domains → backbone + distant crosslinks + lamina links",
+          "explanation": "초기 경로와 관계 수를 입력으로 만듭니다. 이는 핵의 겉보기 탄성률을 직접 지정하는 것이 아닙니다."
+        },
+        {
+          "title": "변형 에너지",
+          "expression": "E = ½ k (L − L₀)²; L = |xⱼ − xᵢ|",
+          "explanation": "분절 또는 살아 있는 결합의 길이와 기준 길이를 사용합니다. k의 단위는 pN/µm입니다."
+        },
+        {
+          "title": "에너지의 위치 미분",
+          "expression": "Fᵢ = −∂E/∂xᵢ = k(L − L₀)d̂; Fⱼ = −Fᵢ",
+          "explanation": "두 끝의 힘이 반대여서 내부 힘의 합이 0입니다. 하중–연장 응답은 이 힘을 시간 적분해 측정합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "linc",
+      "title": "핵–세포골격의 힘 전달",
+      "group": "막과 핵",
+      "description": "중간 필라멘트와 핵막, 라미나 사이의 정적 관계가 하중을 전달합니다. 선언된 모든 LINC 입력이 동역학에 연결된 것은 아닙니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/bonds.py",
+          "role": "입력으로 관계 종류와 상태 전이표를 구성합니다."
+        }
+      ],
+      "selectors": [
+        "linc.k",
+        "linc.areal_density"
+      ],
+      "observables": [
+        "핵막과 외부 필라멘트의 상대 변위",
+        "변형에 따른 관계별 힘"
+      ],
+      "comparison": "LINC 교란 전후의 핵 변형 비교에는 입력 변경과 동일한 측정 프로토콜의 짝지어진 실행이 필요합니다. 사전장력 입력은 미연결 항목으로 별도 표시합니다.",
+      "parts": [
+        "intermediate_filament",
+        "envelope",
+        "lamina"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "변형 에너지",
+          "expression": "E = ½ k (L − L₀)²; L = |xⱼ − xᵢ|",
+          "explanation": "분절 또는 살아 있는 결합의 길이와 기준 길이를 사용합니다. k의 단위는 pN/µm입니다."
+        },
+        {
+          "title": "에너지의 위치 미분",
+          "expression": "Fᵢ = −∂E/∂xᵢ = k(L − L₀)d̂; Fⱼ = −Fᵢ",
+          "explanation": "두 끝의 힘이 반대여서 내부 힘의 합이 0입니다. 하중–연장 응답은 이 힘을 시간 적분해 측정합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "mt-elastic",
+      "title": "미세소관의 압축·굽힘",
+      "group": "필라멘트와 네트워크",
+      "description": "MTOC에서 배치되는 미세소관 구조의 탄성 응답입니다. 길이 변화와 동적 불안정성은 이 정적 구조 구현과 구분합니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/build/microtubule.py",
+          "role": "미세소관 집단과 배치를 구성합니다."
+        },
+        {
+          "path": "aleph/physics/operators.py",
+          "role": "모든 집단의 관계 테이블에 같은 힘 연산자를 적용합니다."
+        }
+      ],
+      "selectors": [
+        "material.microtubule.",
+        "microtubule.count",
+        "microtubule.length"
+      ],
+      "observables": [
+        "압축 하중별 휨과 좌굴 형상",
+        "길이·강성별 하중 응답"
+      ],
+      "comparison": "좌굴 해석해 비교는 기계적 진단이고 세포 내 좌굴 실험은 주변 네트워크·구속 조건까지 맞춰야 합니다.",
+      "parts": [
+        "microtubule"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "세 노드의 굽힘 좌표",
+          "expression": "d = xᵢ − 2xⱼ + xₖ; α = κ/ℓ³",
+          "explanation": "κ는 재료 굽힘 강성(pN·µm²), ℓ은 분절 길이입니다. α의 단위는 pN/µm입니다. 조립 단계가 초기 구조의 |d|를 s₀로 전달합니다."
+        },
+        {
+          "title": "기준 곡률로부터 에너지",
+          "expression": "E = ½α(|d| − s₀)²",
+          "explanation": "s₀=0이면 직선 기준입니다. 초기 휜 구조에서는 그 기준 곡률과의 차이를 사용합니다."
+        },
+        {
+          "title": "연쇄 미분",
+          "expression": "g = α(|d| − s₀)d/|d|; (Fᵢ,Fⱼ,Fₖ) = (−g,2g,−g)",
+          "explanation": "d를 각 노드 위치로 미분한 계수 1,−2,1에서 나옵니다. 내부 힘의 합은 0입니다. |d|=0의 처리는 커널의 별도 분기를 따릅니다."
+        },
+        {
+          "title": "외부 해석 비교의 예",
+          "expression": "P_cr = π²κ/L²  (pinned–pinned ideal rod)",
+          "explanation": "끝 경계가 이상적인 힌지인 가느다란 막대의 Euler 기준식입니다. 세포 속 미세소관에 경계조건 확인 없이 적용하거나 런타임 결과로 표시하지 않습니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "if-elastic",
+      "title": "중간 필라멘트의 탄성 응답",
+      "group": "필라멘트와 네트워크",
+      "description": "중간 필라멘트 집단과 핵 주변 관계를 구성합니다. 현재 탄성 구조와 미연결인 비선형 strain-stiffening을 혼동하지 않습니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/build/intermediate_filament.py",
+          "role": "중간 필라멘트 집단을 구성합니다."
+        },
+        {
+          "path": "aleph/physics/operators.py",
+          "role": "모든 집단의 관계 테이블에 같은 힘 연산자를 적용합니다."
+        }
+      ],
+      "selectors": [
+        "material.if.",
+        "if.count",
+        "if.contour"
+      ],
+      "observables": [
+        "하중–연장과 핵 주변 힘 전달",
+        "집단 구조와 탄성 입력의 영향"
+      ],
+      "comparison": "단일 필라멘트 인장 실험과 네트워크 실험을 구분합니다. 실제 비선형 법칙이 연결되기 전에는 논문의 strain-stiffening을 재현했다고 표시할 수 없습니다.",
+      "parts": [
+        "intermediate_filament"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "재료에서 단면 계수",
+          "expression": "A = πr²; I = πr⁴/4; EA = E·A; κ = E·I",
+          "explanation": "현재 원형 단면 탄성 구성의 산식입니다. 비선형 strain-stiffening 법칙의 유도가 아닙니다."
+        },
+        {
+          "title": "변형 에너지",
+          "expression": "E = ½ k (L − L₀)²; L = |xⱼ − xᵢ|",
+          "explanation": "분절 또는 살아 있는 결합의 길이와 기준 길이를 사용합니다. k의 단위는 pN/µm입니다."
+        },
+        {
+          "title": "에너지의 위치 미분",
+          "expression": "Fᵢ = −∂E/∂xᵢ = k(L − L₀)d̂; Fⱼ = −Fᵢ",
+          "explanation": "두 끝의 힘이 반대여서 내부 힘의 합이 0입니다. 하중–연장 응답은 이 힘을 시간 적분해 측정합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "growth",
+      "title": "액틴 말단의 성장·축소",
+      "group": "능동 운동과 결합",
+      "description": "양 끝의 반응률과 단량체 풀, 하중에 따라 끝 분절이 변하고 노드 풀이 갱신됩니다. 성장 속도는 입력률로부터 측정되는 결과입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/assemble.py",
+          "role": "성장 가능한 집단을 끝 분절 반응에 연결합니다."
+        },
+        {
+          "path": "aleph/physics/end_growth.py",
+          "role": "말단의 반응과 노드 풀 갱신을 처리합니다."
+        }
+      ],
+      "selectors": [
+        "actin_chem.k_on_barbed_atp",
+        "actin_chem.k_off_barbed_atp",
+        "actin_chem.k_on_pointed_atp",
+        "actin_chem.k_off_pointed_atp",
+        "actin_chem.g_actin_free",
+        "actin_chem.monomer_rise"
+      ],
+      "observables": [
+        "하중·단량체 조건별 성장 속도",
+        "끝별 길이 변화와 사건 수",
+        "풀 보존과 고갈"
+      ],
+      "comparison": "성장 실험의 nucleotide 상태·단량체 농도·하중을 맞춰 속도와 분포를 비교합니다. ATP 말단 성장 구현을 가수분해·절단·분지 전체 구현으로 확대하지 않습니다.",
+      "parts": [
+        "growth",
+        "cortex",
+        "cytoplasm_actin"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "화학·하중 조건에서 사건률",
+          "expression": "r_on = k_on c exp(f/fchar); fchar = kBT/δ",
+          "explanation": "단량체 농도 c와 단위 증가 길이 δ를 사용합니다. 압축 f<0에서는 이 항의 결합률이 감소합니다."
+        },
+        {
+          "title": "반응 사건에서 길이 변화",
+          "expression": "Δℓ_rest = ±δ; E[dℓ_rest/dt] = δ(r_on − r_off)",
+          "explanation": "두 번째 식은 상태·하중을 고정했을 때의 사건률 평균입니다. 이를 전체 움직임의 속도 곡선으로 미리 넣지 않습니다."
+        },
+        {
+          "title": "물리적 위치와 노드 풀",
+          "expression": "end rest length → forces → positions; split / join at declared bands",
+          "explanation": "성장 끝 분절이 공통 힘 연산에 연결됩니다. 실제 성장·축소 궤적과 풀 고갈 사건을 기록해야 합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "network-architecture",
+      "title": "피질·섬유·아크의 네트워크 구조",
+      "group": "세포 구성과 관측",
+      "description": "서로 다른 필라멘트 집단의 밀도와 배치를 바꾸어 전체 하중 경로와 능동 응답을 관찰합니다. 집단 수 변화와 해상도 변화는 다른 축입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/build/cortex.py",
+          "role": "막 아래 피질 집단을 배치합니다."
+        },
+        {
+          "path": "aleph/cell/build/stress_fiber.py",
+          "role": "스트레스 섬유 집단을 구성합니다."
+        },
+        {
+          "path": "aleph/cell/build/sf_arc.py",
+          "role": "아크 집단을 구성합니다."
+        },
+        {
+          "path": "aleph/cell/build/cytoplasm_actin.py",
+          "role": "세포질 액틴 농도로 집단을 구성합니다."
+        }
+      ],
+      "selectors": [
+        "cortex.",
+        "stress_fiber.filaments",
+        "sf_arc.filaments",
+        "cytoplasm_actin.f_actin_conc",
+        "cytoplasm_actin.contour",
+        "stress_fiber.sarcomere"
+      ],
+      "observables": [
+        "집단별 밀도·방향 분포",
+        "전체 세포의 힘 전달·응력·이완",
+        "피질 장력의 측정 프로토콜별 응답"
+      ],
+      "comparison": "Hosseini의 압축 기반 피질 유변학 관측과 비교하려면 같은 세포 상태·압축 프로토콜이 필요합니다. 구조 히스토그램은 이 응답의 대체물이 아닙니다.",
+      "parts": [
+        "cortex",
+        "stress_fiber",
+        "sf_arc",
+        "cytoplasm_actin"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "집단 입력에서 관계 그래프",
+          "expression": "G = build(geometry, density, polarity, seed)",
+          "explanation": "각 집단의 배치와 실제 관계 테이블이 하중 경로를 정합니다."
+        },
+        {
+          "title": "공통 연산자로 힘 합산",
+          "expression": "Fᵢ = Σ_relations Fᵢ,relation + Fᵢ,fluid + Fᵢ,external",
+          "explanation": "집단 이름별로 다른 월드를 만드는 것이 아니라 관계별 힘이 한 월드에 더해집니다."
+        },
+        {
+          "title": "관측 연산",
+          "expression": "y = O_protocol[x(t), F(t), state(t)]",
+          "explanation": "응력·피질 장력 등은 측정 연산을 통해 얻는 관측량입니다. 같은 구조도 측정 방식과 시간창에 따라 다른 결과를 낼 수 있습니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "protrusions",
+      "title": "라멜리포디움·필로포디움 구조",
+      "group": "세포 구성과 관측",
+      "description": "돌출 부위의 필라멘트 집단과 배치를 입력으로 구성합니다. 현재 입력에서 개체수가 0인 구조는 작동 영상이 있는 것처럼 표시하지 않습니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/build/lamellipodium.py",
+          "role": "편평한 돌출부의 필라멘트를 구성합니다."
+        },
+        {
+          "path": "aleph/cell/build/filopodium.py",
+          "role": "다발형 돌출부를 구성합니다."
+        }
+      ],
+      "selectors": [
+        "lamellipodium.",
+        "filopodium."
+      ],
+      "observables": [
+        "입력별 생성 구조·방향·개체수",
+        "돌출 길이·속도와 저항 하중"
+      ],
+      "comparison": "현미경 구조 비교와 지속적 돌출·이동의 동역학 비교를 구분합니다. 분지·접착 등 필요한 과정의 미연결 상태도 함께 읽어야 합니다.",
+      "parts": [
+        "lamellipodium",
+        "filopodium"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "구조 입력",
+          "expression": "population counts + geometry + material → nodes and relations",
+          "explanation": "현재 builder의 배치 입력입니다. 개체수 0은 해당 입력에서 집단이 없다는 뜻입니다."
+        },
+        {
+          "title": "실제 운동을 만드는 조건",
+          "expression": "active transitions + growth + mechanical relations → motion",
+          "explanation": "구조만 만들어 놓은 것은 돌출·이동 속도를 계산한 것과 다릅니다. 필요한 미연결 과정은 확장 항목에서 표시합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "contact",
+      "title": "접촉과 비관통",
+      "group": "수치와 측정",
+      "description": "접촉 기하와 관계를 통해 물체 사이의 간격과 힘을 처리합니다. 접촉 옵션과 실제 실행에서 활성화됐는지는 실행별 기록으로 확인해야 합니다.",
+      "implementation": [
+        {
+          "path": "aleph/physics/contact_geometry.py",
+          "role": "현재 형상의 접촉 기하를 구성합니다."
+        },
+        {
+          "path": "aleph/physics/contact_saddle.py",
+          "role": "접촉을 포함한 결합 문제를 처리합니다."
+        }
+      ],
+      "selectors": [
+        "resolution.spacing"
+      ],
+      "observables": [
+        "접촉 간격·침투량",
+        "하중–접근 거리",
+        "시간 간격과 해상도에 따른 접촉 응답"
+      ],
+      "comparison": "기하학적 비관통 검사와 물리적 접촉 응답을 구분합니다. 현재 예시 입력의 해상도 범위는 접촉 실험을 완료한 범위가 아닙니다.",
+      "parts": [
+        "contact"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "접촉 기하",
+          "expression": "g(x) = signed separation",
+          "explanation": "실행에서 선택한 표면·노드 범위와 방향으로 간격을 정의합니다."
+        },
+        {
+          "title": "비관통 기준",
+          "expression": "g ≥ 0; λ ≥ 0; λg = 0",
+          "explanation": "이상적인 비관통 접촉의 상보성 기준입니다. 현재 수치 구현이 정확히 이 조건을 만족했다고 가정하지 않으며, 침투와 잔차로 확인해야 합니다."
+        },
+        {
+          "title": "관측",
+          "expression": "gap(t), contact force(t), constraint residual(t)",
+          "explanation": "접촉 기하 생성, 수치 풀이, 실제 활성화 여부를 실행 기록과 연결합니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "numerics",
+      "title": "시간·공간 해상도와 반복 실행",
+      "group": "수치와 측정",
+      "description": "생물학적 입력의 효과를 읽기 전에 시간 간격·공간 해상도·seed 변화가 관측에 미치는 영향을 분리합니다.",
+      "implementation": [
+        {
+          "path": "aleph/physics/integrate.py",
+          "role": "전체 월드의 시간 적분을 수행합니다."
+        },
+        {
+          "path": "aleph/cell/prior.py",
+          "role": "수치 설정·반복 seed와 추론 대상을 구분합니다."
+        }
+      ],
+      "selectors": [
+        "resolution.spacing",
+        "sim.",
+        "cell.seed"
+      ],
+      "observables": [
+        "관측량의 시간·공간 수렴",
+        "seed간 산포",
+        "비유한 값·면 뒤집힘·수치 잔차"
+      ],
+      "comparison": "수치 설정의 안정성을 생물학적 적합성으로 대체하지 않습니다. population을 줄인 진단은 전체 세포의 결론으로 사용하지 않습니다.",
+      "parts": [
+        "filament",
+        "motor",
+        "surface"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "같은 물리 문제의 해상도 변화",
+          "expression": "y_(Δt,h,seed) = O[run(θ, Δt, h, seed)]",
+          "explanation": "θ와 실험 프로토콜을 유지하고 수치 설정의 변화와 seed 변화가 만드는 차이를 구분합니다."
+        },
+        {
+          "title": "수렴·산포의 분리",
+          "expression": "Δy_time = y_(Δt/2,h) − y_(Δt,h); Δy_space = y_(Δt,h/2) − y_(Δt,h)",
+          "explanation": "실제 짝지어진 실행의 비교 정의입니다. 현재 데이터가 이 수렴 검사를 완료했다는 뜻은 아닙니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "instruments",
+      "title": "가상 측정과 논문 관측의 대응",
+      "group": "수치와 측정",
+      "description": "측정 기구도 질량과 면을 가진 노드로 구성되어 같은 월드에서 움직입니다. 동일 세포도 측정 방법에 따라 다른 응답을 보일 수 있습니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/build/instrument.py",
+          "role": "피펫·판·비드 등 측정 기구를 구성합니다."
+        },
+        {
+          "path": "aleph/application/experiment.py",
+          "role": "선언된 실험 축의 각 지점을 별도 실행·기록합니다."
+        }
+      ],
+      "selectors": [
+        "cell.radius",
+        "cell.nc_ratio"
+      ],
+      "observables": [
+        "기구가 받는 힘과 위치의 시간 기록",
+        "압축·흡인·tether 프로토콜별 관측",
+        "외부 관측이 구분할 수 있는 입력 영역"
+      ],
+      "comparison": "Tsujita의 tether force와 Hosseini의 압축 기반 장력 추정은 서로 다른 관측입니다. 해당 프로토콜의 forward 결과를 각각 비교하고 두 값을 동일한 정답으로 합치지 않습니다. 기구 전용 입력 파일은 이 예시 spec의 축 표에 포함되지 않습니다.",
+      "parts": [
+        "membrane",
+        "cortex"
+      ],
+      "formula": "",
+      "implementationState": "구현 연결 · 스윕 응답은 별도 확인",
+      "status": "스윕 결과 미연결",
+      "derivation": [
+        {
+          "title": "입력에서 관측까지",
+          "expression": "θ → physical trajectory X; y = O_protocol(X)",
+          "explanation": "세포 입력 θ와 기구·프로토콜 입력을 나누고 같은 물리 월드에서 관측을 얻습니다."
+        },
+        {
+          "title": "관측으로 입력 영역을 제약",
+          "expression": "p(θ | y, protocol) ∝ p(y | θ, protocol) p(θ)",
+          "explanation": "베이즈 추론의 관계식입니다. 논문 관측은 likelihood 쪽에 연결되며 입력값 하나를 정답으로 고정하는 절차가 아닙니다."
+        },
+        {
+          "title": "식별 가능성",
+          "expression": "different θ → indistinguishable y ⇒ retain uncertainty",
+          "explanation": "여러 입력 조합이 같은 관측을 만들면 단일값 대신 남은 불확실성을 보존해야 합니다. 현재 사이트에 posterior 계산 결과를 주장하지 않습니다."
+        }
+      ],
+      "derivationScope": "현재 코드의 관계식과 그 미분·측정 정의입니다. 외부 이론을 쓰는 단계에는 적용 조건을 적었습니다. 식이 있다는 사실은 실행 검증을 뜻하지 않습니다."
+    },
+    {
+      "id": "frontier-actin_chem",
+      "title": "액틴 가수분해·절단·캡핑",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "actin_chem.g_actin_total",
+        "actin_chem.k_on_barbed_adp",
+        "actin_chem.k_off_barbed_adp",
+        "actin_chem.k_on_pointed_adp",
+        "actin_chem.k_off_pointed_adp",
+        "actin_chem.k_hydrolysis",
+        "actin_chem.k_pi_release",
+        "actin_chem.profilin_conc",
+        "actin_chem.profilin_kd",
+        "actin_chem.thymosin_conc",
+        "actin_chem.thymosin_kd",
+        "actin_chem.cofilin_conc",
+        "actin_chem.cofilin_severing_rate",
+        "actin_chem.capping_conc",
+        "actin_chem.capping_k_on",
+        "actin_chem.capping_k_off"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "the end-slot growth is BOUND (GROWTH_ROWS: physics.end_growth via assemble.wire_growth, DESIGN-2026-09-08-growth-wiring §3); still NONE here: the ADP rows wait for the tip state (actin-chemistry §2.7), hydrolysis, Pi release, buffering, severing, capping",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-arp23",
+      "title": "Arp2/3 분지와 탈분지",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "arp23.conc",
+        "arp23.branch_angle",
+        "arp23.debranch_rate"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "NONE — a branch is a new triple + segment",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-formin",
+      "title": "Formin 매개 성장",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "formin.elongation_factor",
+        "formin.k_off",
+        "formin.areal_density"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "NONE — as actin_chem",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-filamin",
+      "title": "Filamin 가교",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "filamin.conc",
+        "filamin.length",
+        "filamin.k",
+        "filamin.k_on",
+        "filamin.k_off0",
+        "filamin.x_beta"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "bonds/kinetics: needs rate_2/x_beta_2 in the kernel (C2 refusal today)",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-fascin",
+      "title": "Fascin 다발 결합",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "fascin.k_on",
+        "fascin.k_off0",
+        "fascin.k"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "bonds/kinetics: a static-or-kinetic kind inside filopodium",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-chem",
+      "title": "ATP·ADP·이온 상태",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "chem.atp_conc",
+        "chem.adp_conc",
+        "chem.pi_conc",
+        "chem.delta_g_atp",
+        "chem.mg_free",
+        "chem.ionic_strength",
+        "chem.debye_length",
+        "chem.ph"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "NONE — global scalars a rate table may read",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-crossbridge",
+      "title": "확장된 ATPase 주기",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "crossbridge.k_atp_bind",
+        "crossbridge.k_hydrolysis",
+        "crossbridge.k_pi_release"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "kinetics: extra states on the crossbridge kind (MAX_STATES = 8)",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-nmii",
+      "title": "NMII 조립·해체",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "nmii.isoform_iia_fraction",
+        "nmii.rlc_phosphorylated_fraction",
+        "nmii.assembly_rate",
+        "nmii.disassembly_rate",
+        "nmii.lever_arm"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "cell/build/nmii + kinetics: an assembled/disassembled state per minifilament",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-membrane",
+      "title": "막 점성·투과·채널",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "membrane.lysis_strain",
+        "membrane.viscosity_2d",
+        "membrane.lipid_diffusion",
+        "membrane.spontaneous_curvature",
+        "membrane.kappa_gauss",
+        "membrane.hydraulic_conductivity",
+        "membrane.channel_density"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "surfaces (area0/tension; area_modulus IS read — Surfaces.k_area, assemble._adapt) + a 2D viscous term on faces + a membrane node drag (Saffman-Delbruck) + water flux through faces; lysis_strain is a census readout (dev/experiments/envelope_frames.py, 2026-09-15), the engine has no rupture event",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-fluid",
+      "title": "용매의 추가 구성 입력",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "fluid.cytosol_water_fraction",
+        "fluid.slip_length_membrane"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "grid",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-osmotic",
+      "title": "삼투에 의한 물 이동",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "osmotic.internal",
+        "osmotic.external",
+        "osmotic.pressure_per_mM",
+        "osmotic.reflection_coefficient"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "surfaces.pressure derived + face water flux. NOT derivable today: internal = external = 300 mM gives dP = 0 while membrane.pressure declares 40 pN/um^2 (a HeLa proxy) — one of the two rows must move (PI, 2026-09-15 audit)",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-nucleus",
+      "title": "핵질의 추가 유변학",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "nucleus.eta_nucleoplasm",
+        "nucleus.g_prime_nucleoplasm"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "grid: a second viscosity region inside the envelope, or the chromatin population's drag",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-envelope",
+      "title": "핵막 간격과 핵공",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "envelope.spacing",
+        "envelope.pore_density"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "surfaces / a second surface",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-lamina",
+      "title": "라민 turnover",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "lamina.turnover_rate"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "kinetics on lamina segments",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-linc",
+      "title": "LINC 사전장력",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "linc.tension"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "bonds: a prestress on lamina_envelope. NOT wireable as declared: tension/k = 8/100 = 0.08 um exceeds the built lamina-envelope gap (~0.02 um), so the prestressed rest length would be negative — needs linc.k >= tension/gap (~400 pN/um) or a smaller tension (PI, 2026-09-15 audit)",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-microtubule",
+      "title": "미세소관 동적 불안정성",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "microtubule.growth_speed",
+        "microtubule.shrink_speed",
+        "microtubule.catastrophe_rate",
+        "microtubule.rescue_rate",
+        "microtubule.nucleation_rate",
+        "microtubule.tubulin_conc"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "NONE — MT length changes are topology changes",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-kinesin",
+      "title": "Kinesin 운동",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "kinesin.count",
+        "kinesin.stall_force",
+        "kinesin.velocity",
+        "kinesin.step",
+        "kinesin.run_length",
+        "kinesin.k_off0",
+        "kinesin.k"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "bonds/kinetics: a new motor kind with MT as partner range",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-dynein",
+      "title": "Dynein 운동",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "dynein.count",
+        "dynein.stall_force",
+        "dynein.velocity",
+        "dynein.step",
+        "dynein.run_length",
+        "dynein.k_off0",
+        "dynein.k"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "bonds/kinetics: a new motor kind with MT as partner range",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-if",
+      "title": "중간 필라멘트 비선형성",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "if.turnover_rate",
+        "if.stiffening_onset_strain",
+        "if.max_strain"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "segments: a nonlinear axial law (k(strain)) — operators change",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-integrin",
+      "title": "Integrin 수용체",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "integrin.areal_density"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "bonds: clutch kind capacity",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-clutch",
+      "title": "접착 clutch",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "clutch.k",
+        "clutch.k_on",
+        "clutch.k_off0",
+        "clutch.f_bond",
+        "clutch.count_per_fa"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "bonds/kinetics: a clutch kind between basal actin and a substrate population",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-substrate",
+      "title": "기질 역학",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "substrate.stiffness",
+        "substrate.thickness"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "NONE — a new surface/population (substrate) with its own stiffness",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    },
+    {
+      "id": "frontier-cortex",
+      "title": "피질 turnover·핵생성 비율",
+      "group": "선언된 확장 과정",
+      "description": "현재 입력 언어에 선언되어 있으나, 아래 행은 실행 메커니즘에 아직 연결되지 않은 것으로 코드에 분류되어 있습니다. 관련 기본 구조의 구현 여부와는 별개입니다.",
+      "implementation": [
+        {
+          "path": "aleph/cell/language.py",
+          "role": "FRONTIER의 미연결 행 목록에서 추출했습니다."
+        }
+      ],
+      "selectors": [
+        "cortex.turnover_rate",
+        "cortex.arp23_fraction"
+      ],
+      "observables": [
+        "실행 연결 후 해당 입력 변화에 대한 응답 측정 필요"
+      ],
+      "comparison": "입력 선언만으로 논문 현상의 재현이나 물리적 적합성을 주장할 수 없습니다. 연결된 실행과 외부 관측의 대응은 아직 없습니다.",
+      "parts": [],
+      "formula": "",
+      "implementationState": "입력 선언 · 해당 행 미연결",
+      "status": "실행 미연결",
+      "frontierTable": "kinetics on cortex segments (as actin_chem)",
+      "derivation": [],
+      "derivationScope": "이 입력 행은 실행에 아직 연결되지 않았습니다. 런타임 유도식이나 측정 응답이 존재하는 것처럼 만들지 않았습니다."
+    }
+  ]
+}

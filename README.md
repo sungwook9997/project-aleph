@@ -6,6 +6,17 @@ validation claims are not Aleph evidence.
 
 ## Current state
 
+The sweep-centred atlas now includes expandable mechanism explanations and
+derivations, implementation and population-relation maps, and a searchable full
+input register. The declaration snapshot is `76491cab5358d5044eb3c261aaa3617d862e118b`:
+356 cell inputs plus 76 context/instrument/operating-point inputs. See
+[scope and reproducible exports](docs/SWEEP_ATLAS.md). These are declarations,
+not an assertion that every axis has been swept or every declared process wired.
+
+Three historical native membrane conditions add three graphs and three raw-frame
+videos. Their old build defects and incomplete deployment provenance are displayed;
+they do not establish current-engine or external-paper agreement.
+
 First capture batch: two 120-step isolated diagnostic videos (12 µs each), one
 steady Stokes field, three diagnostic plots, and nine nonempty population geometry
 images. Five populations are absent in the unchanged default input. Surface,
@@ -50,7 +61,7 @@ measurement protocol. `data/implementation.json` records exact capture-source
 hashes. The public ffn_cellsim default branch inspected on 2026-09-20 does not
 contain these canonical modules; links must not imply otherwise.
 
-The atlas contains 19 unique plots: 3 original diagnostics, 5 additional motion/
+The earlier capture expansion contains 19 unique plots: 3 original diagnostics, 5 additional motion/
 fluid diagnostics, 9 full active-population geometry distributions, and 2 paper
 observation plots. There are 4 video views of **2 physical runs**; synchronized
 analysis views are not independent experiments. This expansion performs no new

@@ -1,0 +1,448 @@
+{
+  "source": {
+    "commit": "76491cab5358d5044eb3c261aaa3617d862e118b",
+    "path": "aleph/cell/language.py",
+    "sha256": "12fcc541c04315e492402683005195c0c09246624bcd14ec95466d550a053ad1"
+  },
+  "nodes": [
+    {
+      "id": "chromatin",
+      "label": "염색질"
+    },
+    {
+      "id": "cortex",
+      "label": "피질"
+    },
+    {
+      "id": "envelope",
+      "label": "핵막"
+    },
+    {
+      "id": "if",
+      "label": "중간 필라멘트"
+    },
+    {
+      "id": "lamellipodium",
+      "label": "라멜리포디움"
+    },
+    {
+      "id": "lamina",
+      "label": "라미나"
+    },
+    {
+      "id": "membrane",
+      "label": "세포막"
+    },
+    {
+      "id": "microtubule",
+      "label": "미세소관"
+    },
+    {
+      "id": "nmii",
+      "label": "NMII"
+    },
+    {
+      "id": "sf_arc",
+      "label": "아크"
+    },
+    {
+      "id": "stress_fiber",
+      "label": "스트레스 섬유"
+    },
+    {
+      "id": "substrate",
+      "label": "기질"
+    }
+  ],
+  "edges": [
+    {
+      "from": "membrane",
+      "to": "cortex",
+      "kind": "erm",
+      "status": "wired"
+    },
+    {
+      "from": "cortex",
+      "to": "cortex",
+      "kind": "crosslink",
+      "status": "wired"
+    },
+    {
+      "from": "nmii",
+      "to": "cortex",
+      "kind": "crossbridge",
+      "status": "wired"
+    },
+    {
+      "from": "nmii",
+      "to": "sf_arc",
+      "kind": "crossbridge",
+      "status": "wired"
+    },
+    {
+      "from": "nmii",
+      "to": "stress_fiber",
+      "kind": "crossbridge",
+      "status": "wired"
+    },
+    {
+      "from": "nmii",
+      "to": "lamellipodium",
+      "kind": "crossbridge",
+      "status": "wired"
+    },
+    {
+      "from": "stress_fiber",
+      "to": "substrate",
+      "kind": "clutch",
+      "status": "declared"
+    },
+    {
+      "from": "microtubule",
+      "to": "microtubule",
+      "kind": "kinesin",
+      "status": "declared"
+    },
+    {
+      "from": "microtubule",
+      "to": "microtubule",
+      "kind": "dynein",
+      "status": "declared"
+    },
+    {
+      "from": "if",
+      "to": "envelope",
+      "kind": "linc_if",
+      "status": "wired"
+    },
+    {
+      "from": "lamina",
+      "to": "envelope",
+      "kind": "lamina_envelope",
+      "status": "wired"
+    },
+    {
+      "from": "chromatin",
+      "to": "lamina",
+      "kind": "chromatin_lamina",
+      "status": "wired"
+    },
+    {
+      "from": "chromatin",
+      "to": "chromatin",
+      "kind": "chromatin_crosslink",
+      "status": "wired"
+    }
+  ],
+  "bindings": [
+    {
+      "from": "chromatin.seg",
+      "to": "resolution.spacing"
+    },
+    {
+      "from": "chromatin_crosslink.k",
+      "to": "chromatin.k_backbone"
+    },
+    {
+      "from": "chromatin_lamina.k",
+      "to": "chromatin.k_backbone"
+    },
+    {
+      "from": "cortex.seg",
+      "to": "resolution.spacing"
+    },
+    {
+      "from": "crossbridge.attach.rate",
+      "to": "crossbridge.k_on"
+    },
+    {
+      "from": "crossbridge.detach_bound.rate",
+      "to": "crossbridge.k_off0"
+    },
+    {
+      "from": "crossbridge.detach_bound.x_beta",
+      "to": "crossbridge.x_beta"
+    },
+    {
+      "from": "crossbridge.detach_stroked.rate",
+      "to": "crossbridge.k_adp_release"
+    },
+    {
+      "from": "crossbridge.detach_stroked.x_beta",
+      "to": "crossbridge.x_adp"
+    },
+    {
+      "from": "crossbridge.power_stroke.f_char",
+      "to": "crossbridge.f_stall"
+    },
+    {
+      "from": "crossbridge.power_stroke.rate",
+      "to": "crossbridge.k_stroke"
+    },
+    {
+      "from": "crossbridge.power_stroke.stroke_len",
+      "to": "crossbridge.stroke"
+    },
+    {
+      "from": "crosslink.attach.rate",
+      "to": "crosslink.k_on"
+    },
+    {
+      "from": "crosslink.detach.rate",
+      "to": "crosslink.k_off0"
+    },
+    {
+      "from": "crosslink.detach.x_beta",
+      "to": "crosslink.x_beta"
+    },
+    {
+      "from": "cytoplasm_actin.gap",
+      "to": "if.gap"
+    },
+    {
+      "from": "cytoplasm_actin.seg",
+      "to": "resolution.spacing"
+    },
+    {
+      "from": "envelope.mesh",
+      "to": "resolution.spacing"
+    },
+    {
+      "from": "erm.attach.rate",
+      "to": "erm.k_on"
+    },
+    {
+      "from": "erm.detach.rate",
+      "to": "erm.k_off0"
+    },
+    {
+      "from": "erm.detach.x_beta",
+      "to": "erm.x_beta"
+    },
+    {
+      "from": "filopodium.seg",
+      "to": "cortex.seg"
+    },
+    {
+      "from": "fluid.dx",
+      "to": "resolution.spacing"
+    },
+    {
+      "from": "if.seg",
+      "to": "cortex.seg"
+    },
+    {
+      "from": "lamellipodium.seg",
+      "to": "cortex.seg"
+    },
+    {
+      "from": "lamina.seg",
+      "to": "resolution.spacing"
+    },
+    {
+      "from": "lamina_envelope.k",
+      "to": "linc.k"
+    },
+    {
+      "from": "linc_if.k",
+      "to": "linc.k"
+    },
+    {
+      "from": "material.chromatin.k_backbone",
+      "to": "chromatin.k_backbone"
+    },
+    {
+      "from": "material.cortex.EA",
+      "to": "material.actin.EA"
+    },
+    {
+      "from": "material.cortex.density",
+      "to": "material.protein_density"
+    },
+    {
+      "from": "material.cortex.kappa",
+      "to": "material.actin.kappa"
+    },
+    {
+      "from": "material.cortex.radius",
+      "to": "material.actin.radius"
+    },
+    {
+      "from": "material.cytoplasm_actin.EA",
+      "to": "material.actin.EA"
+    },
+    {
+      "from": "material.cytoplasm_actin.density",
+      "to": "material.protein_density"
+    },
+    {
+      "from": "material.cytoplasm_actin.kappa",
+      "to": "material.actin.kappa"
+    },
+    {
+      "from": "material.cytoplasm_actin.radius",
+      "to": "material.actin.radius"
+    },
+    {
+      "from": "material.filopodium.EA",
+      "to": "material.actin.EA"
+    },
+    {
+      "from": "material.filopodium.density",
+      "to": "material.protein_density"
+    },
+    {
+      "from": "material.filopodium.kappa",
+      "to": "material.actin.kappa"
+    },
+    {
+      "from": "material.filopodium.radius",
+      "to": "material.actin.radius"
+    },
+    {
+      "from": "material.if_pop.E",
+      "to": "material.if.E"
+    },
+    {
+      "from": "material.if_pop.density",
+      "to": "material.protein_density"
+    },
+    {
+      "from": "material.if_pop.radius",
+      "to": "material.if.radius"
+    },
+    {
+      "from": "material.lamellipodium.EA",
+      "to": "material.actin.EA"
+    },
+    {
+      "from": "material.lamellipodium.density",
+      "to": "material.protein_density"
+    },
+    {
+      "from": "material.lamellipodium.kappa",
+      "to": "material.actin.kappa"
+    },
+    {
+      "from": "material.lamellipodium.radius",
+      "to": "material.actin.radius"
+    },
+    {
+      "from": "material.lamina.E",
+      "to": "material.if.E"
+    },
+    {
+      "from": "material.lamina.radius",
+      "to": "material.if.radius"
+    },
+    {
+      "from": "material.microtubule_pop.EA",
+      "to": "material.microtubule.EA"
+    },
+    {
+      "from": "material.microtubule_pop.density",
+      "to": "material.protein_density"
+    },
+    {
+      "from": "material.microtubule_pop.kappa",
+      "to": "material.microtubule.kappa"
+    },
+    {
+      "from": "material.microtubule_pop.radius",
+      "to": "material.microtubule.radius"
+    },
+    {
+      "from": "material.microvillus.EA",
+      "to": "material.actin.EA"
+    },
+    {
+      "from": "material.microvillus.density",
+      "to": "material.protein_density"
+    },
+    {
+      "from": "material.microvillus.kappa",
+      "to": "material.actin.kappa"
+    },
+    {
+      "from": "material.microvillus.radius",
+      "to": "material.actin.radius"
+    },
+    {
+      "from": "material.nmii.density",
+      "to": "material.protein_density"
+    },
+    {
+      "from": "material.sf_arc.EA",
+      "to": "material.actin.EA"
+    },
+    {
+      "from": "material.sf_arc.density",
+      "to": "material.protein_density"
+    },
+    {
+      "from": "material.sf_arc.kappa",
+      "to": "material.actin.kappa"
+    },
+    {
+      "from": "material.sf_arc.radius",
+      "to": "material.actin.radius"
+    },
+    {
+      "from": "material.stress_fiber.EA",
+      "to": "material.actin.EA"
+    },
+    {
+      "from": "material.stress_fiber.density",
+      "to": "material.protein_density"
+    },
+    {
+      "from": "material.stress_fiber.kappa",
+      "to": "material.actin.kappa"
+    },
+    {
+      "from": "material.stress_fiber.radius",
+      "to": "material.actin.radius"
+    },
+    {
+      "from": "membrane.excess_area_fraction",
+      "to": "membrane.excess_area"
+    },
+    {
+      "from": "membrane.mesh",
+      "to": "resolution.spacing"
+    },
+    {
+      "from": "microtubule.seg",
+      "to": "resolution.spacing"
+    },
+    {
+      "from": "microvillus.filaments",
+      "to": "filopodium.filaments"
+    },
+    {
+      "from": "microvillus.seg",
+      "to": "resolution.spacing"
+    },
+    {
+      "from": "microvillus.spacing",
+      "to": "stress_fiber.spacing"
+    },
+    {
+      "from": "nmii.arm_seg",
+      "to": "resolution.spacing"
+    },
+    {
+      "from": "sf_arc.seg",
+      "to": "cortex.seg"
+    },
+    {
+      "from": "sf_arc.spacing",
+      "to": "stress_fiber.spacing"
+    },
+    {
+      "from": "stress_fiber.seg",
+      "to": "cortex.seg"
+    }
+  ],
+  "scope": "Declared relation kinds, not measured active bonds. An actual run needs occupancy and force evidence."
+}
