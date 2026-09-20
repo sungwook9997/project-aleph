@@ -42,3 +42,28 @@ python3 -m http.server 8019 --directory _site
 Use a fresh output directory on each build. GitHub Pages uses the same build.
 Only the website assets, `data` and `media` are published; tools and local working
 files are excluded.
+
+## Code and paper-data connections
+
+Every component now identifies the relevant builder/common operators and a proposed
+measurement protocol. `data/implementation.json` records exact capture-source
+hashes. The public ffn_cellsim default branch inspected on 2026-09-20 does not
+contain these canonical modules; links must not imply otherwise.
+
+The atlas contains 19 unique plots: 3 original diagnostics, 5 additional motion/
+fluid diagnostics, 9 full active-population geometry distributions, and 2 paper
+observation plots. There are 4 video views of **2 physical runs**; synchronized
+analysis views are not independent experiments. This expansion performs no new
+physics and introduces no fitted comparison or pass threshold.
+
+Paper observations are from Tsujita et al. 2021 (96 original workbook cells checked)
+and Hosseini et al. 2021 (14 selected breast-cell condition medians from Tables 1–2).
+Their source audits are OK; original identities and hashes are in
+`data/literature/provenance.json`. Tether force [pN] and author-derived cortical
+tension [mN/m] remain distinct. Matched native experiments are not yet recorded, so
+no engine-agreement error or validation score is published.
+
+Reproduction of postprocessing requires the recorded native geometry archive,
+source papers and the exact captured engine checkout. `tools/expand_evidence.py`
+uses explicit local input paths, then `tools/link_comparisons.py` adds the comparison
+protocols. Browser playback and reference panels were inspected locally.

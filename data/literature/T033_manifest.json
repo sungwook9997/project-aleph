@@ -1,0 +1,20 @@
+{
+  "schema": "aleph.literature_data_manifest.v1",
+  "paper_id": "T033",
+  "doi": "10.1038/s41467-021-26156-4",
+  "training_eligibility": false,
+  "source_asset": {
+    "path": "/Users/sw1/ffn-workers/tension-scope-20260913/aleph/references/mcf7_intake_20260913/T033_source_data.xlsx",
+    "sha256": "77efc9e921fec32463526c73ff7a5fe969f1ad88f0fa2384d6c52e4273ea577b"
+  },
+  "payloads": [
+    {
+      "path": "T033_tether_force.csv",
+      "sha256": "58ee907e3562a49b03bf4e72825f08e674975db8a9e30d1daec00c93ac4f6d3f",
+      "format": "csv"
+    }
+  ],
+  "selection": "Fig.1a C/G/H/I columns, rows 4:38; breast-cell groups only; original workbook retained",
+  "observable": "tether_force",
+  "unit": "pN"
+}

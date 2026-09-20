@@ -20,9 +20,12 @@ def build(out: Path) -> None:
             raise ValueError('Geometry must have zero steps and no motion video')
         if card['status'] in {'recorded', 'geometry'} and not card.get('record'):
             raise ValueError('A captured artifact needs a provenance record')
-        for field in ('video', 'poster', 'plot', 'record'):
-            value = card.get(field)
-            if not value:
+        paths = [card.get(field) for field in ('video', 'poster', 'plot', 'record', 'raw')]
+        paths += [item.get('path') for item in card.get('gallery', [])]
+        paths += [item.get('plot') for item in card.get('comparisons', [])]
+        paths += [item.get('url') for item in card.get('implementation', [])]
+        for value in paths:
+            if not value or value.startswith('https://'):
                 continue
             path = (ROOT / value).resolve()
             if not path.is_relative_to(ROOT / 'data') and not path.is_relative_to(ROOT / 'media'):

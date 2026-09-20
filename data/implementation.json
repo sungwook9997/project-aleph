@@ -1,0 +1,111 @@
+{
+  "capture_commit": "bb597f087667edd55467bf262ef704b7acaa6e44",
+  "public_ffn_cellsim_head": "dc25d528b5f1f10d922c6c912803fae1da1f43c7",
+  "note": "The public default branch lacks these current Aleph modules. Paths and SHA256 identify the actual local capture source; this is not a claim those files are public on that branch.",
+  "files": {
+    "aleph/physics/fluid_mac.py": {
+      "sha256": "b4aaa63edb79c6de69c7c579cfac41ecc59538be702fe51a59773554875e3244",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/assemble.py": {
+      "sha256": "2de355a2fa9d319ba3edbe38189d108303009ea58b09b9ba36fcf0e6e3db85c1",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/physics/operators.py": {
+      "sha256": "a387cf55e2d796196769cefe61a98ea6649f3757eb290f5e57e813b969f6561c",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/physics/integrate.py": {
+      "sha256": "2ec9936e715eec07539c2365d57fe604afea31676665a6660a86050f23ca864a",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "dev/experiments/ladder/rung1_filament.py": {
+      "sha256": "30ce58dfd8051e3d177047e12d07bb346b46504db86a8d2091b65e6596433e0d",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/physics/kinetics.py": {
+      "sha256": "36376d53dde4a552c31a45b0c29e1a224c6d45a0b5dc6d6565538e22805345f8",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "dev/experiments/ladder/rung4b_pair.py": {
+      "sha256": "68a056e8069a486b882b00c92b1ee3e5d38345170cd442d8272fb5fc5c4d58c7",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/bonds.py": {
+      "sha256": "543b4877cfb7439195d0b324650a5285fb623576c8884699e3db809b9c4b1d59",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/physics/area_constraint.py": {
+      "sha256": "7f9f53dc10b572ca580bb48b629422ba19a5eef642a5ef02b79deb84b3a2d73f",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/physics/fluid_coupling.py": {
+      "sha256": "8f9c9da300c44b8fd0dce0257820c3b351389e87a618d0cede26f3905f7ec783",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/physics/contact_geometry.py": {
+      "sha256": "466385b7cb61170b3d1bdd85b3b4b8fb29427a6872cc8decb5f50ce9fd436019",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/physics/end_growth.py": {
+      "sha256": "b312466e783524392f20691d31387587908dd8c717566fbdc2e0ffee696245f5",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/cortex.py": {
+      "sha256": "c2caf5c48a6b0fbef845ea61cc68b69955c1000d30d3ad900153cdc5b476aa64",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/membrane.py": {
+      "sha256": "66d2a5110aa563da64d6d15fbef540a954ecbebb343e5fcc29d94324ba6f35aa",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/envelope.py": {
+      "sha256": "eb641f52aa53d4ba1f71ed2794f8529b34d8f0fea993ffa44b2d377a91664a17",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/lamina.py": {
+      "sha256": "2d987c8c7fed610f3e75771a36bc1fd471859c66eb5967e7fe085a98192fcbda",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/chromatin.py": {
+      "sha256": "333df08cdafdb49e60ade05d2608e5628ce0f1cfd6c12885cfbf325a80407ffb",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/nmii.py": {
+      "sha256": "3a38c56009b6dbb533ac094a7dec95cc15c70b72c2a89aba9119c42ac84c8a79",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/stress_fiber.py": {
+      "sha256": "ad52b47d01af8bfa57b5400f9bbc1acb7f2e9c158213f75acd47d8d93d2f1a8d",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/sf_arc.py": {
+      "sha256": "f0d42be026a2d8266c120385726124f47bca6309d93d55911782a128772645b2",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/lamellipodium.py": {
+      "sha256": "aeda51664bbe32cdcc96da9a3ac4da320d748dc56962417144724b9fdc528375",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/filopodium.py": {
+      "sha256": "8e34c0ab904f678a931df1751f14aefc750653844bc0893744c781e8c15ead08",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/microtubule.py": {
+      "sha256": "ca680a6d75cb166f6e58b740b3d23c28232984d5bbbaac3d0450e448806ce22e",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/intermediate_filament.py": {
+      "sha256": "28c95d0117fbfb473266f353662dd3d0e8fd31968301e6c06eddebdb70f5ae0a",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/cytoplasm_actin.py": {
+      "sha256": "d53c9a66b53b0597e5df9eeb804af3684239a88a620e48519dfddbf37df66a38",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    },
+    "aleph/cell/build/microvillus.py": {
+      "sha256": "74836497fe4e9eef92f4c3ba6f6266792df0ff6180b3e0615946f2fbef6dd56f",
+      "commit": "bb597f087667edd55467bf262ef704b7acaa6e44"
+    }
+  }
+}

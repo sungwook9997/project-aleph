@@ -1,0 +1,18 @@
+{
+  "T033": {
+    "doi": "10.1038/s41467-021-26156-4",
+    "source_audit": "SE213: OK (read-only live KB query, 2026-09-20)",
+    "workbook_sha256": "77efc9e921fec32463526c73ff7a5fe969f1ad88f0fa2384d6c52e4273ea577b",
+    "verified_original_cells": 96,
+    "selection": "Fig.1a breast-cell groups only",
+    "data": "T033_tether_force.csv"
+  },
+  "T042": {
+    "doi": "10.1016/j.bpj.2021.05.006",
+    "source_audit": "SE180: OK (read-only live KB query, 2026-09-20)",
+    "pdf_sha256": "af3381b088df8257fb4c29f77522a19c5cef29617278847eef684b2e42fcbfe1",
+    "selection": "14 breast-cell condition medians, Tables 1\u20132; excludes DU145/A549 rows",
+    "data": "T042_summary.jsonl"
+  },
+  "comparison_status": "External observations only. No paired engine protocol or agreement measurement yet."
+}
