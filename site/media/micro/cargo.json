@@ -1,0 +1,192 @@
+{
+ "scene": "cargo",
+ "record": "qs_long_bt_nogrowth_20260925_040000_b496c1527",
+ "commit": "b496c1527",
+ "steps": [
+  10,
+  20,
+  30,
+  40,
+  50,
+  60,
+  70,
+  80,
+  90,
+  100,
+  110,
+  120,
+  130,
+  140,
+  150
+ ],
+ "dt_s": 0.01,
+ "saved_every": 10,
+ "radius_um": 1.2,
+ "view_dist": 3.84,
+ "families_kept": [
+  "mt",
+  "cargo"
+ ],
+ "anchor_um": [
+  5.5144,
+  2.0597,
+  1.9022
+ ],
+ "anchor_count": 4,
+ "normal": [
+  0.89144,
+  0.33305,
+  0.30728
+ ],
+ "counts": {
+  "nodes": 1594,
+  "segments": 1215,
+  "triangles": 0,
+  "relations_per_step": [
+   3,
+   1,
+   1,
+   2,
+   3,
+   1,
+   2,
+   3,
+   2,
+   0,
+   1,
+   1,
+   3,
+   4,
+   5
+  ]
+ },
+ "rel_offsets": [
+  0,
+  3,
+  4,
+  5,
+  7,
+  10,
+  11,
+  13,
+  16,
+  18,
+  18,
+  19,
+  20,
+  23,
+  27,
+  32
+ ],
+ "offsets": {
+  "pos": 0,
+  "family": 286920,
+  "seg": 288516,
+  "tri": 298236,
+  "rel": 298236
+ },
+ "families": [
+  {
+   "key": "cortex",
+   "color": "#45C7A6",
+   "nodes": 0
+  },
+  {
+   "key": "cytoactin",
+   "color": "#8A94A6",
+   "nodes": 0
+  },
+  {
+   "key": "myosin",
+   "color": "#FF4B4B",
+   "nodes": 0
+  },
+  {
+   "key": "membrane",
+   "color": "#AFBAD1",
+   "nodes": 0
+  },
+  {
+   "key": "mt",
+   "color": "#39D7F2",
+   "nodes": 1581
+  },
+  {
+   "key": "cargo",
+   "color": "#FFD166",
+   "nodes": 13
+  },
+  {
+   "key": "if",
+   "color": "#5BE37D",
+   "nodes": 0
+  }
+ ],
+ "kinds": {
+  "0": {
+   "name": "erm",
+   "color": "#FF3838"
+  },
+  "1": {
+   "name": "alpha-actinin",
+   "color": "#3872FF"
+  },
+  "2": {
+   "name": "crossbridge",
+   "color": "#FFB020"
+  },
+  "10": {
+   "name": "kinesin",
+   "color": "#EFFF38"
+  },
+  "11": {
+   "name": "kinesin-cargo",
+   "color": "#D538FF"
+  },
+  "12": {
+   "name": "dynein",
+   "color": "#38FF9B"
+  },
+  "13": {
+   "name": "dynein-cargo",
+   "color": "#FF6138"
+  },
+  "15": {
+   "name": "filamin",
+   "color": "#83FF38"
+  }
+ },
+ "events": {
+  "erm": {
+   "bound_at_150": 0,
+   "bind": 0,
+   "unbind": 0,
+   "moved_or_changed_state": 0
+  },
+  "crossbridge": {
+   "bound_at_150": 0,
+   "bind": 0,
+   "unbind": 0,
+   "moved_or_changed_state": 0
+  },
+  "kinesin": {
+   "bound_at_150": 0,
+   "bind": 2,
+   "unbind": 4,
+   "moved_or_changed_state": 7
+  },
+  "kinesin-cargo": {
+   "bound_at_150": 3,
+   "bind": 6,
+   "unbind": 4,
+   "moved_or_changed_state": 3
+  },
+  "dynein-cargo": {
+   "bound_at_150": 2,
+   "bind": 5,
+   "unbind": 3,
+   "moved_or_changed_state": 5
+  }
+ },
+ "evidence": "FORCE-ACCEPTED native record (0 of 150 steps converged); a patch of it, every node inside the radius"
+}

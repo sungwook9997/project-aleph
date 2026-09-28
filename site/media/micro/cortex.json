@@ -1,0 +1,183 @@
+{
+ "scene": "cortex",
+ "record": "qs_long_bt_nogrowth_20260925_040000_b496c1527",
+ "commit": "b496c1527",
+ "steps": [
+  10,
+  20,
+  30,
+  40,
+  50,
+  60,
+  70,
+  80,
+  90,
+  100,
+  110,
+  120,
+  130,
+  140,
+  150
+ ],
+ "dt_s": 0.01,
+ "saved_every": 10,
+ "radius_um": 0.55,
+ "view_dist": 1.76,
+ "families_kept": [],
+ "anchor_um": [
+  6.6008,
+  2.7563,
+  1.9116
+ ],
+ "anchor_count": 12,
+ "normal": [
+  0.89151,
+  0.37234,
+  0.258
+ ],
+ "counts": {
+  "nodes": 7990,
+  "segments": 5885,
+  "triangles": 1491,
+  "relations_per_step": [
+   4772,
+   4765,
+   4781,
+   4761,
+   4786,
+   4780,
+   4772,
+   4794,
+   4796,
+   4781,
+   4789,
+   4759,
+   4775,
+   4777,
+   4762
+  ]
+ },
+ "rel_offsets": [
+  0,
+  4772,
+  9537,
+  14318,
+  19079,
+  23865,
+  28645,
+  33417,
+  38211,
+  43007,
+  47788,
+  52577,
+  57336,
+  62111,
+  66888,
+  71650
+ ],
+ "offsets": {
+  "pos": 0,
+  "family": 1438200,
+  "seg": 1446192,
+  "tri": 1493272,
+  "rel": 1511164
+ },
+ "families": [
+  {
+   "key": "cortex",
+   "color": "#45C7A6",
+   "nodes": 6029
+  },
+  {
+   "key": "cytoactin",
+   "color": "#8A94A6",
+   "nodes": 207
+  },
+  {
+   "key": "myosin",
+   "color": "#FF4B4B",
+   "nodes": 957
+  },
+  {
+   "key": "membrane",
+   "color": "#AFBAD1",
+   "nodes": 796
+  },
+  {
+   "key": "mt",
+   "color": "#39D7F2",
+   "nodes": 0
+  },
+  {
+   "key": "cargo",
+   "color": "#FFD166",
+   "nodes": 1
+  },
+  {
+   "key": "if",
+   "color": "#5BE37D",
+   "nodes": 0
+  }
+ ],
+ "kinds": {
+  "0": {
+   "name": "erm",
+   "color": "#FF3838"
+  },
+  "1": {
+   "name": "alpha-actinin",
+   "color": "#3872FF"
+  },
+  "2": {
+   "name": "crossbridge",
+   "color": "#FFB020"
+  },
+  "10": {
+   "name": "kinesin",
+   "color": "#EFFF38"
+  },
+  "11": {
+   "name": "kinesin-cargo",
+   "color": "#D538FF"
+  },
+  "12": {
+   "name": "dynein",
+   "color": "#38FF9B"
+  },
+  "13": {
+   "name": "dynein-cargo",
+   "color": "#FF6138"
+  },
+  "15": {
+   "name": "filamin",
+   "color": "#83FF38"
+  }
+ },
+ "events": {
+  "erm": {
+   "bound_at_150": 476,
+   "bind": 658,
+   "unbind": 692,
+   "moved_or_changed_state": 30
+  },
+  "alpha-actinin": {
+   "bound_at_150": 4216,
+   "bind": 153,
+   "unbind": 136,
+   "moved_or_changed_state": 128
+  },
+  "crossbridge": {
+   "bound_at_150": 13,
+   "bind": 25,
+   "unbind": 14,
+   "moved_or_changed_state": 9
+  },
+  "filamin": {
+   "bound_at_150": 57,
+   "bind": 11,
+   "unbind": 15,
+   "moved_or_changed_state": 3
+  }
+ },
+ "evidence": "FORCE-ACCEPTED native record (0 of 150 steps converged); a patch of it, every node inside the radius"
+}

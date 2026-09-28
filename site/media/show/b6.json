@@ -1,0 +1,442 @@
+{
+ "scene": "b6",
+ "kind": "fluid",
+ "commit": "c21a26b2e",
+ "record": "show94_b6_20260925_050757_72_c21a26b2e",
+ "frames": 1,
+ "nodes": 0,
+ "steps": [
+  0
+ ],
+ "radius": 0.0,
+ "field": {
+  "origin": [
+   0.0,
+   -4.0,
+   -4.0
+  ],
+  "dx": 0.25,
+  "cells": [
+   64,
+   32,
+   32
+  ],
+  "frames": 1,
+  "steps": [
+   0
+  ],
+  "window_cells": [
+   [
+    0,
+    0,
+    0
+   ],
+   [
+    64,
+    32,
+    32
+   ]
+  ],
+  "note": "MAC face velocities averaged to cell centres, float16, a display copy"
+ },
+ "tracers": {
+  "count": 9000,
+  "box": [
+   [
+    0.0,
+    -4.0,
+    -4.0
+   ],
+   [
+    16.0,
+    4.0,
+    4.0
+   ]
+  ],
+  "life_s": 5.0,
+  "trail_s": 0.25,
+  "vmax": 852.500244140625,
+  "lines": 140
+ },
+ "display": {
+  "seconds_per_step": 1.0,
+  "scene_time_per_second": 0.0023460403838548205
+ },
+ "view": {
+  "target": [
+   8.0,
+   0.0,
+   0.0
+  ],
+  "dist": 17.6,
+  "elev": 0.35,
+  "spin": 0.06,
+  "phase": 0.6
+ },
+ "steady_label": "one steady solve",
+ "offsets": {
+  "pos": 0,
+  "u": 0,
+  "wall": 393216
+ },
+ "evidence": "reduced-scene device run (small scene on the GPU, compared with a closed form declared in advance); not a cell result",
+ "missing_declared": [
+  "fluid v1: no thermal stress in the solvent and no noise on the face friction",
+  "no membrane in this scene; in a cell scene v1's membrane normal coupling is the grid face friction, ~2.3e7 x more permeable than the membrane's Lp (DESIGN-2026-09-24-c5-pipette-suction s4)",
+  "the glass is held MAC faces (the ANY coarse rule), the far end capped (the syringe line); an open far end delivered ~1/3 of the set dP to the bore (DESIGN 52c213bc3)"
+ ],
+ "not_a_conclusion": "this figure is not a physics conclusion",
+ "budget": {
+  "evidence_class": "fluid-only solve (300 Uzawa iterations; no Newton)",
+  "residual": "masked r_div 0.000262 /s, r_mom 1.19e-07 pN/um^3 at the end",
+  "contact": "contact share n/a (no contact terms: fluid only)",
+  "newton": null
+ },
+ "demo": {
+  "demo": "B6 (pipette probe, capped)",
+  "oracle": "Poiseuille at the bore's own gradient",
+  "q_mid": 6453.425006884266,
+  "want": 6828.58645580462,
+  "ratio": 0.9450601597638925,
+  "band": 0.1,
+  "pass": true,
+  "delivered_fraction_gL_over_dP": 0.6399967721385391,
+  "note": "the 0.945 of the uncapped probe was against the measured gradient; an open far end delivered ~1/3 of the set dP to the bore (DESIGN 52c213bc3); this run is capped"
+ },
+ "dye": {
+  "sources": [
+   {
+    "min": [
+     2.4,
+     -1.63,
+     -1.63
+    ],
+    "max": [
+     2.7,
+     -1.37,
+     -1.37
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     -1.63,
+     -0.88
+    ],
+    "max": [
+     2.7,
+     -1.37,
+     -0.62
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     -1.63,
+     -0.13
+    ],
+    "max": [
+     2.7,
+     -1.37,
+     0.13
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     -1.63,
+     0.62
+    ],
+    "max": [
+     2.7,
+     -1.37,
+     0.88
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     -1.63,
+     1.37
+    ],
+    "max": [
+     2.7,
+     -1.37,
+     1.63
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     -0.88,
+     -1.63
+    ],
+    "max": [
+     2.7,
+     -0.62,
+     -1.37
+    ],
+    "ch": 1
+   },
+   {
+    "min": [
+     2.4,
+     -0.88,
+     -0.88
+    ],
+    "max": [
+     2.7,
+     -0.62,
+     -0.62
+    ],
+    "ch": 1
+   },
+   {
+    "min": [
+     2.4,
+     -0.88,
+     -0.13
+    ],
+    "max": [
+     2.7,
+     -0.62,
+     0.13
+    ],
+    "ch": 1
+   },
+   {
+    "min": [
+     2.4,
+     -0.88,
+     0.62
+    ],
+    "max": [
+     2.7,
+     -0.62,
+     0.88
+    ],
+    "ch": 1
+   },
+   {
+    "min": [
+     2.4,
+     -0.88,
+     1.37
+    ],
+    "max": [
+     2.7,
+     -0.62,
+     1.63
+    ],
+    "ch": 1
+   },
+   {
+    "min": [
+     2.4,
+     -0.13,
+     -1.63
+    ],
+    "max": [
+     2.7,
+     0.13,
+     -1.37
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     -0.13,
+     -0.88
+    ],
+    "max": [
+     2.7,
+     0.13,
+     -0.62
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     -0.13,
+     -0.13
+    ],
+    "max": [
+     2.7,
+     0.13,
+     0.13
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     -0.13,
+     0.62
+    ],
+    "max": [
+     2.7,
+     0.13,
+     0.88
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     -0.13,
+     1.37
+    ],
+    "max": [
+     2.7,
+     0.13,
+     1.63
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     0.62,
+     -1.63
+    ],
+    "max": [
+     2.7,
+     0.88,
+     -1.37
+    ],
+    "ch": 1
+   },
+   {
+    "min": [
+     2.4,
+     0.62,
+     -0.88
+    ],
+    "max": [
+     2.7,
+     0.88,
+     -0.62
+    ],
+    "ch": 1
+   },
+   {
+    "min": [
+     2.4,
+     0.62,
+     -0.13
+    ],
+    "max": [
+     2.7,
+     0.88,
+     0.13
+    ],
+    "ch": 1
+   },
+   {
+    "min": [
+     2.4,
+     0.62,
+     0.62
+    ],
+    "max": [
+     2.7,
+     0.88,
+     0.88
+    ],
+    "ch": 1
+   },
+   {
+    "min": [
+     2.4,
+     0.62,
+     1.37
+    ],
+    "max": [
+     2.7,
+     0.88,
+     1.63
+    ],
+    "ch": 1
+   },
+   {
+    "min": [
+     2.4,
+     1.37,
+     -1.63
+    ],
+    "max": [
+     2.7,
+     1.63,
+     -1.37
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     1.37,
+     -0.88
+    ],
+    "max": [
+     2.7,
+     1.63,
+     -0.62
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     1.37,
+     -0.13
+    ],
+    "max": [
+     2.7,
+     1.63,
+     0.13
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     1.37,
+     0.62
+    ],
+    "max": [
+     2.7,
+     1.63,
+     0.88
+    ],
+    "ch": 0
+   },
+   {
+    "min": [
+     2.4,
+     1.37,
+     1.37
+    ],
+    "max": [
+     2.7,
+     1.63,
+     1.63
+    ],
+    "ch": 0
+   }
+  ],
+  "colors": [
+   "#3fd0ff",
+   "#ff4fa3"
+  ],
+  "gain": 4,
+  "emit": 0.6,
+  "half_life_s": 10
+ }
+}

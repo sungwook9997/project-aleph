@@ -1,0 +1,60 @@
+{
+ "record": "qs_long_bt_nogrowth_20260925_040000_b496c1527",
+ "commit": "b496c1527",
+ "part": "ERM tethers: membrane\u2013cortex slab at the surface (edge-on cut through the centre)",
+ "steps": [
+  150
+ ],
+ "files": [
+  "v1_erm.png"
+ ],
+ "layers_shown": [
+  "cortex",
+  "membrane"
+ ],
+ "legend": {
+  "families": {
+   "cortex": "#45C7A6",
+   "membrane": "#AFBAD1"
+  },
+  "relations": {
+   "erm": "#FF3838"
+  }
+ },
+ "layers_hidden": [
+  "cargo",
+  "chromatin",
+  "chromatin_domain",
+  "cytoplasm_actin",
+  "envelope",
+  "intermediate_filament",
+  "lamina",
+  "lamina_vertex",
+  "microtubule",
+  "mtoc",
+  "nmii",
+  "nmii_arm",
+  "nmii_backbone",
+  "nmii_head",
+  "plate",
+  "plate_base"
+ ],
+ "relations": "erm",
+ "view_hash": "tgt=4.4383,0.0000,-5.5930&cam=0.9,1.15,0.0658&clip=0&rlw=2.5&fade=cortex:0.3&rel=erm&frame=14",
+ "camera": "the studio viewer's orbit from the hash (tgt \u00b5m; cam \u03b8, \u03c6, r in bounding radii 13.688 \u00b5m; clip offset in radii)",
+ "counts_on_the_page": {
+  "nodes": 7545139,
+  "segments": 5933348,
+  "faces": 1638400
+ },
+ "sampling": "nothing is sampled (the page's own footer, checked)",
+ "colour": "family / relation kind only \u2014 no force or tension magnitude in the frame",
+ "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
+ "size_px": [
+  1920,
+  1200
+ ],
+ "evidence": "FORCE-ACCEPTED RUN \u00b7 native, n 7,545,139 \u00b7 b496c1527 \u00b7 growth off \u00b7 motors ON (NMII 217,424 nodes, kinetics attach True) \u00b7 150 steps",
+ "caveat": "0 of 150 steps converged (FORCE-ACCEPTED)",
+ "statement": "this figure is not a physics conclusion"
+}

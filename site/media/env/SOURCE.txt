@@ -1,0 +1,2 @@
+studio_small_03_1k.hdr — "Studio Small 03" by Poly Haven (https://polyhaven.com/a/studio_small_03), CC0 1.0 (https://polyhaven.com/license).
+Used only as reflected light on glossy scene objects (beads, glass); it is not data.

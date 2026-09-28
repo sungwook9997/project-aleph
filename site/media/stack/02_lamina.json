@@ -1,0 +1,56 @@
+{
+ "record": "qs_long_bt_nogrowth_20260925_040000_b496c1527",
+ "commit": "b496c1527",
+ "step": 150,
+ "stack_position": "2 of 9",
+ "layers_shown": [
+  "chromatin",
+  "chromatin_domain",
+  "lamina",
+  "lamina_vertex"
+ ],
+ "layers_added_here": [
+  "lamina"
+ ],
+ "layers_hidden": [
+  "cargo",
+  "cortex",
+  "cytoplasm_actin",
+  "envelope",
+  "intermediate_filament",
+  "membrane",
+  "microtubule",
+  "mtoc",
+  "nmii",
+  "nmii_arm",
+  "nmii_backbone",
+  "nmii_head",
+  "plate",
+  "plate_base"
+ ],
+ "relations": "none",
+ "surfaces_opacity": 0.3,
+ "view_hash": "cam=0.9,1.15,1.60&rel=none&frame=14",
+ "camera": "one fixed camera for the whole stack (the viewer's orbit \u03b8 0.9, \u03c6 1.15, r 1.6 bounding radii of 13.688 \u00b5m)",
+ "counts_on_the_page": {
+  "nodes": 7545139,
+  "segments": 5933348,
+  "faces": 1638400
+ },
+ "sampling": "nothing is sampled (the page's own footer, checked)",
+ "legend": {
+  "lamina": "#B98CFF",
+  "lamina_vertex": "#B98CFF",
+  "chromatin": "#FF6FB1",
+  "chromatin_domain": "#FF6FB1"
+ },
+ "colour": "family colours only \u2014 no force or tension magnitude in the frame",
+ "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
+ "size_px": [
+  1920,
+  1200
+ ],
+ "evidence": "FORCE-ACCEPTED RUN \u00b7 native, n 7,545,139 \u00b7 b496c1527 \u00b7 growth off \u00b7 motors ON (NMII 217,424 nodes, kinetics attach True) \u00b7 150 steps",
+ "caveat": "0 of 150 steps converged (FORCE-ACCEPTED)",
+ "statement": "this figure is not a physics conclusion"
+}

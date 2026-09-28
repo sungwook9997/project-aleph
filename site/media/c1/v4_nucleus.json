@@ -1,0 +1,62 @@
+{
+ "record": "qs_long_bt_nogrowth_20260925_040000_b496c1527",
+ "commit": "b496c1527",
+ "part": "Nucleus: cut-away through its centroid (envelope, lamina, chromatin)",
+ "steps": [
+  150
+ ],
+ "files": [
+  "v4_nucleus.png"
+ ],
+ "layers_shown": [
+  "envelope",
+  "lamina",
+  "lamina_vertex",
+  "chromatin",
+  "chromatin_domain"
+ ],
+ "legend": {
+  "families": {
+   "envelope": "#7C9BFF",
+   "lamina": "#B98CFF",
+   "lamina_vertex": "#B98CFF",
+   "chromatin": "#FF6FB1",
+   "chromatin_domain": "#FF6FB1"
+  },
+  "relations": {}
+ },
+ "layers_hidden": [
+  "cargo",
+  "cortex",
+  "cytoplasm_actin",
+  "intermediate_filament",
+  "membrane",
+  "microtubule",
+  "mtoc",
+  "nmii",
+  "nmii_arm",
+  "nmii_backbone",
+  "nmii_head",
+  "plate",
+  "plate_base"
+ ],
+ "relations": "none",
+ "view_hash": "tgt=0,-0.016,-0.021&cam=0.9,1.15,1.00&clip=0&rel=none&frame=14",
+ "camera": "the studio viewer's orbit from the hash (tgt \u00b5m; cam \u03b8, \u03c6, r in bounding radii 13.688 \u00b5m; clip offset in radii)",
+ "counts_on_the_page": {
+  "nodes": 7545139,
+  "segments": 5933348,
+  "faces": 1638400
+ },
+ "sampling": "nothing is sampled (the page's own footer, checked)",
+ "colour": "family / relation kind only \u2014 no force or tension magnitude in the frame",
+ "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Max, Unspecified Version)",
+ "size_px": [
+  1920,
+  1200
+ ],
+ "evidence": "FORCE-ACCEPTED RUN \u00b7 native, n 7,545,139 \u00b7 b496c1527 \u00b7 growth off \u00b7 motors ON (NMII 217,424 nodes, kinetics attach True) \u00b7 150 steps",
+ "caveat": "0 of 150 steps converged (FORCE-ACCEPTED)",
+ "statement": "this figure is not a physics conclusion",
+ "caveat_correction": "2026-09-25 23:2x: the first caveat said 'defective build: crossbridge owners shifted' \u2014 a false label from a script copy run outside the repo (git could not answer); b496c1527 carries the fix (3fb095196). Recomputed from the repository."
+}

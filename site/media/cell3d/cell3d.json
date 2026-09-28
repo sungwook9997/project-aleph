@@ -1,0 +1,161 @@
+{
+ "record": "qs_long_bt_nogrowth_20260925_040000_b496c1527",
+ "commit": "b496c1527",
+ "step": 150,
+ "q_um": 0.00024582758244527143,
+ "centre_um": [
+  0.0387,
+  0.0208,
+  -0.0345
+ ],
+ "counts": {
+  "nodes": 7545137,
+  "segments": 5933348,
+  "triangles": 1638400,
+  "cell_nodes": 7545139
+ },
+ "offsets": {
+  "pos": 0,
+  "layer": 45270824,
+  "seg_da": 52815964,
+  "seg_db": 76549356,
+  "tri_da": 100282748,
+  "tri_d1": 106836348,
+  "tri_d2": 113389948
+ },
+ "raw_bytes": 119943548,
+ "layers": [
+  {
+   "key": "chromatin",
+   "color": "#FF6FB1",
+   "nodes": 6590
+  },
+  {
+   "key": "lamina",
+   "color": "#B58CFF",
+   "nodes": 31354
+  },
+  {
+   "key": "envelope",
+   "color": "#6F8BFF",
+   "nodes": 163842
+  },
+  {
+   "key": "if",
+   "color": "#5BE37D",
+   "nodes": 121440
+  },
+  {
+   "key": "mt",
+   "color": "#39D7F2",
+   "nodes": 81401
+  },
+  {
+   "key": "cytoactin",
+   "color": "#8A94A6",
+   "nodes": 1673932
+  },
+  {
+   "key": "cortex",
+   "color": "#45C7A6",
+   "nodes": 4592392
+  },
+  {
+   "key": "myosin",
+   "color": "#FF4B4B",
+   "nodes": 217424
+  },
+  {
+   "key": "membrane",
+   "color": "#AFBAD1",
+   "nodes": 655362
+  },
+  {
+   "key": "cargo",
+   "color": "#FFD166",
+   "nodes": 1400
+  }
+ ],
+ "surface_layers": [
+  "envelope",
+  "membrane"
+ ],
+ "triangles_per_surface": {
+  "envelope": 327680,
+  "membrane": 1310720
+ },
+ "radius_um": 7.717,
+ "relations": {
+  "layers": [
+   {
+    "key": "r_erm",
+    "color": "#FF3838",
+    "kinds": [
+     0
+    ],
+    "count": 399538
+   },
+   {
+    "key": "r_crosslink",
+    "color": "#3872FF",
+    "kinds": [
+     1
+    ],
+    "count": 3517674
+   },
+   {
+    "key": "r_crossbridge",
+    "color": "#FFB020",
+    "kinds": [
+     2
+    ],
+    "count": 1147
+   },
+   {
+    "key": "r_ties",
+    "color": "#E6E6FF",
+    "kinds": [
+     3,
+     4,
+     5,
+     6,
+     9
+    ],
+    "count": 4606
+   },
+   {
+    "key": "r_motor",
+    "color": "#EFFF38",
+    "kinds": [
+     10,
+     11,
+     12,
+     13
+    ],
+    "count": 128
+   },
+   {
+    "key": "r_filamin",
+    "color": "#83FF38",
+    "kinds": [
+     15
+    ],
+    "count": 632736
+   }
+  ],
+  "offsets": {
+   "da": 0,
+   "db": 18223316,
+   "dc": 36446632,
+   "t": 54669948
+  },
+  "count": 4555829,
+  "frame": "bonds_00150.npz (alive, both ends kept)"
+ },
+ "mtoc_um": [
+  5.0561,
+  0.3342,
+  -3.3555
+ ],
+ "mtoc_note": "the record's mtoc node at this step, minus centre_um (ledger range 'mtoc')"
+}

@@ -1,0 +1,119 @@
+{
+ "n": 7545139,
+ "ranges": {
+  "cortex": [
+   0,
+   4592392
+  ],
+  "membrane": [
+   4592392,
+   5247754
+  ],
+  "envelope": [
+   5247754,
+   5411596
+  ],
+  "lamina": [
+   5411596,
+   5442950
+  ],
+  "lamina_vertex": [
+   5411596,
+   5413639
+  ],
+  "chromatin": [
+   5442950,
+   5449540
+  ],
+  "chromatin_domain": [
+   5442950,
+   5443502
+  ],
+  "nmii": [
+   5449540,
+   5666964
+  ],
+  "nmii_backbone": [
+   5449540,
+   5461524
+  ],
+  "nmii_head": [
+   5461524,
+   5512884
+  ],
+  "nmii_arm": [
+   5512884,
+   5666964
+  ],
+  "stress_fiber": [
+   5666964,
+   5666964
+  ],
+  "sf_arc": [
+   5666964,
+   5666964
+  ],
+  "lamellipodium": [
+   5666964,
+   5666964
+  ],
+  "filopodium": [
+   5666964,
+   5666964
+  ],
+  "microtubule": [
+   5666964,
+   5748365
+  ],
+  "mtoc": [
+   5740964,
+   5740965
+  ],
+  "intermediate_filament": [
+   5748365,
+   5869805
+  ],
+  "cytoplasm_actin": [
+   5869805,
+   7543737
+  ],
+  "cargo": [
+   7543737,
+   7545137
+  ],
+  "plate": [
+   7545137,
+   7545138
+  ],
+  "plate_base": [
+   7545138,
+   7545139
+  ]
+ },
+ "dt": 0.01,
+ "units": {
+  "length": "um"
+ },
+ "commit": "4732ede50",
+ "record": "/Users/sw1/ffn_cellsim/aleph/outputs/workstation_archive/20260925/host-home/aleph_hold/records/qs_fluid_B1_20260925_023200_4732ede50",
+ "solve": "000001_solve.npz",
+ "caveat": "0 of 1 steps converged (FORCE-ACCEPTED); defective build: crossbridge owners shifted (C1 03:1x) \u2014 every motor force and NMII head is the defective build's",
+ "step": 1,
+ "surface_mesh_edges_drawn_as_faces": 2457600,
+ "segments": 5934107,
+ "surface_edges": 2457600,
+ "faces": 1638400,
+ "cut_segments": 2930955,
+ "cut_faces": 814342,
+ "nucleus_centroid_um": [
+  0.0007028677255602392,
+  -0.012172602177306513,
+  -0.02125887202166676
+ ],
+ "cut_normal": [
+  0.7149925565436788,
+  0.4084874408841574,
+  0.567383163943949
+ ],
+ "kind": "final frame, cut-away through the nucleus centroid (display cut: segments and faces with a node beyond the plane omitted)"
+}

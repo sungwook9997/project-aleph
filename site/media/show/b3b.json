@@ -1,0 +1,103 @@
+{
+ "scene": "b3b",
+ "kind": "contact",
+ "record": "site_demo_b3b_20260925_050771_7_1e714e687",
+ "commit": "1e714e687",
+ "R": 0.5,
+ "F_pN": 1.0,
+ "dt_s": 0.001,
+ "sphere": [
+  [
+   0.19999999999999998,
+   0.3666666666666667,
+   0.8
+  ],
+  [
+   0.19999999999999998,
+   0.36666666666666675,
+   0.693903233790988
+  ],
+  [
+   0.19999999999999998,
+   0.3666666666666668,
+   0.5877999387981718
+  ],
+  [
+   0.20000063455142011,
+   0.3666641254432728,
+   0.5117437742309507
+  ],
+  [
+   0.20000785153384879,
+   0.3666351879042477,
+   0.5069571390597916
+  ],
+  [
+   0.2000157392149877,
+   0.3666035363042847,
+   0.5067653494359204
+  ]
+ ],
+ "plate_box": {
+  "min": [
+   -2.0,
+   -2.0,
+   -0.2
+  ],
+  "max": [
+   2.0,
+   2.0,
+   0.0
+  ]
+ },
+ "steps": [
+  {
+   "k": 0,
+   "gap_um": 0.30000000000000004,
+   "speed_um_s": 0.0,
+   "contact_pN": 0
+  },
+  {
+   "k": 1,
+   "gap_um": 0.19390323379098795,
+   "speed_um_s": 106.09676620901209,
+   "contact_pN": 0.0
+  },
+  {
+   "k": 2,
+   "gap_um": 0.08779993879817183,
+   "speed_um_s": 106.10329499281612,
+   "contact_pN": 0.0
+  },
+  {
+   "k": 3,
+   "gap_um": 0.011743774230950743,
+   "speed_um_s": 76.05616461232243,
+   "contact_pN": 0.2832381183016952
+  },
+  {
+   "k": 4,
+   "gap_um": 0.006957139059791562,
+   "speed_um_s": 4.7867280816627025,
+   "contact_pN": 0.954928618875645
+  },
+  {
+   "k": 5,
+   "gap_um": 0.0067653494359204425,
+   "speed_um_s": 0.194543823131426,
+   "contact_pN": 0.9981955925251745
+  }
+ ],
+ "verdict": {
+  "i_containment_every_step": true,
+  "ii_final_speed_over_v_free": 0.00183353233665288,
+  "ii_pass": true,
+  "iii_contact_force_over_F": 0.9981955925251745,
+  "iii_pass": true,
+  "mid_crossing_and_segment_crossing_exact": "0 by construction: the scene has no segments"
+ },
+ "evidence": "reduced-scene device run (small scene on the GPU, compared with a closed form declared in advance); not a cell result",
+ "statement": "this figure is not a physics conclusion",
+ "friction": "no friction",
+ "inputs_status": "EXAMPLE (every value; directive 10)"
+}

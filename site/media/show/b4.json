@@ -1,0 +1,157 @@
+{
+ "scene": "b4",
+ "kind": "fluid",
+ "commit": "c21a26b2e",
+ "record": "show94_b4_20260925_050757_79_c21a26b2e",
+ "frames": 41,
+ "nodes": 2,
+ "steps": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32,
+  33,
+  34,
+  35,
+  36,
+  37,
+  38,
+  39,
+  40
+ ],
+ "radius": 0.6518158203125001,
+ "field": {
+  "origin": [
+   42.0,
+   44.0,
+   42.0
+  ],
+  "dx": 1.0,
+  "cells": [
+   44,
+   44,
+   44
+  ],
+  "frames": 10,
+  "steps": [
+   4,
+   8,
+   12,
+   16,
+   20,
+   24,
+   28,
+   32,
+   36,
+   40
+  ],
+  "window_cells": [
+   [
+    42,
+    44,
+    42
+   ],
+   [
+    86,
+    88,
+    86
+   ]
+  ],
+  "note": "MAC face velocities averaged to cell centres, float16, a display copy"
+ },
+ "tracers": {
+  "count": 7000,
+  "lines": 260,
+  "box": [
+   [
+    51.7854118347168,
+    57.0,
+    56.999996185302734
+   ],
+   [
+    76.21458435058594,
+    74.24285888671875,
+    71.0
+   ]
+  ],
+  "life_s": 4.0,
+  "trail_s": 0.5,
+  "vmax": 0.08107147365808487
+ },
+ "display": {
+  "seconds_per_step": 0.2,
+  "scene_time_per_second": 5.0
+ },
+ "view": {
+  "target": [
+   64.0,
+   65.5821304321289,
+   64.0
+  ],
+  "dist": 32.979382896423346,
+  "elev": 0.35,
+  "spin": 0.06,
+  "phase": 0.6
+ },
+ "steady_label": null,
+ "offsets": {
+  "pos": 0,
+  "u": 984
+ },
+ "evidence": "reduced-scene device run (small scene on the GPU, compared with a closed form declared in advance); not a cell result",
+ "missing_declared": [
+  "fluid v1: no thermal stress in the solvent and no noise on the face friction",
+  "sub-grid beads only: a resolved sphere slips in v1 (its coupling is the grid-scale face friction)",
+  "box walls not corrected (d/L = 0.08): the increment carries their image effect"
+ ],
+ "not_a_conclusion": "this figure is not a physics conclusion",
+ "budget": {
+  "evidence_class": "FORCE-ACCEPTED (3 Newton/step)",
+  "residual": "residual median 9.53e-15 pN (step-end net force, 80 steps)",
+  "contact": "contact share 0.00 (Sdf+Barrier / all, at the argmax node; median of 80 steps)",
+  "newton": "3 Newton/step (median)"
+ },
+ "demo": {
+  "demo": "B4",
+  "oracle": "Rotne-Prager increment (3R/4d)(1 + 2R^2/3d^2)",
+  "R": 0.6518158203125001,
+  "d": 10.429053125000001,
+  "d_over_L": 0.08147697753906251,
+  "single_speed": 0.08072336930473938,
+  "pair_speed": 0.08323199165195164,
+  "want_increment": 0.0469970703125,
+  "got_increment": 0.03107677948552845,
+  "band_on_increment": 0.25,
+  "pass": false,
+  "walls": "not corrected (d/L stated)"
+ }
+}

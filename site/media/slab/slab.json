@@ -1,0 +1,84 @@
+{
+ "record": "qs_long_bt_nogrowth_20260925_040000",
+ "commit": "b496c1527",
+ "step": 150,
+ "slab": {
+  "axis": "z",
+  "half_um": 0.2,
+  "centre_um": [
+   0.0387,
+   0.0208,
+   -0.0345
+  ]
+ },
+ "counts": {
+  "nodes": 212289,
+  "segments": 151941,
+  "face_edges": 71568,
+  "cell_nodes": 7545139
+ },
+ "offsets": {
+  "pos": 0,
+  "seg": 2547468,
+  "face": 3762996,
+  "layer": 4335540
+ },
+ "layers": [
+  {
+   "key": "chromatin",
+   "color": "#FF6FB1",
+   "nodes": 731
+  },
+  {
+   "key": "lamina",
+   "color": "#B98CFF",
+   "nodes": 1063
+  },
+  {
+   "key": "envelope",
+   "color": "#7C9BFF",
+   "nodes": 6861
+  },
+  {
+   "key": "if",
+   "color": "#4CE87F",
+   "nodes": 4300
+  },
+  {
+   "key": "mt",
+   "color": "#3BD6E8",
+   "nodes": 2393
+  },
+  {
+   "key": "cytoactin",
+   "color": "#7A8296",
+   "nodes": 53789
+  },
+  {
+   "key": "cortex",
+   "color": "#45C7A6",
+   "nodes": 119564
+  },
+  {
+   "key": "myosin",
+   "color": "#FF4D4D",
+   "nodes": 5009
+  },
+  {
+   "key": "membrane",
+   "color": "#AFBAD1",
+   "nodes": 18525
+  },
+  {
+   "key": "cargo",
+   "color": "#9DF26D",
+   "nodes": 54
+  }
+ ],
+ "mtoc_um": [
+  5.0561,
+  0.3342,
+  -3.3555
+ ],
+ "radius_um": 7.701
+}
