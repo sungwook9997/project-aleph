@@ -532,3 +532,8 @@ td.src details[open] summary .more { display: none; }
 .outer-app #outer-main { max-width: 1536px; margin: auto; padding: 32px var(--gutter) 40px; }
 .outer-app .outer-foot { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; padding: 14px var(--gutter); border-top: 1px solid var(--rule);
   font-size: 0.85rem; color: var(--muted); }
+
+/* the runs that gave no reading, folded under the readings */
+.tfold { margin-top: 40px; border-top: 1px solid var(--rule); padding-top: 18px; }
+.tfold > summary { cursor: pointer; font-size: 1.1rem; font-weight: 700; color: var(--ink-2); padding: 6px 0; }
+.tfold[open] > summary { margin-bottom: 8px; }
