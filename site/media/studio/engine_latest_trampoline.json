@@ -5,6 +5,12 @@
   "source_scene": "C4_trampoline",
   "source_frames": 750,
   "source_nodes": 442,
+  "full_record_t_s": [
+    0.002,
+    5.994
+  ],
+  "display_source_frames": 750,
+  "display_window_note": "Complete saved record",
   "source_sha256": {
     "frames.npz": "8fbbcf3687820fd382ca8c83f7d961541d27e7f60e66ca28c8383348d5735e62",
     "meta.json": "cfd122cf3f8de1b47eb968d12720a15bbbfe894ce3759caf392a487bf33fe6e6",
@@ -31,9 +37,12 @@
   "physics_run": false,
   "bonds_drawn": false,
   "colours": "illustrative material colours; not displacement or stress",
+  "view": "full",
+  "display_net_radius_um": 0.025,
+  "cutaway": null,
   "interpolation": "Linear positions at evenly spaced physical times from archived frames; no physics computed",
-  "helper_sha256": "9f8b55548c2eeba5bef315fad6b9ed95826972c500e910a3c932776d5ee91cbd",
-  "render_commit": "df8e7d6982da8cc3305dfb1c4461306ada99fa86",
+  "helper_sha256": "4226fc3276ac8f57dd9a0ef2c03436bdc6644e81b70430be6be50f092517e906",
+  "render_commit": "d2be07edcce2698888e6eb8573323733a140bc13",
   "renderer": "Aleph Studio default with geometry shadows and optics",
   "renderer_sha256": {
     "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
@@ -52,14 +61,14 @@
       0.0,
       2.381587266921997
     ],
-    "dist": 32.02366848474921,
-    "extent": 5.662046813964843,
+    "dist": 33.05017178108154,
+    "extent": 5.5720470428466795,
     "theta": -1.1207963267948966,
-    "phi": 1.02,
+    "phi": 0.8,
     "fov": 40.0,
     "fixed": true
   },
-  "view_height_um": 23.31132424091474,
+  "view_height_um": 24.058557531396954,
   "output_frames": 288,
   "output_frame_t_s": [
     0.002,
@@ -356,7 +365,7 @@
   "poster": "engine_latest_trampoline.png",
   "preview_index": null,
   "outputs": {
-    ".png": "194ed4df7581dfc19787094900ef5dcdebaffadca93f50542ceb1f9f7333f842",
-    ".mp4": "e6c3361de657c3bc487f4213977c99fc828d53fde5b85688f239a2e1446e3758"
+    ".png": "e2e831d87ffac66055e731f77615679c7d0e9b397394ecf725eaf5949f009ba1",
+    ".mp4": "c65af1d20559d32acd9ba0d2e6381fde41bddaf2502392adbe6f8ff119a51a13"
   }
 }

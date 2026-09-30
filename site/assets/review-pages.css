@@ -204,3 +204,27 @@
 .recording-player:fullscreen video { width: 100%; height: 100%; object-fit: contain; }
 .displacement-current .scene-view { max-height: 520px; }
 @media(max-width:540px) { .recording-controls { flex-wrap: wrap; } .recording-controls input { min-width: 90px; } .recording-time { min-width: 90px; } }
+
+/* Complex records need enough room to read the geometry and its key. */
+.review-engine .current-gallery .engine-feature { grid-column: 1 / -1; }
+.review-engine .current-gallery .engine-feature .recorded-viewport { max-height: 620px; }
+.motor-record > .engine-motion { margin-top: 14px; }
+.flow-key, .motor-key, .render-view-label { position: absolute; z-index: 2; pointer-events: none; color: #e9f2f7; font: 500 12px/1.5 var(--font); }
+.flow-key { bottom: 48px; right: 18px; width: 205px; display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 9px 12px; background: #05080ddb; border-radius: 6px; }
+.flow-key b, .flow-key i, .flow-key small { grid-column: 1 / -1; }
+.flow-key i { height: 8px; margin: 5px 0 3px; background: linear-gradient(90deg,#06101e,#086c97,#32c5b9,#f0ed9b); border-radius: 3px; }
+.flow-key span:nth-of-type(2) { text-align: center; }.flow-key span:nth-of-type(3) { text-align: right; }
+.flow-key small { font-size: 10px; color: #b5c8d5; margin-top: 4px; }
+.motor-key { bottom: 48px; right: 18px; display: grid; gap: 3px; padding: 8px 12px; border-radius: 6px; background: #05080ddd; }
+.motor-key i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; }
+.motor-key b { font-weight: 500; color: #d6e1e9; margin-top: 4px; }
+.render-view-label { top: 15px; right: 18px; margin: 0; padding: 4px 8px; background: #05080dcc; border-radius: 4px; }
+@media (max-width:600px) { .flow-key { width: 180px; bottom: 44px; right: 9px; font-size: 10px; padding: 6px 8px; }.motor-key { font-size: 10px; right: 8px; bottom: 40px; } }
+.review-engine .current-gallery .engine-feature .recorded-viewport { width: 100%; }
+.review-engine .current-gallery .motor-record.engine-feature .recorded-viewport { aspect-ratio: 16 / 7; max-height: none; }
+.review-engine .current-gallery .motor-record.engine-feature .recorded-viewport video { object-fit: cover; }
+/* Keep scientific keys outside the image, including on narrow screens. */
+.flow-key { position: static; width: auto; margin: 10px 20px 4px; padding: 0; background: transparent; color: var(--ink-2); }
+.flow-key small { color: var(--muted); }
+.motor-key { position: static; display: flex; flex-wrap: wrap; gap: 7px 18px; padding: 12px 20px 0; background: transparent; color: var(--ink-2); }
+.motor-key b { margin: 0; color: var(--ink-2); }

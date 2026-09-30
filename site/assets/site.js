@@ -96,6 +96,16 @@
   document.querySelectorAll("figure.vscene").forEach(function (f) {
     var v = f.querySelector("video"), clock = f.querySelector(".scene-clock"), bar = f.querySelector(".scene-scale i");
     var t0 = +f.dataset.t0, t1 = +f.dataset.t1, vh = +f.dataset.vh, um = +f.dataset.bar;
+    if (f.dataset.motorMeta) {
+      fetch(f.dataset.motorMeta).then(function (r) { return r.json(); }).then(function (m) {
+        var count = f.querySelector('.motor-count');
+        function showCount(time) { var i = Math.min(m.bound_heads.length - 1, Math.floor(time * m.fps + 0.001)); if (count) count.textContent = 'Bound motor links: ' + m.bound_heads[i]; }
+        if (v.requestVideoFrameCallback) {
+          function frame(now, meta) { showCount(meta.mediaTime); v.requestVideoFrameCallback(frame); }
+          v.requestVideoFrameCallback(frame);
+        } else { v.addEventListener('timeupdate', function () { if (v.readyState >= 2) showCount(v.currentTime); }); }
+      }).catch(function () {});
+    }
     function size() { var W = v.videoWidth || 1600, H = v.videoHeight || 1000, k = (getComputedStyle(v).objectFit === "contain" ? Math.min : Math.max)(v.clientWidth / W, v.clientHeight / H);
       if (bar) bar.style.width = (um / vh * H * k) + "px"; }
     size(); window.addEventListener("resize", size); v.addEventListener("loadedmetadata", size);
