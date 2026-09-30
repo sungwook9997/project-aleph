@@ -1,0 +1,284 @@
+{
+ "scene": "tour",
+ "record": "flicker_mv_ka_mini_20260926_053300_f1ecaee15",
+ "commit": "f1ecaee15",
+ "studio_commit": "c28ea6f3c",
+ "step": 100,
+ "fps": 24,
+ "frames": 900,
+ "build_s": 10.0,
+ "move_s": 2.5,
+ "rest_s": 0.5,
+ "steps": [
+  {
+   "id": "cell",
+   "start": 0.0,
+   "rest": 10.25
+  },
+  {
+   "id": "membrane",
+   "start": 10.5,
+   "rest": 13.25
+  },
+  {
+   "id": "erm",
+   "start": 13.5,
+   "rest": 16.25
+  },
+  {
+   "id": "cortex",
+   "start": 16.5,
+   "rest": 19.25
+  },
+  {
+   "id": "myosin",
+   "start": 19.5,
+   "rest": 22.25
+  },
+  {
+   "id": "linkers",
+   "start": 22.5,
+   "rest": 25.25
+  },
+  {
+   "id": "cyto",
+   "start": 25.5,
+   "rest": 28.25
+  },
+  {
+   "id": "mt",
+   "start": 28.5,
+   "rest": 31.25
+  },
+  {
+   "id": "nucleus",
+   "start": 31.5,
+   "rest": 34.25
+  },
+  {
+   "id": "water",
+   "start": 34.5,
+   "rest": 37.25
+  }
+ ],
+ "max_node_px": 5.0,
+ "states": [
+  {
+   "id": "cell",
+   "families": [
+    "membrane",
+    "microvillus",
+    "cortex",
+    "cortex_arp23",
+    "nmii",
+    "cytoplasm_actin",
+    "intermediate_filament",
+    "microtubule",
+    "cargo",
+    "envelope",
+    "lamina",
+    "chromatin"
+   ],
+   "face_alpha": 0.36,
+   "zoom": 1.0,
+   "target": "centre"
+  },
+  {
+   "id": "membrane",
+   "families": [
+    "membrane",
+    "microvillus",
+    "cortex",
+    "cortex_arp23",
+    "nmii",
+    "cytoplasm_actin",
+    "intermediate_filament",
+    "microtubule",
+    "cargo",
+    "envelope",
+    "lamina",
+    "chromatin"
+   ],
+   "face_alpha": 1.0,
+   "zoom": 1.7,
+   "target": "edge"
+  },
+  {
+   "id": "erm",
+   "families": [
+    "membrane",
+    "microvillus",
+    "cortex",
+    "cortex_arp23",
+    "nmii",
+    "cytoplasm_actin",
+    "intermediate_filament",
+    "microtubule",
+    "cargo",
+    "envelope",
+    "lamina",
+    "chromatin"
+   ],
+   "face_alpha": 0.0,
+   "zoom": 2.6,
+   "target": "edge"
+  },
+  {
+   "id": "cortex",
+   "families": [
+    "cortex",
+    "cortex_arp23",
+    "nmii",
+    "cytoplasm_actin",
+    "intermediate_filament",
+    "microtubule",
+    "cargo",
+    "envelope",
+    "lamina",
+    "chromatin"
+   ],
+   "face_alpha": 0.3,
+   "zoom": 2.2,
+   "target": "edge"
+  },
+  {
+   "id": "myosin",
+   "families": [
+    "nmii",
+    "cytoplasm_actin",
+    "intermediate_filament",
+    "microtubule",
+    "cargo",
+    "envelope",
+    "lamina",
+    "chromatin"
+   ],
+   "face_alpha": 0.3,
+   "zoom": 1.3,
+   "target": "centre"
+  },
+  {
+   "id": "linkers",
+   "families": [
+    "nmii",
+    "cytoplasm_actin",
+    "intermediate_filament",
+    "microtubule",
+    "cargo",
+    "envelope",
+    "lamina",
+    "chromatin"
+   ],
+   "face_alpha": 0.3,
+   "zoom": 2.6,
+   "target": "mid"
+  },
+  {
+   "id": "cyto",
+   "families": [
+    "cytoplasm_actin",
+    "intermediate_filament",
+    "microtubule",
+    "cargo",
+    "envelope",
+    "lamina",
+    "chromatin"
+   ],
+   "face_alpha": 0.3,
+   "zoom": 1.4,
+   "target": "mid"
+  },
+  {
+   "id": "mt",
+   "families": [
+    "microtubule",
+    "cargo",
+    "envelope",
+    "lamina",
+    "chromatin"
+   ],
+   "face_alpha": 0.45,
+   "zoom": 1.5,
+   "target": "mt"
+  },
+  {
+   "id": "nucleus",
+   "families": [
+    "envelope",
+    "lamina",
+    "chromatin"
+   ],
+   "face_alpha": 0.3,
+   "zoom": 1.8,
+   "target": "centre"
+  },
+  {
+   "id": "water",
+   "families": [
+    "membrane",
+    "microvillus",
+    "cortex",
+    "cortex_arp23",
+    "nmii",
+    "cytoplasm_actin",
+    "intermediate_filament",
+    "microtubule",
+    "cargo",
+    "envelope",
+    "lamina",
+    "chromatin"
+   ],
+   "face_alpha": 0.36,
+   "zoom": 0.85,
+   "target": "centre"
+  }
+ ],
+ "build": [
+  [
+   "chromatin"
+  ],
+  [
+   "lamina"
+  ],
+  [
+   "envelope"
+  ],
+  [
+   "intermediate_filament"
+  ],
+  [
+   "microtubule",
+   "cargo"
+  ],
+  [
+   "cytoplasm_actin"
+  ],
+  [
+   "nmii"
+  ],
+  [
+   "cortex",
+   "cortex_arp23"
+  ],
+  [
+   "membrane",
+   "microvillus"
+  ]
+ ],
+ "relations_drawn": true,
+ "colors": {
+  "cortex": "#85D9CA",
+  "membrane": "#D4F1F4",
+  "envelope": "#BCD2F4",
+  "lamina_vertex": "#B4B0E8",
+  "chromatin_domain": "#EDA7CC",
+  "nmii_arm": "#F49D94",
+  "mtoc": "#F3C67E",
+  "intermediate_filament": "#9ABAE5",
+  "cytoplasm_actin": "#A3CCD7",
+  "microvillus": "#A6E2D4",
+  "cargo": "#F3BE93",
+  "cortex_arp23": "#AFE8D6"
+ },
+ "optics": "studio default (illustrative settings, not cell constants)"
+}

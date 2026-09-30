@@ -1,7 +1,8 @@
-// The mini cell on the home page as the Aleph studio drew it (tools/studio_render.py): one looping video per story step,
-// the flicker record's step 100 with that step's own segments and relations, only the families of the step drawn, the
-// camera swaying so each loop joins without a seam. site.js calls Slab.show({id, ...}) as the steps scroll by; the
-// step's video fades in over the last one. The full-size cell (?cell=native) stays with cell3d_real.js.
+// The mini cell on the home page as the Aleph studio drew it (tools/studio_render.py tour): ONE video of the flicker
+// record's step 100, first built from the inside out while the camera circles, then one transition per story step (the
+// outer layers dissolve away, the camera moves in) ending on a still rest. site.js calls Slab.show({id}) as the steps
+// scroll by: the next step plays its transition and stops on its rest; any other jump shows that step's rest at once.
+// The full-size cell (?cell=native) stays with cell3d_real.js.
 (function () {
   if (/[?&]cell=native/.test(location.search)) return;
   var cv = document.getElementById("cell3d"); if (!cv) return;
@@ -9,26 +10,38 @@
   document.querySelectorAll(".cell-switch a").forEach(function (a) { a.classList.toggle("on", a.getAttribute("data-cell") === "mini"); });
   document.querySelectorAll(".stage-meta[data-cell]").forEach(function (m) { m.classList.toggle("on", m.getAttribute("data-cell") === "mini"); });
   var reduce = false; try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
-  var box = document.createElement("div"); box.className = "studio-stage"; cv.replaceWith(box);
+  var v = document.createElement("video"); v.className = "studio-tour"; v.muted = true; v.playsInline = true;
+  v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true"); v.preload = "auto";
+  v.poster = "media/studio/tour.jpg"; v.src = "media/studio/tour.mp4";
+  cv.replaceWith(v);
   var load = document.getElementById("cell3d-loading"); if (load) load.remove();
-  var ids = Array.prototype.map.call(document.querySelectorAll(".pstep[id^='step-']"), function (s) { return s.id.slice(5); });
-  var vids = {}, cur = null, seen = true;
-  function video(id) {
-    if (vids[id]) return vids[id];
-    var v = document.createElement("video"); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute("playsinline", "");
-    v.preload = reduce ? "none" : "auto"; v.poster = "media/studio/home_" + id + ".jpg"; v.setAttribute("aria-hidden", "true");
-    if (!reduce) v.src = "media/studio/home_" + id + ".mp4";
-    box.appendChild(v); return (vids[id] = v);
-  }
-  window.Slab = { show: function (conf) {
-    var id = (conf && conf.id) || "cell"; if (ids.indexOf(id) < 0) id = "cell";
-    var v = video(id); if (v === cur) return;
-    Object.keys(vids).forEach(function (k) { if (vids[k] !== v) { vids[k].classList.remove("on"); vids[k].pause(); } });
-    v.classList.add("on"); cur = v;
-    if (!reduce && seen) v.play().catch(function () {});
-    var next = ids[ids.indexOf(id) + 1]; if (next) video(next);   // the next step starts loading now
-  } };
-  if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { es.forEach(function (e) {
-    seen = e.isIntersecting; if (!cur || reduce) return; if (seen) cur.play().catch(function () {}); else cur.pause(); }); }).observe(box);
-  window.Slab.show({ id: "cell" });
+  window.Slab = { show: function (conf) { window.Slab._pending = conf; } };   // until the build has begun
+  fetch("media/studio/tour.json").then(function (r) { return r.json(); }).then(function (m) {
+    var ids = m.steps.map(function (s) { return s.id; }), cur = -1, stop = null, want;
+    // stop on the rest frame by the clock, re-armed while the video is still short of it (buffering), then seek to the rest
+    // itself: identical still frames fire no video-frame callback, which let the video run 0.25-0.8 s past its rest
+    var tm = null;
+    function settle(j) {
+      if (cur !== j || stop === null) return;
+      var left = stop - v.currentTime;
+      if (left > 0.04 && !v.paused) { tm = setTimeout(function () { settle(j); }, left * 1000); return; }
+      stop = null; v.pause(); v.currentTime = m.steps[j].rest;
+    }
+    function rest(j) { clearTimeout(tm); stop = null; v.pause(); v.currentTime = m.steps[j].rest; cur = j; }
+    function play(j, from) {
+      clearTimeout(tm); v.currentTime = from; stop = m.steps[j].rest; cur = j;
+      v.play().catch(function () { if (cur === j) rest(j); });   // a play cut short by a later jump leaves that jump alone
+      tm = setTimeout(function () { settle(j); }, (stop - from) * 1000);
+    }
+    function show(conf) {
+      var j = ids.indexOf((conf && conf.id) || "cell"); if (j < 0) j = 0; if (j === cur) return;
+      if (!reduce && j === cur + 1) play(j, m.steps[j].start); else rest(j);   // the next step plays; any other jump rests
+    }
+    // the build plays once; a step that scrolls in before it has begun waits for it, so the build never starts over
+    function begin() { if (reduce) rest(0); else play(0, 0); want = window.Slab._pending; window.Slab = { show: show }; if (want) show(want); }
+    // wait for the logo intro, so the cell is built where people can see it (as the 3-D viewer did)
+    if (document.getElementById("aleph-intro") && document.documentElement.getAttribute("data-aleph-intro") !== "done")
+      document.addEventListener("aleph-intro:done", begin, { once: true });
+    else begin();
+  });
 })();
