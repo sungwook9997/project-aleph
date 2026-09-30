@@ -1,0 +1,177 @@
+{
+ "scene": "cortex",
+ "record": "qs_t0_U3movieN3_20260930_163319_007_730e486a8",
+ "commit": "730e486a8",
+ "steps": [
+  10,
+  20,
+  30,
+  40,
+  50,
+  60,
+  70,
+  80,
+  90,
+  100,
+  110,
+  120,
+  130,
+  140,
+  150,
+  160,
+  170,
+  180,
+  190,
+  200
+ ],
+ "dt_s": 0.01,
+ "saved_every": 10,
+ "radius_um": 0.6,
+ "view_dist": 1.92,
+ "families_kept": [],
+ "anchor_um": [
+  -1.4298,
+  1.4381,
+  0.5415
+ ],
+ "anchor_count": 4,
+ "normal": [
+  -0.68097,
+  0.68549,
+  0.25767
+ ],
+ "counts": {
+  "nodes": 9162,
+  "segments": 5116,
+  "triangles": 1249,
+  "relations_per_step": [
+   3775,
+   3759,
+   3747,
+   3750,
+   3765,
+   3771,
+   3752,
+   3749,
+   3748,
+   3753,
+   3766,
+   3764,
+   3759,
+   3761,
+   3764,
+   3781,
+   3766,
+   3769,
+   3765,
+   3761
+  ]
+ },
+ "rel_offsets": [
+  0,
+  3775,
+  7534,
+  11281,
+  15031,
+  18796,
+  22567,
+  26319,
+  30068,
+  33816,
+  37569,
+  41335,
+  45099,
+  48858,
+  52619,
+  56383,
+  60164,
+  63930,
+  67699,
+  71464,
+  75225
+ ],
+ "offsets": {
+  "pos": 0,
+  "family": 2198880,
+  "seg": 2208044,
+  "tri": 2248972,
+  "rel": 2263960
+ },
+ "families": [
+  {
+   "key": "cortex actin",
+   "color": "#45C7A6",
+   "nodes": 1536
+  },
+  {
+   "key": "Arp2/3 branches",
+   "color": "#2E9C84",
+   "nodes": 6326
+  },
+  {
+   "key": "myosin",
+   "color": "#FF4B4B",
+   "nodes": 628
+  },
+  {
+   "key": "membrane",
+   "color": "#AFBAD1",
+   "nodes": 672
+  }
+ ],
+ "kinds": {
+  "0": {
+   "name": "erm",
+   "color": "#FF3838"
+  },
+  "1": {
+   "name": "crosslink",
+   "color": "#3872FF"
+  },
+  "2": {
+   "name": "crossbridge",
+   "color": "#FFB020"
+  },
+  "3": {
+   "name": "arp23_branch",
+   "color": "#83FF38"
+  },
+  "4": {
+   "name": "arp23_root",
+   "color": "#5BE37D"
+  }
+ },
+ "events": {
+  "erm": {
+   "bound_at_last": 553,
+   "bind": 1010,
+   "unbind": 1037,
+   "moved_or_changed_state": 94
+  },
+  "crosslink": {
+   "bound_at_last": 1301,
+   "bind": 45,
+   "unbind": 34,
+   "moved_or_changed_state": 100
+  },
+  "crossbridge": {
+   "bound_at_last": 4,
+   "bind": 10,
+   "unbind": 8,
+   "moved_or_changed_state": 3
+  },
+  "arp23_branch": {
+   "bound_at_last": 953,
+   "bind": 0,
+   "unbind": 0,
+   "moved_or_changed_state": 4
+  },
+  "arp23_root": {
+   "bound_at_last": 950,
+   "bind": 0,
+   "unbind": 0,
+   "moved_or_changed_state": 4
+  }
+ },
+ "evidence": "FORCE-ACCEPTED (3 Newton/step), T = 0 (no thermal kick), U3 cortex unit (517,004 nodes) at build 730e486a8; a patch of it, every node inside the radius"
+}

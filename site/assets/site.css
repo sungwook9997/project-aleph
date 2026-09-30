@@ -398,7 +398,7 @@ td.src details[open] summary .more { display: none; }
 .stage-legend i.rel { height: 3px; vertical-align: 3px; border-radius: 1px; }
 
 /* physics showcase: recorded scenes played back in 3-D */
-.showcase .scene { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 28px; margin: 0 0 44px; align-items: start; }
+.showcase .scene, .t0show .scene { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 28px; margin: 0 0 44px; align-items: start; }
 .scene-view { position: relative; aspect-ratio: 16 / 10; background: #05080d; border-radius: 14px; overflow: hidden; }
 .scene-cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .scene-fade { position: absolute; inset: 0; background: #05080d; opacity: 1; pointer-events: none; }
@@ -414,7 +414,7 @@ td.src details[open] summary .more { display: none; }
 .scene-pending { border-top: 1px solid var(--rule); padding-top: 14px; }
 .scene-pending h3 { font-size: 1rem; margin: 0 0 6px; }
 .scene-pending ul { margin: 0; padding-left: 18px; color: var(--ink-2); }
-@media (max-width: 960px) { .showcase .scene { grid-template-columns: minmax(0, 1fr); gap: 14px; } }
+@media (max-width: 960px) { .showcase .scene, .t0show .scene { grid-template-columns: minmax(0, 1fr); gap: 14px; } }
 
 /* the checks, one row each */
 .checks { list-style: none; margin: 0; padding: 0; }
@@ -478,6 +478,13 @@ td.src details[open] summary .more { display: none; }
 .tcard .tread { margin: 0; padding-left: 18px; } .tcard .tread1 { margin: 0; }
 .tcard .warn-line { color: var(--warn); }
 .exp-h { margin-top: 24px; padding-top: 32px; border-top: 1px solid var(--rule); }
+
+/* the verification scenes re-shot at T = 0 (engine page): the .tgrid of video fields */
+.t0show .how { margin-top: 12px; } .t0show .how p { max-width: 78ch; }
+.t0show .field .cap { font-weight: 700; }
+.t0show .scene-pending { margin-top: 32px; }
+.t0show .scene { grid-column: 1 / -1; margin: 12px 0 0; }   /* a 3-D scene card spans the grid, laid out as in the showcase */
+.t0show .scene .srcd summary, .t0show .scene .prov dt { color: var(--muted); } .t0show .scene .prov dd { color: var(--ink-2); }
 
 /* the aster's hub, named on the microtubule step (home stage) */
 .mtoc-tag { position: absolute; left: 0; top: 0; pointer-events: none; opacity: 0; transition: opacity 0.4s; z-index: 2;
