@@ -2,15 +2,18 @@
   "structure_commit": "ad61a1040facc7f516b559d20b7b81364e6bad0b",
   "parameter_snapshot_date": "2026-09-29",
   "source_bodies_included": false,
+  "presentation_language": "en",
   "source_sha256": {
     "media/explorers/structure/index.html": "a797f159fc41711ce0d279680d7634a611f35b1c1dcb768258191f0a2d5e65a4",
     "media/explorers/parameters/index.html": "9bdbc78d5507829d508d1160e2f7ceab82e7166d6d2fc081a6d64ff1ba0cc2f3",
+    "media/explorers/parameters/evidence_graph.json": "995acd1344534fe06255efc02aa691d414d1f6a5f81dda6a81a9b789b71f588f",
     "tools/explorer_en/explanation-data.json": "cda41fe93e496f1ab9f58239862504dae49ae371c8e29d5854f7077ec24ca0ac",
-    "tools/explorer_en/app.js": "a503e58f3735fd2a560ced2754bf57184e4d78caee9f41dc4a3adcefff8fc3e3"
+    "tools/explorer_en/app.js": "a503e58f3735fd2a560ced2754bf57184e4d78caee9f41dc4a3adcefff8fc3e3",
+    "tools/public_explorers/research_labels.py": "f8ce84216133bd82557fce3c2ee904c9216d390b0f2de2f35d356b0c7d042a45"
   },
   "files": {
-    "figures.json": "5786a2f6874ec0604efd915037655e857eda04c8db66efcd32716fc0d5af2078",
-    "parameters.json": "ea8dee669c2ed3f794c2b2e93189328ff3be152527946babc6080dc1224cbe83",
+    "figures.json": "9cf1a928ab4c1eb9cc015a6f6ae8d2a25daccee0a82df588b97a6f6f4ab90cf9",
+    "parameters.json": "74a4892e19c53485d0c17eb00e97bda2452985fac9138a1e1c20400a938ca99d",
     "structure.json": "c5b4cfcf12123a6e6cd976603bc75ff24611526c5d0ad9a331d784f0e43bc661"
   },
   "counts": {

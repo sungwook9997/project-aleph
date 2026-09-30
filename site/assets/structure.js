@@ -1,5 +1,6 @@
-import {$,esc,el,button,data,fail,tabs,setURL,record,disclosure,reveal,empty,count} from './explorer-ui.js';
-import {structureGraph,nodeLabels} from './structure-topology.js';
+import {$,esc,el,button,data,fail,tabs,setURL,record,disclosure,reveal,empty,count} from './explorer-ui.js?v=3e6f66bbc6';
+import {structureGraph,nodeLabels} from './structure-topology.js?v=be6e58f7a9';
+import {mountRoutes} from './pathways.js?v=35cedba50f';
 
 const root=$('#structure-app');
 const groups=[['Overview',[0]],['Physics engine',[10,1]],['Inner learning',[2,3]],['Outer models',[5,4,6,7,8]],['Current app',[9]]];
@@ -35,9 +36,9 @@ function renderView(){
   main.innerHTML=`<div class="ex-heading"><div><p class="ex-eyebrow">${view===0?'The whole program':'Structure / '+esc(groups.find(([,ids])=>ids.includes(view))[0])}</p><h2>${esc(view===0?'How Aleph fits together':viewName(view))}</h2></div><div id="ex-language" class="ex-segment"></div></div><p class="ex-intro">${esc(view===0?'Start with a system, then follow its stages and the data passed between them.':technical?a.description:D.explanations.views[view].summary)}</p>`;
   tabs($('#ex-language'),[['plain','Plain'],['technical','Technical']],technical?'technical':'plain',key=>{technical=key==='technical';renderNavigation();renderView();});
   if(view===0){
-    const lanes=[['01','Physics engine','Build the cell, apply forces, and compute its motion.',10,'Inputs → World → Motion → Records'],['02','Inner learning','Read observations and estimate possible internal states.',2,'Observations → Summaries → Possible states'],['03','Outer models','Interpret force records, images and published measurements.',5,'Force records · Images · Literature'],['04','Prediction app','Use an existing model to predict by experiment condition.',9,'Conditions → Saved model → Prediction']];
+    const lanes=[['01','Physics engine','Build the cell, apply forces, and compute its motion.',10,'Inputs → World → Motion → Records'],['02','Inner A · observation inference','Read observations and describe possible model inputs.',2,'Observations → Summaries → Candidate inputs'],['03','Inner B · solver assistance','Learn weights for a coarse mechanical correction. Its implementation is explained in the Learning guide.','../../learning/#lg-route-inner-b','Mechanical features → Learned weights → Solver correction'],['04','Outer models','Interpret force records, images and published measurements.',5,'Force records · Images · Literature'],['05','Prediction app','Use an existing model to predict by experiment condition.',9,'Conditions → Saved model → Prediction']];
     const list=el('div','ex-system-list');
-    lanes.forEach(([n,title,desc,i,flow])=>list.append(button(`<span class="ex-index">${n}</span><span><strong>${title}</strong><span class="ex-system-desc">${desc}</span><span class="ex-flow-text">${flow}</span></span><span class="ex-arrow">↗</span>`,()=>activate(i),'ex-system')));main.append(list);
+    lanes.forEach(([n,title,desc,i,flow])=>{const html=`<span class="ex-index">${n}</span><span><strong>${title}</strong><span class="ex-system-desc">${desc}</span><span class="ex-flow-text">${flow}</span></span><span class="ex-arrow">↗</span>`;if(typeof i==='string'){const link=el('a','ex-system',html);link.href=i;list.append(link);}else list.append(button(html,()=>activate(i),'ex-system'));});main.append(list);
     main.append(el('p','ex-note','These systems have separate roles. Their placement here does not imply an active data or training connection.'));
     main.append(disclosure('All '+a.nodes.length+' recorded structure entries',stepList(a)));
   } else {
@@ -49,6 +50,27 @@ function renderView(){
 }
 function stepList(a){const list=el('div','ex-step-list');a.nodes.forEach((n,i)=>{const l=lesson(n);list.append(button(`<span class="ex-index">${String(i+1).padStart(2,'0')}</span><span><strong>${esc(!technical&&l?l.title:n.title)}</strong><small>${esc(!technical&&l?l.why:n.description)}</small></span><span>→</span>`,()=>showStep(n),'ex-step-row'));});return list;}
 function drawDiagram(nodes,edges,width,height){
+  const wrap=el('div','ex-path-diagram'),byId=new Map(nodes.map(n=>[n.id,n]));
+  const main=edges.filter(e=>!e.dashed),incoming=new Set(main.map(e=>e.b));
+  const roots=nodes.filter(n=>!incoming.has(n.id)),paths=[];
+  function visit(ids){const tail=ids.at(-1),next=main.filter(e=>e.a===tail&&!ids.includes(e.b));if(!next.length){paths.push(ids);return;}for(const e of next)visit([...ids,e.b]);}
+  for(const n of roots)visit([n.id]);
+  for(const e of edges.filter(e=>e.dashed))paths.push([e.a,e.b]);
+  if(!paths.length)paths.push(nodes.map(n=>n.id));
+  const label=n=>!technical&&nodeLabels[view]?.[n.id]?.[0]||n.label;
+  const routes=paths.map((ids,i)=>{
+    const branch=ids.map(id=>byId.get(id));
+    const fork=branch.findIndex((n,k)=>k<branch.length-1&&main.filter(e=>e.a===n.id).length>1);const via=fork>=0?branch[fork+1]:null;const hint=via&&(nodeLabels[view]?.[via.id]?.[1]||label(via));
+    return {title:paths.length===1?'From input to output':`${hint&&via!==branch.at(-1)?hint+' → ':label(branch[0])+' → '}${label(branch.at(-1))}`,
+      purpose:paths.length>1?'One branch shown separately. Other branches may supply inputs to the same stage.':'Read the stages in order; open any stage for its inputs and outputs.',
+      status:edges.some(e=>e.dashed&&e.a===ids[0]&&e.b===ids[1])?'Feedback / refresh path from the saved structure.':'Saved structure · animated explanation, not a live trace',
+      steps:branch.map(n=>{const l=n.ref&&lesson(n.ref);return {title:label(n),subtitle:!technical&&nodeLabels[view]?.[n.id]?.[1]||(n.detail||[])[0],text:l?.action||l?.why||(n.detail||[]).join(' · '),ref:n.ref&&{...n.ref,title:n.label}};})};
+  });
+  mountRoutes(wrap,routes,{onStep:showStep,compact:paths.length>1});
+  wrap.append(disclosure('Full topology · all branches together',drawOriginalDiagram(nodes,edges,width,height)));
+  return wrap;
+}
+function drawOriginalDiagram(nodes,edges,width,height){
   const wrap=el('div','ex-diagram');const byId=new Map(nodes.map(n=>[n.id,n]));
   let svg=`<svg viewBox="0 0 ${width} ${height}" aria-label="${esc(viewName(view))}" xmlns="http://www.w3.org/2000/svg"><defs><marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs>`;
   for(const e of edges){const a=byId.get(e.a),b=byId.get(e.b);if(!a||!b)continue;const d=e.d||`M${a.x+a.w} ${a.y+a.h/2}H${(a.x+a.w+b.x)/2}V${b.y+b.h/2}H${b.x}`;svg+=`<path class="ex-edge" d="${d}" marker-end="url(#flow-arrow)" ${e.dashed?'stroke-dasharray="5 5"':''}/>`;if(e.label)svg+=`<text class="ex-edge-label" x="${e.tx}" y="${e.ty}">${esc(e.label)}</text>`;}

@@ -5,7 +5,7 @@ export const words = value => String(value).replace(/_/g, ' ').replace(/\b\w/, c
 export const el = (tag, cls, html = '') => {const e = document.createElement(tag); e.className = cls; e.innerHTML = html; return e;};
 export const count = n => n.toLocaleString();
 export function button(label, fn, cls = 'ex-button') {const b = el('button', cls, label); b.type = 'button'; b.onclick = fn; return b;}
-export async function data(url) {const r = await fetch(url); if (!r.ok) throw new Error('Could not load the saved records.'); return r.json();}
+export async function data(url) {const r = await fetch(url,{cache:'no-cache'}); if (!r.ok) throw new Error('Could not load the saved records.'); return r.json();}
 export function fail(error, root) {root.replaceChildren(el('p', 'ex-note', esc(error.message)), button('Try again', () => location.reload()));}
 export function setURL(values, replace = false) {
   const u = new URL(location.href); u.search = ''; u.hash = '';
