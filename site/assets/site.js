@@ -45,7 +45,7 @@
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) {
       if (!e.isIntersecting) return;
       var st = e.target;
-      if (window.Slab) window.Slab.show({ focus: words(st.dataset.focus), peel: words(st.dataset.peel), zoom: parseFloat(st.dataset.zoom) || 1, target: st.dataset.target });
+      if (window.Slab) window.Slab.show({ id: st.id ? st.id.replace(/^step-/, "") : "cell", focus: words(st.dataset.focus), peel: words(st.dataset.peel), zoom: parseFloat(st.dataset.zoom) || 1, target: st.dataset.target });
       if (label) { label.textContent = st.dataset.title || ""; label.classList.toggle("on", !!st.dataset.title); }
       st.dispatchEvent(new CustomEvent("scene:enter", { bubbles: true }));
     }); }, { rootMargin: "-45% 0px -45% 0px" });
@@ -68,6 +68,17 @@
 })();
 // C1's loops: fetched and played only while on screen
 (function () {
+  // studio videos (figure.vscene): the simulated clock from the video's own time; a scale bar true at the camera target,
+  // sized from the view's height in um and how object-fit: cover scales the frame into the box
+  document.querySelectorAll("figure.vscene").forEach(function (f) {
+    var v = f.querySelector("video"), clock = f.querySelector(".scene-clock"), bar = f.querySelector(".scene-scale i");
+    var t0 = +f.dataset.t0, t1 = +f.dataset.t1, vh = +f.dataset.vh, um = +f.dataset.bar;
+    function size() { var W = v.videoWidth || 1600, H = v.videoHeight || 1000, k = Math.max(v.clientWidth / W, v.clientHeight / H);
+      if (bar) bar.style.width = (um / vh * H * k) + "px"; }
+    size(); window.addEventListener("resize", size); v.addEventListener("loadedmetadata", size);
+    function tick() { if (clock && v.duration) clock.textContent = "t = " + (t0 + (t1 - t0) * v.currentTime / v.duration).toFixed(2) + " s simulated"; }
+    v.addEventListener("timeupdate", tick); tick();
+  });
   var vs = document.querySelectorAll("video[data-src]"); if (!vs.length) return;
   var still = false; try { still = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
   if (still || !("IntersectionObserver" in window)) { vs.forEach(function (v) { v.src = v.dataset.src; v.controls = true; }); return; }
@@ -82,4 +93,12 @@
       v.style.opacity = v.currentTime > v.duration - 0.4 ? 0 : 1;
     });
   });
+})();
+
+// a link to something inside a folded section opens the fold first (open the fold), so the anchor is visible
+(function () {
+  function openTo() { var id = location.hash.slice(1); if (!id) return; var el = document.getElementById(id); if (!el) return;
+    var d = el.closest("details"); while (d) { d.open = true; d = d.parentElement && d.parentElement.closest("details"); }
+    setTimeout(function () { el.scrollIntoView(); }, 30); }
+  window.addEventListener("hashchange", openTo); if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", openTo); else openTo();
 })();

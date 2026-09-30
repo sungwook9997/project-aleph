@@ -1,0 +1,46 @@
+{
+ "scene": "i_traffic",
+ "record": "flicker_mv_ka_mini_20260926_053300_f1ecaee15",
+ "commit": "f1ecaee15",
+ "studio_commit": "9ca4680ff",
+ "families": [
+  "membrane",
+  "envelope",
+  "microtubule",
+  "cargo"
+ ],
+ "face_alpha": 0.14,
+ "steps": [
+  1,
+  100
+ ],
+ "t_s": [
+  0.01,
+  1.0
+ ],
+ "fps": 25,
+ "display_frames_per_saved_step": 3,
+ "frames": 298,
+ "fade_s": 0.4,
+ "view_height_um": 10.130285146219869,
+ "camera": {
+  "target": [
+   -0.004399637900275197,
+   0.00030941211646543854,
+   -0.0033786493662104674
+  ],
+  "dist": 13.91636484593783,
+  "theta": -0.7853981633974483,
+  "phi": 1.1,
+  "fov": 40.0
+ },
+ "relations_drawn": false,
+ "max_node_px": 0.0,
+ "optics": "studio default (illustrative settings, not cell constants)",
+ "colors": {
+  "membrane": "#D4F1F4",
+  "envelope": "#BCD2F4",
+  "microtubule": "#F3C67E",
+  "cargo": "#F3BE93"
+ }
+}

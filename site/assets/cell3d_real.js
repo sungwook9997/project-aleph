@@ -4,6 +4,7 @@
 // the layers away again from the outside in. Positions, bonds and faces are the record's; only the order they appear
 // in is ours. Needs THREE r128 + examples/js/lines, and DecompressionStream for the gzip file.
 (function () {
+  if (window.CellStudio) return;                              // the mini cell plays the studio's renders (cell_studio.js)
   var cv = document.getElementById("cell3d");
   if (!cv || !window.THREE || !THREE.LineSegments2) return;
   var T = THREE;

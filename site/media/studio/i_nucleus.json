@@ -1,0 +1,46 @@
+{
+ "scene": "i_nucleus",
+ "record": "plate_mv_mini_20260926_002500_c80b71d50",
+ "commit": "c80b71d50",
+ "studio_commit": "9ca4680ff",
+ "families": [
+  "envelope",
+  "lamina",
+  "chromatin",
+  "intermediate_filament"
+ ],
+ "face_alpha": 0.18,
+ "steps": [
+  1,
+  45
+ ],
+ "t_s": [
+  0.01,
+  0.45
+ ],
+ "fps": 24,
+ "display_frames_per_saved_step": 6,
+ "frames": 265,
+ "fade_s": 0.4,
+ "view_height_um": 6.889109819806787,
+ "camera": {
+  "target": [
+   -0.0019445049412803864,
+   -0.0021250470840127995,
+   0.002127890775098761
+  ],
+  "dist": 9.463836835031126,
+  "theta": -0.7853981633974483,
+  "phi": 1.1,
+  "fov": 40.0
+ },
+ "relations_drawn": false,
+ "max_node_px": 5.0,
+ "optics": "studio default (illustrative settings, not cell constants)",
+ "colors": {
+  "envelope": "#BCD2F4",
+  "lamina": "#B4B0E8",
+  "chromatin": "#EDA7CC",
+  "intermediate_filament": "#9ABAE5"
+ }
+}

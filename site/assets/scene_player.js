@@ -99,13 +99,20 @@
         var b = Math.min(f + 1, F - 1), p0 = f * N * 3, p1 = b * N * 3;
         for (var i = 0; i < N * 3; i++) cur[i] = P[p0 + i] + (P[p1 + i] - P[p0 + i]) * a;
       }
+      // m.color_by "displacement": every strand coloured by how far each node has moved since the first saved step,
+      // one viridis scale for the whole scene up to m.displacement_top_um (its 99th percentile), with the legend on screen
+      var BYD = m.color_by === "displacement", TOP = m.displacement_top_um || 1;
+      var VIR = ["#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"].map(function (h) { return new T.Color(h); });
+      function viridis(t, out, o3) { var x = Math.min(1, Math.max(0, t)) * 4, k = Math.min(3, Math.floor(x)), u = x - k, A = VIR[k], B = VIR[k + 1];
+        out[o3] = A.r + (B.r - A.r) * u; out[o3 + 1] = A.g + (B.g - A.g) * u; out[o3 + 2] = A.b + (B.b - A.b) * u; }
       // strands: one fat-line set per family
       var strands = m.families.map(function (fm, fi) {
         var list = []; for (var s = 0; s < c.segments; s++) if (fam[seg[2 * s]] === fi) list.push(seg[2 * s], seg[2 * s + 1]);
         if (!list.length || fm.key === "membrane") return null;
         var g = new T.LineSegmentsGeometry(), mat = fat(fm.color, fm.key.indexOf("myosin") >= 0 ? 3.2 : 1.3, 1); S.mats.push(mat);
+        if (BYD) { mat.vertexColors = true; mat.color.set(0xffffff); mat.needsUpdate = true; }
         var mesh = new T.LineSegments2(g, mat); mesh.frustumCulled = false; S.world.add(mesh);
-        return { idx: new Uint32Array(list), g: g, buf: new Float32Array(list.length * 3) };
+        return { idx: new Uint32Array(list), g: g, buf: new Float32Array(list.length * 3), col: BYD ? new Float32Array(list.length * 3) : null };
       });
       // the membrane: its own faces, translucent
       var memb = null;
@@ -121,6 +128,16 @@
           var gw = new T.LineSegments(new T.WireframeGeometry(new T.Mesh(gp).geometry), new T.LineBasicMaterial({ color: 0x8fb4ff, transparent: true, opacity: 0.18, depthWrite: false }));
           gw.frustumCulled = false; S.world.add(gw);
         }
+      }
+      // m.ghost_surface: one surface (the membrane, the envelope) as it was at the first saved step, faint and still:
+      // where the inside sits, not how the surface moves
+      if (m.ghost_surface && c.triangles === 0 && o.gtri !== undefined) {
+        var gs = m.ghost_surface, gg = new T.BufferGeometry();
+        gg.setAttribute("position", new T.BufferAttribute(new Float32Array(buf, o.gpos, gs.nodes * 3), 3));
+        gg.setIndex(new T.BufferAttribute(new Uint32Array(buf, o.gtri, gs.triangles * 3), 1)); gg.computeVertexNormals();
+        var gm = new T.Mesh(gg, new T.MeshPhongMaterial({ color: 0xafbad1, transparent: true, opacity: m.ghost_opacity || 0.1, side: T.DoubleSide,
+                                                          depthWrite: false, shininess: 30 }));
+        gm.frustumCulled = false; gm.renderOrder = 4; S.world.add(gm);
       }
       // instruments the record holds as ONE node with a declared surface (a sphere of radius r; a plane face through the node,
       // its normal into the cell): drawn as that surface at the node's recorded position, step by step
@@ -164,7 +181,7 @@
       // amber sits under the bloom threshold, the post-stroke gold above it: a head that has stroked is the one that glows
       var HEAD_R = m.head_radius || (m.view_dist || 1.75) * 0.0085, amber = new T.Color("#ffb020").multiplyScalar(0.8), pale = new T.Color("#fff0b8"), hmat = new T.Matrix4();
       // data-markers="cargo": that family's nodes drawn as glossy spheres, each leaving the path it took through the saved steps
-      var mk = null, mkKey = fig.getAttribute("data-markers");
+      var mk = null, mkKey = fig.getAttribute("data-markers") || m.markers, TRAIL = m.trail_steps || 0;
       if (mkKey) {
         var mfi = -1; m.families.forEach(function (fm, i2) { if (fm.key === mkKey) mfi = i2; });
         var ids = []; for (var n2 = 0; n2 < N; n2++) if (fam[n2] === mfi) ids.push(n2);
@@ -192,8 +209,9 @@
             var o6 = (q * (F - 1) + g) * 6, a0 = (g * N + i) * 3, a1 = ((g + 1) * N + i) * 3;
             var ex = g < f ? P[a1] : g === f ? cur[3 * i] : P[a0], ey = g < f ? P[a1 + 1] : g === f ? cur[3 * i + 1] : P[a0 + 1],
                 ez = g < f ? P[a1 + 2] : g === f ? cur[3 * i + 2] : P[a0 + 2];
-            if (g > f) { ex = cur[3 * i]; ey = cur[3 * i + 1]; ez = cur[3 * i + 2]; }
-            var sx = g > f ? ex : P[a0], sy = g > f ? ey : P[a0 + 1], sz = g > f ? ez : P[a0 + 2];
+            var gone = g > f || (TRAIL && g < f - TRAIL);            // not yet reached, or older than the trail: folded under the bead
+            if (gone) { ex = cur[3 * i]; ey = cur[3 * i + 1]; ez = cur[3 * i + 2]; }
+            var sx = gone ? ex : P[a0], sy = gone ? ey : P[a0 + 1], sz = gone ? ez : P[a0 + 2];
             mk.buf[o6] = sx; mk.buf[o6 + 1] = sy; mk.buf[o6 + 2] = sz; mk.buf[o6 + 3] = ex; mk.buf[o6 + 4] = ey; mk.buf[o6 + 5] = ez;
           }
         });
@@ -215,6 +233,14 @@
         out[off + 3] = u * cur[3 * j] + t * cur[3 * jb]; out[off + 4] = u * cur[3 * j + 1] + t * cur[3 * jb + 1]; out[off + 5] = u * cur[3 * j + 2] + t * cur[3 * jb + 2];
       }
       var hud = fig.querySelector(".scene-clock"), counts = fig.querySelector(".scene-counts");
+      // a scale bar (true at the cell's centre; the camera does not move in these scenes) and the colour key
+      var view = fig.querySelector(".scene-view"), bar = null;
+      if (m.scale_bar_um) { var sb = document.createElement("p"); sb.className = "scene-scale";
+        sb.innerHTML = "<i></i>" + m.scale_bar_um + " µm"; view.appendChild(sb); bar = sb.querySelector("i"); }
+      if (BYD) { var lg = document.createElement("p"); lg.className = "scene-legend";
+        lg.innerHTML = "Moved since the first saved step<br><i></i><span>0</span><span>" + Math.round(TOP * 1000) + " nm+</span>"; view.appendChild(lg); }
+      else if (m.ghost_surface && counts) counts.innerHTML = m.families.map(function (fm) {
+        return '<span><i style="background:' + fm.color + '"></i>' + (fm.label || fm.key) + "</span>"; }).join("");
       var lastF = -1, t0 = null, STEP_S = m.seconds_per_step || 0.75, FADE = 0.6, SPAN = (F - 1) * STEP_S;
       function draw(ts) {
         if (S.dead) return;
@@ -226,14 +252,16 @@
         if (disp >= SPAN) { f = F - 2; a = 1; }
         S.fade(reduce ? 0 : tt < FADE ? 1 - tt / FADE : tt > SPAN + FADE ? (tt - SPAN - FADE) / FADE : 0);
         if (f !== lastF) { assign(f); lastF = f;
-          if (counts) { var tally = {}; kinds.forEach(function (k) { tally[k] = rel[k].map(function (L) { return L.rows.length; }); });
+          if (counts && kinds.length) { var tally = {}; kinds.forEach(function (k) { tally[k] = rel[k].map(function (L) { return L.rows.length; }); });
             counts.innerHTML = kinds.filter(function (k) { return tally[k][0] + tally[k][1] + tally[k][2]; }).map(function (k) {
               return '<span><i style="background:' + m.kinds[k].color + '"></i>' + m.kinds[k].name + ": " + (tally[k][0] + tally[k][1]) +
                      ' bound, <b>+' + tally[k][2] + "</b> / <b>−" + tally[k][1] + "</b> next step</span>"; }).join(""); } }
         nodeAt(f, a);
         strands.forEach(function (s) { if (!s) return; var n2 = s.idx.length;
-          for (var q = 0; q < n2; q++) { var i = s.idx[q]; s.buf[3 * q] = cur[3 * i]; s.buf[3 * q + 1] = cur[3 * i + 1]; s.buf[3 * q + 2] = cur[3 * i + 2]; }
-          s.g.setPositions(s.buf); });
+          for (var q = 0; q < n2; q++) { var i = s.idx[q]; s.buf[3 * q] = cur[3 * i]; s.buf[3 * q + 1] = cur[3 * i + 1]; s.buf[3 * q + 2] = cur[3 * i + 2];
+            if (BYD) { var dx = cur[3 * i] - P[3 * i], dy = cur[3 * i + 1] - P[3 * i + 1], dz = cur[3 * i + 2] - P[3 * i + 2];
+                       viridis(Math.sqrt(dx * dx + dy * dy + dz * dz) / TOP, s.col, 3 * q); } }
+          s.g.setPositions(s.buf); if (BYD) s.g.setColors(s.col); });
         if (memb) { memb.attr.array.set(cur); memb.attr.needsUpdate = true; memb.g.computeVertexNormals(); }
         kinds.forEach(function (k) { rel[k].forEach(function (L) {
           var n3 = L.rows.length, arr = new Float32Array(Math.max(1, n3) * 6);
@@ -258,11 +286,13 @@
             heads.setColorAt(hn, st >= 2 ? pale : amber); hn++; }); }); });
           heads.count = hn; heads.instanceMatrix.needsUpdate = true; heads.instanceColor.needsUpdate = true; }
         var stepNow = m.steps[f] + a * (m.steps[f + 1] - m.steps[f] || 0);
-        if (hud) hud.textContent = m.time_unit ? "step " + Math.round(stepNow) + " of " + m.steps[F - 1] : "t = " + (stepNow * m.dt_s).toPrecision(3) + " s";
+        if (hud) hud.textContent = m.time_unit ? "step " + Math.round(stepNow) + " of " + m.steps[F - 1] : "t = " + (stepNow * m.dt_s).toPrecision(3) + " s" + (m.time_suffix || "");
         var cam = m.cam || {}, spin = cam.spin !== undefined ? cam.spin : 0.1, elev = cam.elev !== undefined ? cam.elev : 0.31;   // 0 is a value
         var ang = (reduce ? 0.6 : el * spin) + (cam.phase || 0), R = m.view_dist || (m.extent_um ? m.extent_um * 2.6 : 1.75);
         S.cam.position.set(R * Math.sin(ang), R * elev, R * Math.cos(ang)); S.cam.lookAt(0, elev ? -0.03 * R : 0, 0);
         S.scene.fog.near = R * 0.75; S.scene.fog.far = R * 1.8;
+        if (bar) { var ppu = S.cv.clientHeight / (2 * S.cam.position.length() * Math.tan(S.cam.fov * Math.PI / 360)), w = Math.round(m.scale_bar_um * ppu) + "px";
+                   if (bar.style.width !== w) bar.style.width = w; }
         S.render(ts / 1000);
       }
       S.resize(); requestAnimationFrame(draw);

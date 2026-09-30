@@ -449,6 +449,8 @@ td.src details[open] summary .more { display: none; }
   .scene-counts { display: none; }            /* the totals are in the list under the scene */
   .scene-tag { font-size: 0.58rem; max-width: 80%; overflow-wrap: anywhere; top: auto; bottom: 10px; }
   .block.showcase { padding-top: 40px; padding-bottom: 40px; }
+  .scene-legend { bottom: auto; top: 38px; width: 46%; font-size: 0.68rem; }   /* the tag takes the bottom on phones */
+  .scene-scale { bottom: auto; top: 14px; font-size: 0.7rem; }
 }
 .scene-key { margin: 0 0 30px; max-width: 980px; }
 .scene-key summary { cursor: pointer; color: #cdd6df; font-weight: 600; }
@@ -537,3 +539,57 @@ td.src details[open] summary .more { display: none; }
 .tfold { margin-top: 40px; border-top: 1px solid var(--rule); padding-top: 18px; }
 .tfold > summary { cursor: pointer; font-size: 1.1rem; font-weight: 700; color: var(--ink-2); padding: 6px 0; }
 .tfold[open] > summary { margin-bottom: 8px; }
+
+/* first-visit layer (09-29): plain status badges beside the project's own labels, the hero's two numbers, benefit cards, assays */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.76rem; font-weight: 600; background: var(--surface-2); color: var(--ink-2); }
+.badge.preview { background: var(--warn-bg); color: var(--warn); cursor: help; }
+.badge-raw { margin-left: 6px; font-size: 0.72rem; color: var(--muted); }
+.size-tag { font-size: 0.76rem; color: var(--muted); margin-left: 4px; }
+.stage-src { display: block; margin-top: 6px; } .stage-src .srcd { margin-top: 4px; }
+.intro .cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 6px; }
+.two-numbers { margin: 22px 0; padding: 18px 20px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
+.two-numbers .tn-k { margin: 0 0 10px; font-size: 0.85rem; font-weight: 700; color: var(--muted); }
+.two-numbers .tn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.two-numbers .tn-row b { display: block; font: 700 2.1rem/1.1 var(--display); color: var(--ink); }
+.two-numbers .tn-row b small { font-size: 0.9rem; font-weight: 600; color: var(--muted); }
+.two-numbers .tn-row span { font-size: 0.86rem; color: var(--ink-2); }
+.two-numbers p.small { margin: 12px 0 0; }
+.benefits { display: grid; gap: 12px; margin: 18px 0 24px; }
+.benefit { display: block; padding: 14px 16px; border: 1px solid var(--rule); border-radius: 10px; text-decoration: none; color: inherit; }
+.benefit:hover { border-color: var(--link); }
+.benefit h3 { margin: 0 0 4px; font-size: 1.02rem; } .benefit p { margin: 0; font-size: 0.9rem; color: var(--ink-2); }
+.benefit .now { margin-top: 8px; font-size: 0.82rem; color: var(--warn); }
+details.formod { margin: 14px 0; } details.formod > summary { cursor: pointer; font-size: 0.86rem; color: var(--muted); }
+.assays { margin: 10px 0 44px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+.chip { padding: 6px 12px; border: 1px solid var(--rule); border-radius: 999px; text-decoration: none; font-size: 0.88rem; color: var(--ink); }
+.chip:hover { border-color: var(--link); color: var(--link); }
+.assay-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 18px; }
+.assay { padding: 16px 18px; border: 1px solid var(--rule); border-radius: 10px; scroll-margin-top: calc(var(--header-h) + 12px); }
+.assay h3 { margin: 0 0 8px; } .assay dl { margin: 0 0 10px; } .assay dt { font-size: 0.78rem; font-weight: 700; color: var(--muted); margin-top: 8px; }
+.assay dd { margin: 2px 0 0; font-size: 0.92rem; }
+.drugs { margin-top: 26px; } .drugs ul { padding-left: 18px; } .drugs li { margin: 6px 0; }
+.faq details { border-top: 1px solid var(--rule); padding: 10px 0; } .faq summary { cursor: pointer; font-weight: 600; }
+.faq details p { margin: 8px 0 0; max-width: 78ch; color: var(--ink-2); }
+.tcard { scroll-margin-top: calc(var(--header-h) + 12px); }
+@media (max-width: 600px) { .two-numbers .tn-row b { font-size: 1.6rem; } }
+/* long record names and hashes break instead of pushing the page sideways; the hero legend wraps on phones */
+main p, main li, main dd, main small { overflow-wrap: break-word; }
+@media (max-width: 960px) {
+  .stage-legend.on { flex-wrap: wrap; overflow-x: visible; white-space: normal; }
+  .stage-legend .rel-h, .stage-legend span:has(> i.rel) { display: none; }
+}
+@media (max-width: 960px) { .stage-src .badge-raw { display: none; } .stage-legend small.stage-src { white-space: normal; } }
+/* interior scenes: a scale bar and the displacement colour key, on the dark view */
+.scene-scale { position: absolute; right: 16px; bottom: 12px; margin: 0; z-index: 2; color: #e8eef6; font: 600 0.8rem/1.2 "Red Hat Mono", ui-monospace, monospace; text-align: center; }
+.scene-scale i { display: block; height: 3px; margin: 0 auto 4px; background: #e8eef6; border-radius: 1px; }
+.scene-legend { position: absolute; left: 16px; bottom: 12px; margin: 0; z-index: 2; width: min(240px, 50%); color: #c9d3de; font-size: 0.78rem; line-height: 1.35; }
+.scene-legend i { display: block; height: 8px; margin: 4px 0 2px; border-radius: 2px; background: linear-gradient(90deg, #440154, #3b528b, #21918c, #5ec962, #fde725); }
+.scene-legend span { font: 600 0.75rem/1.2 "Red Hat Mono", ui-monospace, monospace; }
+.scene-legend span + span { float: right; }
+/* studio renders: the home cell's step videos, and the interior scenes */
+.studio-stage { position: absolute; inset: 0; background: #070d16; }
+.studio-stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s ease; }
+.studio-stage video.on { opacity: 1; }
+.vscene video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+@media (prefers-reduced-motion: reduce) { .studio-stage video { transition: none; } }
