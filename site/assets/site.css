@@ -655,10 +655,10 @@ main p, main li, main dd, main small { overflow-wrap: break-word; }
 @media (max-width: 900px) { #latest .lfig { grid-template-columns: minmax(0, 1fr); gap: 10px; } }
 
 /* Home navigation into the native Map pages. */
-.home-explore {display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0 28px;padding:18px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.home-explore {display:grid;grid-template-columns:1fr;gap:16px;margin:24px 0 28px;padding:18px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
 .home-explore a {color:var(--ink);text-decoration:none;min-width:0}
 .home-explore a>span {display:flex;justify-content:space-between;gap:10px;font-size:.98rem;font-weight:700}
 .home-explore a b {font-weight:400;color:var(--muted)}
-.home-explore small {display:block;font-size:.79rem;color:var(--muted);line-height:1.5;margin-top:7px}
+.home-explore small {display:block;font-size:.79rem;color:var(--muted);line-height:1.5;margin-top:3px}
 .home-explore a:hover>span,.home-explore a:hover b {color:var(--link)}
 @media(max-width:520px){.home-explore {grid-template-columns:1fr;gap:16px}}
