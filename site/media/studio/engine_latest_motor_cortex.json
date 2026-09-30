@@ -7,8 +7,8 @@
     ".bin.gz": "28c9261459d0b053a034010ef34de72375ddfb493fb177f7734a5c6dc7e873eb"
   },
   "renderer": "Aleph Studio default; recorded motor states in amber/cyan",
-  "render_commit": "d2be07edcce2698888e6eb8573323733a140bc13",
-  "helper_sha256": "df15c0cbd9b1ab0e70e05168e690848aa50951f37e44a91bc70d082f9a2977a5",
+  "render_commit": "0f73010c548232763bad145953a8ab6b2e09efc7",
+  "helper_sha256": "9ad15132fa8b9871abaa46ef637576614f2ee071a9da8c0508f95ff4d4cdfe8b",
   "display_only": true,
   "physics_run": false,
   "output_pixels": [
@@ -798,14 +798,33 @@
   "camera": {
     "fixed": true,
     "target": [
-      -0.01503366231918335,
-      0.0342741459608078,
-      -0.011608332395553589
+      0.0,
+      0.0,
+      -0.0576
     ],
-    "phi": 1.3101863287741535,
-    "theta": 2.6728866849769113,
-    "dist": 2.4507554860972323
+    "phi": 1.2430578200143412,
+    "theta": -1.5707963267948966,
+    "dist": 2.027941774312073,
+    "fov": 32
   },
+  "display_rotation": [
+    [
+      0.7248774787499427,
+      0.6809664215649052,
+      0.10410270650763216
+    ],
+    [
+      -0.10410270650763216,
+      0.25766864596770656,
+      -0.9606089190627758
+    ],
+    [
+      -0.6809664215649052,
+      0.6854863978127185,
+      0.25766864596770656
+    ]
+  ],
+  "camera_basis": "Original browser patch normal-to-up and opening side view",
   "source_evidence": "FORCE-ACCEPTED (3 Newton/step), T = 0 (no thermal kick), U3 cortex unit (517,004 nodes) at build 730e486a8; a patch of it, every node inside the radius",
   "source_patch_radius_um": 0.6,
   "source_stride": null,
@@ -832,7 +851,7 @@
     190,
     200
   ],
-  "view_height_um": 1.7840040968079804,
+  "view_height_um": 1.1630058927430336,
   "position_interpolation": "linear",
   "state_interpolation": "hold latest saved sample",
   "display_offset": null,
@@ -840,7 +859,8 @@
   "kinds_not_drawn": [],
   "marker_radius_um": 0.00800000037997961,
   "glyph_note": "Line widths and bound-head spheres are enlarged display markers, not measured molecular size",
-  "membrane_surface_hidden": true,
+  "membrane_surface_hidden": false,
+  "membrane_opacity": 0.28,
   "head_location_overlay": true,
   "colours": {
     "before_stroke": "#EAB86B",
@@ -848,7 +868,11 @@
     "other_relations": "#465568"
   },
   "outputs": {
-    ".png": "a590dc167d4c09f0b05ec04e44e59e6a8b0d921352570c43d4074a917f09fe6f",
-    ".mp4": "0565fad9e9fc148b827069247d621134eb8bb0fef332c61050520666d6320c72"
-  }
+    ".png": "9fa27308fd9133dca3d230c816d397706dc6b9150ed1a06e53d44b905eebbe32",
+    ".mp4": "4d61475a9405e44c7baf7d23db263a5427820289b21ee2916ea6717617a55aac"
+  },
+  "poster_output_frame": 192,
+  "poster_recorded_t_s": 1.0524804177545692,
+  "poster_source": "Decoded frame of the unchanged output movie",
+  "poster_helper_sha256": "ebd3fac48bf7d142153bde8bc46f549b909ac2cf603088d95851c197152d9b3a"
 }

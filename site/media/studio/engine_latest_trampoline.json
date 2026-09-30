@@ -38,11 +38,11 @@
   "bonds_drawn": false,
   "colours": "illustrative material colours; not displacement or stress",
   "view": "full",
-  "display_net_radius_um": 0.025,
+  "display_net_radius_um": 0.016,
   "cutaway": null,
   "interpolation": "Linear positions at evenly spaced physical times from archived frames; no physics computed",
-  "helper_sha256": "4226fc3276ac8f57dd9a0ef2c03436bdc6644e81b70430be6be50f092517e906",
-  "render_commit": "d2be07edcce2698888e6eb8573323733a140bc13",
+  "helper_sha256": "60eed149dde18099445ad387af1c4dfadc82b09a4e682edc887650bb101cb8a7",
+  "render_commit": "4a3197b8852d3307055ce2cb4b5c2bbd160ef48e",
   "renderer": "Aleph Studio default with geometry shadows and optics",
   "renderer_sha256": {
     "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
@@ -59,16 +59,16 @@
     "target": [
       0.0,
       0.0,
-      2.381587266921997
+      0.5
     ],
-    "dist": 33.05017178108154,
-    "extent": 5.5720470428466795,
+    "dist": 19.337738444548144,
+    "extent": 5.561247253417968,
     "theta": -1.1207963267948966,
-    "phi": 0.8,
+    "phi": 0.85,
     "fov": 40.0,
     "fixed": true
   },
-  "view_height_um": 24.058557531396954,
+  "view_height_um": 14.07672238368147,
   "output_frames": 288,
   "output_frame_t_s": [
     0.002,
@@ -365,7 +365,11 @@
   "poster": "engine_latest_trampoline.png",
   "preview_index": null,
   "outputs": {
-    ".png": "e2e831d87ffac66055e731f77615679c7d0e9b397394ecf725eaf5949f009ba1",
-    ".mp4": "c65af1d20559d32acd9ba0d2e6381fde41bddaf2502392adbe6f8ff119a51a13"
-  }
+    ".png": "33b5374cb21b9ac660836d5b99686f55d689550bb3fb8f52c1ba9f6183bdbe59",
+    ".mp4": "8fb2c2918334130f2a241ee272ef19d629adc751e23b91620ae91822ec8a1593"
+  },
+  "poster_output_frame": 144,
+  "poster_recorded_t_s": 3.0084390243902437,
+  "poster_source": "Decoded frame of the unchanged output movie",
+  "poster_helper_sha256": "ebd3fac48bf7d142153bde8bc46f549b909ac2cf603088d95851c197152d9b3a"
 }

@@ -41,7 +41,7 @@
   "display_net_radius_um": null,
   "cutaway": null,
   "interpolation": "Linear positions at evenly spaced physical times from archived frames; no physics computed",
-  "helper_sha256": "4e3f6bd81c1f51f16d67771db67069986e20113c4415125f3b83f71af36b7e0f",
+  "helper_sha256": "60eed149dde18099445ad387af1c4dfadc82b09a4e682edc887650bb101cb8a7",
   "flow": {
     "source": "frames.npz:flow",
     "shape": [
@@ -54,16 +54,16 @@
     "dx_um": 0.05,
     "speed_max_um_s": 8949.2802734375,
     "arrow_seconds": 8.380562202595073e-06,
-    "cells_drawn": 4096,
+    "source_cells": 4096,
+    "display_streaks": 441,
     "interpolation": "Linear between saved fields; no fluid solve",
-    "colour_scale": "sqrt(speed / whole-record maximum)",
-    "colour_helper_sha256": "356c122955cedc0e2d838e611eea6ad512c63ee3da2bf369fe635a5f644399a8",
+    "colour_scale": "blue to teal by sqrt(speed / whole-record maximum); no colour plane",
+    "colour_helper_sha256": "0527f9a909562880128cdf87aa4ea56ab532e8c365a1e0ede2343f82c77dbe62",
     "scope": "Recorded midplane only, not a three-dimensional flow volume",
-    "bead_overlay": "Projected bead centres A/B; 7-pixel outline markers, not physical radii",
-    "streamlines": "RK2 traces of interpolated in-plane ux,uy; display lines, not particle trajectories"
+    "streaks": "441 fixed local seeds; bilinear ux,uy; RK2 short traces of at most 0.12 um; brightness cues direction, not particle trajectories"
   },
-  "render_commit": "d2be07edcce2698888e6eb8573323733a140bc13",
-  "renderer": "Aleph Studio geometry with recorded velocity slice and streamline overlays",
+  "render_commit": "0f73010c548232763bad145953a8ab6b2e09efc7",
+  "renderer": "Aleph Studio geometry with short recorded-flow streaks",
   "renderer_sha256": {
     "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
     "materials.py": "1f17d5ad26217e1c0a2a10275e3adba3edd2e6f6eaf87e16c5b999fbcb0a512d",
@@ -385,8 +385,8 @@
   "poster": "engine_latest_water_bead_flow.png",
   "preview_index": null,
   "outputs": {
-    ".png": "737079f3aa269de700b910701ff509839d7bad4d6b5c6a43a6f253c9e0ff8960",
-    ".mp4": "960659df9b7cafff973689437fd4bd6d6de46c16a815bacd9acd510060bc4ee3"
+    ".png": "c694f7b89eb967b730e8fdfbc66cf5ecb0e6e1a96b99fafa7e4abd26b14e463b",
+    ".mp4": "051ae8f934c98d182b5a3f3be6e120e48667331b38b5a72aab1f33f678abd27a"
   },
   "poster_output_frame": 144,
   "poster_recorded_t_s": 1.1647088507699327e-05,

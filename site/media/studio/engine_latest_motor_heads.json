@@ -7,8 +7,8 @@
     ".bin.gz": "788c95b6c1c1b385febb422872ade62fbe54eb2db788d6efb27709f2fe630778"
   },
   "renderer": "Aleph Studio default; recorded motor states in amber/cyan",
-  "render_commit": "d2be07edcce2698888e6eb8573323733a140bc13",
-  "helper_sha256": "df15c0cbd9b1ab0e70e05168e690848aa50951f37e44a91bc70d082f9a2977a5",
+  "render_commit": "0f73010c548232763bad145953a8ab6b2e09efc7",
+  "helper_sha256": "9ad15132fa8b9871abaa46ef637576614f2ee071a9da8c0508f95ff4d4cdfe8b",
   "display_only": true,
   "physics_run": false,
   "output_pixels": [
@@ -798,14 +798,33 @@
   "camera": {
     "fixed": true,
     "target": [
-      -0.012631773948669434,
-      0.019193097949028015,
-      0.023998692631721497
+      0.0,
+      0.0,
+      -0.0288
     ],
-    "phi": 1.3101863287741535,
-    "theta": 2.6728866849769113,
-    "dist": 1.3325566834551612
+    "phi": 1.2430578200143412,
+    "theta": -1.5707963267948966,
+    "dist": 1.0139708871560364,
+    "fov": 32
   },
+  "display_rotation": [
+    [
+      0.7248774787499427,
+      0.6809664215649052,
+      0.10410270650763216
+    ],
+    [
+      -0.10410270650763216,
+      0.25766864596770656,
+      -0.9606089190627758
+    ],
+    [
+      -0.6809664215649052,
+      0.6854863978127185,
+      0.25766864596770656
+    ]
+  ],
+  "camera_basis": "Original browser patch normal-to-up and opening side view",
   "source_evidence": "FORCE-ACCEPTED (3 Newton/step), T = 0 (no thermal kick), U3 cortex unit (517,004 nodes) at build 730e486a8; a patch of it, every node inside the radius",
   "source_patch_radius_um": 0.3,
   "source_stride": null,
@@ -832,7 +851,7 @@
     190,
     200
   ],
-  "view_height_um": 0.9700219365003373,
+  "view_height_um": 0.5815029463715168,
   "position_interpolation": "linear",
   "state_interpolation": "hold latest saved sample",
   "display_offset": null,
@@ -840,7 +859,8 @@
   "kinds_not_drawn": [],
   "marker_radius_um": 0.00800000037997961,
   "glyph_note": "Line widths and bound-head spheres are enlarged display markers, not measured molecular size",
-  "membrane_surface_hidden": true,
+  "membrane_surface_hidden": false,
+  "membrane_opacity": 0.28,
   "head_location_overlay": true,
   "colours": {
     "before_stroke": "#EAB86B",
@@ -848,7 +868,11 @@
     "other_relations": "#465568"
   },
   "outputs": {
-    ".png": "05e4f382172cc755db176a0e5a1c14f18a523b84c777abce2a161ed801cdd3dd",
-    ".mp4": "5cb665f6f8a64464003bf948c988e39ffac9978f23d7bc67d24de41c08eeab40"
-  }
+    ".png": "7f2f6f4d37af0a787acc1b5d4b774f029bc52e8a85522d4d5ccf88cb6744f658",
+    ".mp4": "5185465de76a965c62c98d4d562d7f44738f1d48cd1616b1cbedc30723277246"
+  },
+  "poster_output_frame": 192,
+  "poster_recorded_t_s": 1.0524804177545692,
+  "poster_source": "Decoded frame of the unchanged output movie",
+  "poster_helper_sha256": "ebd3fac48bf7d142153bde8bc46f549b909ac2cf603088d95851c197152d9b3a"
 }
