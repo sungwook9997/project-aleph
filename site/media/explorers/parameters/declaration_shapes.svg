@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="792pt" height="345.6pt" viewBox="0 0 792 345.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.9, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 345.6
+L 792 345.6
+L 792 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 166.84 262.168
+L 781.2 262.168
+L 781.2 37.44
+L 166.84 37.44
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 166.84 251.953091
+L 550.573961 251.953091
+L 550.573961 193.582182
+L 166.84 193.582182
+z
+" clip-path="url(#p3af9da72df)" style="fill: #576f9a"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 166.84 178.989455
+L 218.904407 178.989455
+L 218.904407 120.618545
+L 166.84 120.618545
+z
+" clip-path="url(#p3af9da72df)" style="fill: #7d9591"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 166.84 106.025818
+L 687.484068 106.025818
+L 687.484068 47.654909
+L 166.84 47.654909
+z
+" clip-path="url(#p3af9da72df)" style="fill: #b16b31"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="mb152488b59" d="M 0 0
+L 0 3.5
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mb152488b59" x="166.84" y="262.168" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="166.84" y="276.766437" transform="rotate(-0 166.84 276.766437)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#mb152488b59" x="263.255568" y="262.168" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="263.255568" y="276.766437" transform="rotate(-0 263.255568 276.766437)">50</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#mb152488b59" x="359.671136" y="262.168" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="359.671136" y="276.766437" transform="rotate(-0 359.671136 276.766437)">100</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#mb152488b59" x="456.086704" y="262.168" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="456.086704" y="276.766437" transform="rotate(-0 456.086704 276.766437)">150</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#mb152488b59" x="552.502272" y="262.168" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="552.502272" y="276.766437" transform="rotate(-0 552.502272 276.766437)">200</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#mb152488b59" x="648.917841" y="262.168" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="648.917841" y="276.766437" transform="rotate(-0 648.917841 276.766437)">250</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#mb152488b59" x="745.333409" y="262.168" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="745.333409" y="276.766437" transform="rotate(-0 745.333409 276.766437)">300</text>
+     </g>
+    </g>
+    <g id="text_8">
+     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle" x="474.02" y="290.444562" transform="rotate(-0 474.02 290.444562)">Valued EXAMPLE declarations (count)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_8">
+      <defs>
+       <path id="mf3a3220d39" d="M 0 0
+L -3.5 0
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mf3a3220d39" x="166.84" y="222.767636" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="159.84" y="226.566855" transform="rotate(-0 159.84 226.566855)">Transition fields: zero</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#mf3a3220d39" x="166.84" y="149.804" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="159.84" y="153.603219" transform="rotate(-0 159.84 153.603219)">Transition fields: nonzero</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#mf3a3220d39" x="166.84" y="76.840364" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end" x="159.84" y="80.639582" transform="rotate(-0 159.84 80.639582)">Other valued EXAMPLE inputs</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_6">
+    <path d="M 166.84 262.168
+L 166.84 37.44
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 166.84 262.168
+L 781.2 262.168
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start" x="556.358895" y="225.527011" transform="rotate(-0 556.358895 225.527011)">199</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start" x="224.689341" y="152.563375" transform="rotate(-0 224.689341 152.563375)">27</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start" x="693.269002" y="79.599739" transform="rotate(-0 693.269002 79.599739)">270</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start" x="166.84" y="19.44" transform="rotate(-0 166.84 19.44)">496 valued EXAMPLE rows have different declaration roles</text>
+   </g>
+  </g>
+  <g id="text_16">
+   <text style="font-size: 9px; font-family: 'DejaVu Sans'" transform="translate(19.8 326.881969)">Transition fields are schema declarations, not independently measured biological unknowns.</text>
+   <text style="font-size: 9px; font-family: 'DejaVu Sans'" transform="translate(19.8 336.96)">Zero does not prove runtime inactivity. No parameters, prior families or admissibility rules were changed.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3af9da72df">
+   <rect x="166.84" y="37.44" width="614.36" height="224.728"/>
+  </clipPath>
+ </defs>
+</svg>

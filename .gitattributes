@@ -1,0 +1,3 @@
+
+# Archived research exports retain exact bytes, including authored SVG whitespace.
+site/media/explorers/** -text -whitespace
