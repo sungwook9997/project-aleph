@@ -4,12 +4,12 @@
   function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
 
   var tbtn = document.getElementById("theme");
-  function label() { if (tbtn) tbtn.textContent = root.dataset.theme === "dark" ? "Light" : "Dark"; }
-  label();
+  function updateThemeLabel() { if (tbtn) tbtn.textContent = root.dataset.theme === "dark" ? "Light" : "Dark"; }
+  updateThemeLabel();
   if (tbtn) tbtn.addEventListener("click", function () {
     root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
     store("aleph-theme", root.dataset.theme);
-    label();
+    updateThemeLabel();
   });
 
   var mbtn = document.getElementById("menu"), nav = document.getElementById("nav");
