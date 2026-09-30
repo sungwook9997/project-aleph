@@ -1,6 +1,6 @@
 import {$,esc,el,button,data,fail,tabs,setURL,record,disclosure,lazyDisclosure,reveal,empty,count,valueText,words} from './explorer-ui.js?v=3e6f66bbc6';
 import {topics,inputName,displayUnit} from './parameter-guide.js?v=5ebbc9f391';
-import {mountNetwork} from './parameter-network.js?v=0da6679c9a';
+import {mountNetwork} from './parameter-network.js?v=2a3e32399b';
 
 const root=$('#parameter-app'),base='../../media/explorers/parameters/';
 const kinds={parameter:'Parameters',research_parameter_review:'Research reviews',example_review:'Example reviews',research_source_card:'Source records',bibliographic_doi_key:'Publications',research_source_comparison:'Source comparisons',literal_reference_token:'Reference mentions',registry_source:'Source registry',advisory_review:'Advisory reviews',example_reference:'Example references',review_reference:'Review references',example_primary_review:'Primary reviews',research_static_transform:'Quantity conversions',example_relation:'Example relationships',code_card:'Construction records',shared_fit:'Shared fits'};
@@ -169,7 +169,7 @@ function openPacket(id,push=true){const packet=A.research_catalog.packets.find(p
 function restore(){const s=new URLSearchParams(location.search);if(network){network.destroy();network=null;}
   mode=s.get('mode')||(s.has('parameter')?'parameters':s.has('record')?'records':'graph');if(!['relationships','parameters','records','graph','research','facets','mirror'].includes(mode))mode='graph';if(location.hash==='#records')mode='research';
   selected=s.get('record')||'parameter:'+(s.get('parameter')||'cortex.thickness');if(s.has('record')&&mode!=='graph')mode='records';group=parameterMode()&&s.has('parameter')?P.get(selected)?.group||'':'';query='';tag='';recordKind='';page=0;
-  graphState={view:s.get('view')||'local',filter:s.get('filter')||'',hops:Number(s.get('hops')||1),root:s.get('root')||s.get('focus')||'parameter:cortex.thickness',focus:s.get('focus')||null};
+  graphState={view:s.get('view')||'all',filter:s.get('filter')||'',hops:Number(s.get('hops')||1),root:s.get('root')||s.get('focus')||'parameter:cortex.thickness',focus:s.get('focus')||null};
   topicId=topics.some(t=>t.id===s.get('topic'))?s.get('topic'):'cortex_shell_population';render();if(s.has('packet'))openPacket(s.get('packet'),false);
 }
 

@@ -30,3 +30,16 @@ export function mountRoutes(host, routes, {onStep, compact=false}={}) {
 
 const overview=document.querySelector('[data-pathway-data]');
 if(overview){const source=document.getElementById(overview.dataset.pathwayData);if(source)mountRoutes(overview,JSON.parse(source.textContent));}
+
+// Keep the complete topology present. Hover/focus highlights context without removing it.
+document.querySelectorAll('.whole-system').forEach(panel=>{
+  const toggle=panel.querySelector('[data-whole-pause]');
+  let paused=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const apply=()=>{panel.classList.toggle('is-paused',paused);toggle.textContent=paused?'Play flow':'Pause flow';toggle.setAttribute('aria-pressed',String(!paused));};
+  toggle.onclick=()=>{paused=!paused;apply();};apply();
+  const reset=()=>panel.querySelectorAll('.sm-connection').forEach(p=>p.classList.remove('is-highlighted'));
+  panel.querySelectorAll('[data-system-node]').forEach(n=>{
+    const focus=()=>{reset();panel.querySelectorAll('.sm-connection').forEach(p=>p.classList.toggle('is-highlighted',p.dataset.from===n.dataset.systemNode||p.dataset.to===n.dataset.systemNode));};
+    n.onmouseenter=focus;n.onfocus=focus;n.onmouseleave=reset;n.onblur=reset;
+  });
+});

@@ -45,16 +45,17 @@ const save=(name,type,body)=>{const url=URL.createObjectURL(new Blob([body],{typ
 
 export function mountNetwork(host,{G,kinds,onSelect,onState,initial={}}){
   const N=new Map(G.nodes.map(n=>[n.id,n])),allIds=new Set(N.keys());
-  let view=initial.view==='all'?'all':'local',filter=edgeTypes[initial.filter]?initial.filter:'',hops=[1,2,3].includes(+initial.hops)?+initial.hops:1;
+  let view=initial.view==='local'?'local':'all',filter=edgeTypes[initial.filter]?initial.filter:'',hops=[1,2,3].includes(+initial.hops)?+initial.hops:1;
   let rootId=allIds.has(initial.root)?initial.root:'parameter:cortex.thickness',selected=allIds.has(initial.focus)?initial.focus:null;
   let current,visible,routePage=0,activeEdge=null,flowPaused=matchMedia('(prefers-reduced-motion: reduce)').matches,coords=new Map(),bounds,box,svg,disposed=false,resizeObserver,themeObserver;
   host.className='net-app';
   host.innerHTML=`<div class="net-controls"><div class="net-search"><label class="sr-only" for="network-search">Find any parameter, source or record</label><input id="network-search" type="search" placeholder="Find a parameter, source or record…" autocomplete="off" aria-controls="net-search-results"><div id="net-search-results" class="net-search-results" hidden></div></div><div class="net-view" role="group" aria-label="Graph scope"><button data-view="all">Full map</button><button data-view="local">Neighborhood</button></div><label class="net-filter"><span>Connections</span><select id="net-edge"><option value="">All types</option>${Object.entries(edgeTypes).map(([key,[name]])=>`<option value="${key}">${esc(name)}</option>`).join('')}</select></label><label class="net-depth"><span>Steps away</span><select id="net-hops"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></label></div>
-  <div class="net-scope-pager"></div><div class="net-workbench"><div class="net-canvas-wrap"><div class="net-map" id="net-map" tabindex="0" role="group" aria-label="Interactive evidence graph. Use plus and minus to zoom, arrow keys to pan, and zero to fit."></div><div class="net-map-tools"><button id="net-out" aria-label="Zoom out">−</button><span id="net-zoom">100%</span><button id="net-in" aria-label="Zoom in">+</button><button id="net-fit">Fit map</button><button id="net-expand">Expand map</button><span class="net-tool-gap"></span><button id="net-svg">Save SVG</button><button id="net-json">Save JSON</button></div><div class="net-hover" hidden></div></div><aside class="net-inspector" hidden aria-label="Selected record"><div class="net-inspector-tools"><button id="net-neighbors">Explore these connections</button><button id="net-close" aria-label="Close record details">×</button></div><div id="parameter-detail" class="ex-content" aria-live="polite"></div></aside></div>
+  <div class="net-scope-pager"></div><div class="net-workbench"><div class="net-canvas-wrap"><div class="net-map" id="net-map" tabindex="0" role="group" aria-label="Interactive evidence graph. Use plus and minus to zoom, arrow keys to pan, and zero to fit."></div><div class="net-map-tools"><button id="net-out" aria-label="Zoom out">−</button><span id="net-zoom">100%</span><button id="net-in" aria-label="Zoom in">+</button><button id="net-fit">Fit map</button><button id="net-pause">Pause flow</button><button id="net-expand">Expand map</button><span class="net-tool-gap"></span><button id="net-svg">Save SVG</button><button id="net-json">Save JSON</button></div><div class="net-hover" hidden></div></div><aside class="net-inspector" hidden aria-label="Selected record"><div class="net-inspector-tools"><button id="net-neighbors">Explore these connections</button><button id="net-close" aria-label="Close record details">×</button></div><div id="parameter-detail" class="ex-content" aria-live="polite"></div></aside></div>
   <div class="net-footer"><p id="net-status" aria-live="polite"></p><span>Wheel to zoom · drag to move · select a node</span></div><div class="net-key">${columns.map(c=>`<span><i style="background:${c.color}"></i>${c.title}</span>`).join('')}<small>Recorded links, not measured correlations. Position and distance only organise the map.</small></div>
   <section class="net-route-list" aria-label="Separate relationship paths"></section>
   <details class="ex-disclosure net-edge-table"><summary>Read every connection in this scope as a table</summary><div class="ex-table-scroll"><table><thead><tr><th>From</th><th>Connection</th><th>To</th></tr></thead><tbody></tbody></table></div></details>`;
   const q=s=>$(s,host),search=q('#network-search'),results=q('#net-search-results'),map=q('#net-map'),inspector=q('.net-inspector');
+  q('#net-pause').onclick=()=>{flowPaused=!flowPaused;renderRoutes();};
   q('#net-edge').value=filter;q('#net-hops').value=hops;
   const color=n=>columns.find(c=>c.kinds.includes(n.kind))?.color||'#7d9293';
   function state(){return {view,filter,hops,root:rootId,focus:selected};}
@@ -63,7 +64,9 @@ export function mountNetwork(host,{G,kinds,onSelect,onState,initial={}}){
     // Group labels remain legible at fit scale; individual labels appear on zoom.
     const scale=svg.getScreenCTM()?.a||1;
     svg.style.setProperty('--net-group-size',Math.max(14,11/scale)+'px');
-    svg.style.setProperty('--net-heading-size',Math.max(23,12/scale)+'px');
+    const distant=scale<.19&&!svg.classList.contains('is-local');svg.classList.toggle('is-distant',distant);
+    svg.style.setProperty('--net-heading-size',Math.max(23,(distant?9:12)/scale)+'px');
+    svg.querySelectorAll('[data-column-label]').forEach(t=>{t.textContent=distant?t.dataset.shortLabel:t.dataset.columnLabel;});
     svg.querySelectorAll('[data-full-title]').forEach(t=>{const limit=Math.max(5,Math.floor(+t.dataset.width/(Math.max(14,11/scale)*.54)));t.textContent=shorten(t.dataset.fullTitle,limit);});
   }
   function fit(){box={...bounds};apply();}
@@ -97,7 +100,7 @@ export function mountNetwork(host,{G,kinds,onSelect,onState,initial={}}){
     for(const col of columns){const members=visible.nodes.filter(n=>col.kinds.includes(n.kind)),groups=new Map();
       for(const n of members){const key=n.kind==='parameter'?n.label.split('.')[0]:n.kind;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(n);}
       const title=col.title.replace('Calculations & comparisons','Calculations').replace('Sources & publications','Publications & sources');
-      heads+=`<text class="net-column-title" x="${x}" y="30">${title} · ${members.length}</text>`;
+      heads+=`<text class="net-column-title" data-column-label="${esc(title)} · ${members.length}" data-short-label="${esc(col.title.split(/[ &]/)[0])}" x="${x}" y="30">${title} · ${members.length}</text>`;
       const lanes=col.kinds[0]==='parameter'?3:1,ys=Array(lanes).fill(64),gap=14,w=(col.width-gap*(lanes-1))/lanes;
       for(const [key,items] of [...groups].sort(([a],[b])=>a.localeCompare(b))){items.sort((a,b)=>a.label.localeCompare(b.label)||a.id.localeCompare(b.id));const lane=ys.indexOf(Math.min(...ys)),gx=x+lane*(w+gap),y=ys[lane],across=Math.max(1,Math.floor((w-30)/16)),h=48+Math.ceil(items.length/across)*16;
         clusters+=`<rect class="net-cluster" x="${gx}" y="${y}" width="${w}" height="${h}" rx="5"/><text class="net-group-title" data-full-title="${esc((kinds[key]||key)+' · '+items.length)}" data-width="${w-20}" x="${gx+10}" y="${y+26}">${esc(kinds[key]||key)} · ${items.length}</text>`;
@@ -142,7 +145,7 @@ export function mountNetwork(host,{G,kinds,onSelect,onState,initial={}}){
       edges+=`<path class="net-edge" data-source="${esc(e.source)}" data-target="${esc(e.target)}" stroke="${edgeTypes[e.kind]?.[1]||'#888'}" d="${d}"${layout.large?' marker-end="url(#net-arrow)"':''}><title>${esc(edgeTypes[e.kind]?.[0]||e.kind)}</title></path>`;
     }
     map.innerHTML=`<svg class="net-svg ${layout.large?'is-local':''}" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="${visible.nodes.length} records and ${visible.edges.length} recorded connections"><defs><marker id="net-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10Z" fill="context-stroke"/></marker></defs>${layout.clusters}<g class="net-edges">${edges}</g>${layout.heads}<g class="net-nodes">${layout.nodes}</g></svg>`;
-    svg=q('svg');svg.querySelector('.net-edge')?.classList.add('is-route');renderRoutes();box=keepBox&&old?old:{...bounds};apply();if(view==='local'&&!keepBox)readableView();highlight();status();
+    svg=q('svg');svg.querySelectorAll('.net-edge').forEach((p,i)=>{if(view==='all'?i%71===0:i===0)p.classList.add('is-route');});renderRoutes();box=keepBox&&old?old:{...bounds};apply();if(view==='local'&&!keepBox)readableView();highlight();status();
     q('#net-hops').disabled=view==='all';host.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===view));
     q('.net-edge-table').open=false;q('.net-edge-table tbody').replaceChildren();
     let drag=null,moved=false;svg.addEventListener('wheel',e=>{e.preventDefault();zoom(Math.exp(Math.max(-.8,Math.min(.8,e.deltaY*.002))),point(e));},{passive:false});
@@ -155,10 +158,10 @@ export function mountNetwork(host,{G,kinds,onSelect,onState,initial={}}){
     svg.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&e.target.dataset.node){e.preventDefault();select(e.target.dataset.node);}};
   }
   function renderRoutes(){
-    const panel=q('.net-route-list');panel.replaceChildren();q('.net-scope-pager').replaceChildren();panel.classList.toggle('is-paused',flowPaused);host.classList.toggle('flow-paused',flowPaused);
+    const panel=q('.net-route-list');panel.replaceChildren();q('.net-scope-pager').replaceChildren();panel.classList.toggle('is-paused',flowPaused);host.classList.toggle('flow-paused',flowPaused);q('#net-pause').textContent=flowPaused?'Play flow':'Pause flow';q('#net-pause').setAttribute('aria-pressed',String(!flowPaused));
     panel.append(el('h3','','Read each connection separately'),el('p','','A moving mark traces a recorded relationship. It does not represent electricity, information transfer or a measured causal effect.'));
     const actions=el('div','pw-controls');
-    const play=button(flowPaused?'Play connection flow':'Pause connection flow',()=>{flowPaused=!flowPaused;panel.classList.toggle('is-paused',flowPaused);host.classList.toggle('flow-paused',flowPaused);play.textContent=flowPaused?'Play connection flow':'Pause connection flow';play.setAttribute('aria-pressed',String(!flowPaused));});
+    const play=button(flowPaused?'Play connection flow':'Pause connection flow',()=>{flowPaused=!flowPaused;panel.classList.toggle('is-paused',flowPaused);host.classList.toggle('flow-paused',flowPaused);play.textContent=flowPaused?'Play connection flow':'Pause connection flow';play.setAttribute('aria-pressed',String(!flowPaused));q('#net-pause').textContent=flowPaused?'Play flow':'Pause flow';q('#net-pause').setAttribute('aria-pressed',String(!flowPaused));});
     play.setAttribute('aria-pressed',String(!flowPaused));actions.append(el('span','','Select “Trace” to isolate a line in the map.'),play);panel.append(actions);
     const edges=view==='local'&&hops===1?visible.edges:current.edges.filter(e=>e.source===(selected||rootId)||e.target===(selected||rootId));
     const pageEdges=view==='local'&&hops===1?edges:edges.slice(0,12);

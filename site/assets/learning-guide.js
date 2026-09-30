@@ -8,6 +8,24 @@
     const restart = root.querySelector('[data-lg-restart]');
     const announcement = root.querySelector('[data-lg-announcement]');
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const topology = root.querySelector('.lg-topology');
+    const topologyPlay = root.querySelector('[data-lg-topology-play]');
+    const topologyZoom = root.querySelector('[data-lg-topology-zoom]');
+    let topologyPlaying = !motion.matches;
+    function topologyControls() {
+      if (!topology || !topologyPlay) return;
+      topology.classList.toggle('lg-topology-paused', !topologyPlaying);
+      topologyPlay.textContent = topologyPlaying ? 'Pause flow' : 'Play flow';
+      topologyPlay.setAttribute('aria-pressed', String(topologyPlaying));
+      topologyPlay.disabled = motion.matches;
+      if (motion.matches) topologyPlay.textContent = 'Reduced motion';
+    }
+    topologyPlay?.addEventListener('click', () => { topologyPlaying = !topologyPlaying; topologyControls(); });
+    topologyZoom?.addEventListener('click', () => {
+      const large = topology.classList.toggle('lg-topology-large');
+      topologyZoom.textContent = large ? 'Default size' : 'Larger labels';
+      topologyZoom.setAttribute('aria-pressed', String(large));
+    });
     let route = 0, step = 0, playing = !motion.matches, onScreen = true;
     let phase = 0, previous = null, frame = null;
     const STEP_MS = 6500, RETURN_MS = 1600;
@@ -62,7 +80,7 @@
     })));
     play.addEventListener('click', () => { playing = !playing; previous = null; controls(); schedule(); });
     restart.addEventListener('click', () => { phase = 0; previous = null; panel().classList.remove('lg-returning'); panel().style.setProperty('--lg-progress', 0); showStep(0, true); schedule(); });
-    const preference = () => { if (motion.matches) stop(); controls(); };
+    const preference = () => { if (motion.matches) { stop(); topologyPlaying = false; } controls(); topologyControls(); };
     if (motion.addEventListener) motion.addEventListener('change', preference);
     else if (motion.addListener) motion.addListener(preference);
     document.addEventListener('visibilitychange', () => { previous = null; schedule(); });
@@ -79,7 +97,25 @@
       const detail = target.closest('.lg-step-detail');
       if (detail) { const i = [...p.querySelectorAll('.lg-step-detail')].indexOf(detail); phase = i * STEP_MS; showStep(i); }
     }
+    // Topology branches select the matching existing route before following its link.
+    root.querySelectorAll('[data-lg-jump]').forEach(link => link.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const index = panels.findIndex(p => p.dataset.lgPanel === link.dataset.lgJump);
+      if (index < 0) return;
+      event.preventDefault();
+      stop(); showRoute(index);
+      const selected = Number(link.dataset.lgJumpStep || 0);
+      phase = selected * STEP_MS; showStep(selected, true);
+      const target = panel().querySelector(`#${steps()[selected].getAttribute('aria-controls')}`);
+      if (target) {
+        // pushState preserves useful back/forward navigation without a hashchange reset.
+        history.pushState(null, '', `#${target.id}`);
+        panel().scrollIntoView({ behavior: motion.matches ? 'auto' : 'smooth', block: 'start' });
+        steps()[selected].focus({ preventScroll: true });
+      }
+    }));
     root.classList.add('lg-ready');
+    topologyControls();
     showRoute(0); controls(); revealHash(); schedule();
     window.addEventListener('hashchange', revealHash);
   });

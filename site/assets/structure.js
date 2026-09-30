@@ -1,6 +1,6 @@
 import {$,esc,el,button,data,fail,tabs,setURL,record,disclosure,reveal,empty,count} from './explorer-ui.js?v=3e6f66bbc6';
 import {structureGraph,nodeLabels} from './structure-topology.js?v=be6e58f7a9';
-import {mountRoutes} from './pathways.js?v=35cedba50f';
+import {mountRoutes} from './pathways.js?v=7e0f0c5576';
 
 const root=$('#structure-app');
 const groups=[['Overview',[0]],['Physics engine',[10,1]],['Inner learning',[2,3]],['Outer models',[5,4,6,7,8]],['Current app',[9]]];
@@ -66,14 +66,17 @@ function drawDiagram(nodes,edges,width,height){
       status:edges.some(e=>e.dashed&&e.a===ids[0]&&e.b===ids[1])?'Feedback / refresh path from the saved structure.':'Saved structure · animated explanation, not a live trace',
       steps:branch.map(n=>{const l=n.ref&&lesson(n.ref);return {title:label(n),subtitle:!technical&&nodeLabels[view]?.[n.id]?.[1]||(n.detail||[])[0],text:l?.action||l?.why||(n.detail||[]).join(' · '),ref:n.ref&&{...n.ref,title:n.label}};})};
   });
+  const full=el('section','ex-whole-topology');
+  let paused=matchMedia('(prefers-reduced-motion: reduce)').matches;full.classList.toggle('is-paused',paused);
+  const control=button(paused?'Play flow':'Pause flow',()=>{paused=!paused;full.classList.toggle('is-paused',paused);control.textContent=paused?'Play flow':'Pause flow';},'pw-toggle');
+  const head=el('div','whole-system-head');head.append(el('h3','','All branches together'),control);full.append(head,drawOriginalDiagram(nodes,edges,width,height),el('p','ex-note','The complete saved topology. Select a stage for its inputs and outputs, or follow each branch separately below. Moving marks are an explanatory guide.'));wrap.append(full);
   mountRoutes(wrap,routes,{onStep:showStep,compact:paths.length>1});
-  wrap.append(disclosure('Full topology · all branches together',drawOriginalDiagram(nodes,edges,width,height)));
   return wrap;
 }
 function drawOriginalDiagram(nodes,edges,width,height){
   const wrap=el('div','ex-diagram');const byId=new Map(nodes.map(n=>[n.id,n]));
   let svg=`<svg viewBox="0 0 ${width} ${height}" aria-label="${esc(viewName(view))}" xmlns="http://www.w3.org/2000/svg"><defs><marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs>`;
-  for(const e of edges){const a=byId.get(e.a),b=byId.get(e.b);if(!a||!b)continue;const d=e.d||`M${a.x+a.w} ${a.y+a.h/2}H${(a.x+a.w+b.x)/2}V${b.y+b.h/2}H${b.x}`;svg+=`<path class="ex-edge" d="${d}" marker-end="url(#flow-arrow)" ${e.dashed?'stroke-dasharray="5 5"':''}/>`;if(e.label)svg+=`<text class="ex-edge-label" x="${e.tx}" y="${e.ty}">${esc(e.label)}</text>`;}
+  for(const e of edges){const a=byId.get(e.a),b=byId.get(e.b);if(!a||!b)continue;const d=e.d||`M${a.x+a.w} ${a.y+a.h/2}H${(a.x+a.w+b.x)/2}V${b.y+b.h/2}H${b.x}`;svg+=`<path class="sm-halo" d="${d}"/><path class="ex-edge" d="${d}" marker-end="url(#flow-arrow)" ${e.dashed?'stroke-dasharray="5 5"':''}/>`;svg+=`<path class="sm-pulse" d="${d}" pathLength="100"/>`;if(e.label)svg+=`<text class="ex-edge-label" x="${e.tx}" y="${e.ty}">${esc(e.label)}</text>`;}
   nodes.forEach((n,i)=>{const mapped=!technical&&nodeLabels[view]?.[n.id];const label=mapped?mapped[0]:n.label,detail=mapped?[mapped[1]]:n.detail||[];
     svg+=`<g class="ex-diagram-node" data-node="${i}" tabindex="0" role="button" aria-label="${esc(label)}"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="8"/><text class="ex-node-title" x="${n.x+14}" y="${n.y+29}">${esc(label)}</text>${detail.map((t,k)=>`<text class="ex-node-sub" x="${n.x+14}" y="${n.y+51+k*18}">${esc(t)}</text>`).join('')}</g>`;});
   wrap.innerHTML=svg+'</svg>';
