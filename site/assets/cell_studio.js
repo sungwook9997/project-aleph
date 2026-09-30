@@ -11,12 +11,13 @@
   document.querySelectorAll(".stage-meta[data-cell]").forEach(function (m) { m.classList.toggle("on", m.getAttribute("data-cell") === "mini"); });
   var reduce = false; try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
   var v = document.createElement("video"); v.className = "studio-tour"; v.muted = true; v.playsInline = true;
-  v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true"); v.preload = "auto";
-  v.poster = "media/studio/tour.jpg"; v.src = "media/studio/tour.mp4";
+  v.setAttribute("playsinline", ""); v.setAttribute("aria-label", cv.getAttribute("aria-label") || "The simulated cell"); v.preload = "auto";
+  var ver = cv.getAttribute("data-tour") ? "?v=" + cv.getAttribute("data-tour") : "";   // a new render is a new URL
+  v.poster = "media/studio/tour.jpg" + ver; v.src = "media/studio/tour.mp4" + ver;
   cv.replaceWith(v);
   var load = document.getElementById("cell3d-loading"); if (load) load.remove();
   window.Slab = { show: function (conf) { window.Slab._pending = conf; } };   // until the build has begun
-  fetch("media/studio/tour.json").then(function (r) { return r.json(); }).then(function (m) {
+  fetch("media/studio/tour.json" + ver).then(function (r) { return r.json(); }).then(function (m) {
     var ids = m.steps.map(function (s) { return s.id; }), cur = -1, stop = null, want;
     // stop on the rest frame by the clock, re-armed while the video is still short of it (buffering), then seek to the rest
     // itself: identical still frames fire no video-frame callback, which let the video run 0.25-0.8 s past its rest
