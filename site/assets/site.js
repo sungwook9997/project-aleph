@@ -66,6 +66,29 @@
     var rb = document.getElementById("asm-replay"); if (rb) rb.addEventListener("click", function () { runA(0); });
   }
 })();
+// Switch recordings without combining their videos or measurements.
+(function () {
+  function select(group, id) {
+    group.querySelectorAll(':scope > .record-view').forEach(function (p) {
+      p.hidden = p.id !== id;
+      if (p.hidden) p.querySelectorAll('video').forEach(function (v) { v.pause(); });
+    });
+    group.querySelectorAll(':scope > .record-view-controls button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.viewFor === id)); });
+    window.dispatchEvent(new Event('resize'));
+  }
+  document.querySelectorAll('[data-record-views]').forEach(function (group) {
+    var buttons = group.querySelectorAll(':scope > .record-view-controls button');
+    buttons.forEach(function (b) { b.addEventListener('click', function () { select(group, b.dataset.viewFor); }); });
+    if (buttons.length) select(group, buttons[0].dataset.viewFor);
+  });
+  function reveal() {
+    var target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (!target) return;
+    var panel = target.closest('.record-view');
+    while (panel) { select(panel.parentElement, panel.id); panel = panel.parentElement.closest('.record-view'); }
+  }
+  window.addEventListener('hashchange', reveal); reveal();
+})();
 // C1's loops: fetched and played only while on screen
 (function () {
   // studio videos (figure.vscene): the simulated clock from the video's own time; a scale bar true at the camera target,
@@ -76,7 +99,7 @@
     function size() { var W = v.videoWidth || 1600, H = v.videoHeight || 1000, k = (getComputedStyle(v).objectFit === "contain" ? Math.min : Math.max)(v.clientWidth / W, v.clientHeight / H);
       if (bar) bar.style.width = (um / vh * H * k) + "px"; }
     size(); window.addEventListener("resize", size); v.addEventListener("loadedmetadata", size);
-    function tick() { if (clock && v.duration) clock.textContent = "t = " + (t0 + (t1 - t0) * Math.min(1, v.currentTime / (v.duration - (f.dataset.fps ? 1 / +f.dataset.fps : 0)))).toFixed(2) + " s simulated"; }
+    function tick() { if (clock && v.duration) clock.textContent = "t = " + (function (value) { return t1 < 0.001 ? (value * 1e6).toFixed(2) + " µs recorded" : value.toFixed(2) + " s recorded"; })(t0 + (t1 - t0) * Math.min(1, v.currentTime / (v.duration - (f.dataset.fps ? 1 / +f.dataset.fps : 0)))); }
     v.addEventListener("timeupdate", tick); tick();
   });
   var vs = document.querySelectorAll("video[data-src]"); if (!vs.length) return;
@@ -90,7 +113,13 @@
     var seek = document.createElement("input"); seek.type = "range"; seek.min = 0; seek.max = 1000; seek.step = 1; seek.value = 0;
     seek.setAttribute("aria-label", "Seek recording: " + (v.getAttribute("aria-label") || "recorded scene"));
     var time = document.createElement("span"); time.className = "recording-time"; time.textContent = "Recorded playback";
-    controls.append(toggle, seek, time); player.appendChild(controls);
+    var expand = document.createElement("button"); expand.type = "button"; expand.textContent = "Expand";
+    expand.setAttribute("aria-label", "Expand recording");
+    expand.addEventListener("click", function () {
+      if (player.requestFullscreen) player.requestFullscreen().catch(function () {});
+      else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+    });
+    controls.append(toggle, seek, time, expand); player.appendChild(controls);
     var userPaused = reduced, onscreen = false, loaded = false;
     function load() { if (!loaded) { v.src = v.dataset.src; loaded = true; } }
     function sync() {

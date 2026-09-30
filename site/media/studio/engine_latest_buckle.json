@@ -11,17 +11,16 @@
     "verify_showcase.py": "b319db027a55db354c2979c3e38d753862f26b0fbec3c4bc35237c715c92d6cf"
   },
   "topology": {
-    "radius_um": 0.2,
+    "basis": "explicit archived scene definition; recorded faces for vesicle",
     "segments": 20,
-    "basis": "explicit static archived scene definition",
-    "floor_z_display_offset_um": null,
+    "faces": 0,
     "added_display_vertices": 0,
-    "sphere_tessellation": null
+    "sphere_tessellation": [
+      32,
+      64
+    ],
+    "trampoline_sheet_faces_added": 0
   },
-  "saved_frame_indices": [
-    0,
-    399
-  ],
   "t_s": [
     0.05,
     99.80000000000001
@@ -31,10 +30,10 @@
   "display_only": true,
   "physics_run": false,
   "bonds_drawn": false,
-  "colours": "illustrative; pale green filament, amber nodes held by the recorded anchoring wells",
-  "interpolation": "Positions linearly interpolated at evenly spaced physical times from archived frames; no physics computed",
-  "helper_sha256": "a0d785832992e09b98e903127350a5f8746fafb8f7c1cea00ec72d86f8f6f82c",
-  "render_commit": "5f61aa7c1e9e4c9921024e7de2fa634ecd09a490",
+  "colours": "illustrative material colours; not displacement or stress",
+  "interpolation": "Linear positions at evenly spaced physical times from archived frames; no physics computed",
+  "helper_sha256": "ca5dfbe32e62bf6c51b0acf6a75d00026be3f28b8827c783ca2b556b6b35806b",
+  "render_commit": "df8e7d6982da8cc3305dfb1c4461306ada99fa86",
   "renderer": "Aleph Studio default with geometry shadows and optics",
   "renderer_sha256": {
     "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
@@ -53,14 +52,14 @@
       0.0,
       4.997264385223389
     ],
-    "dist": 16.84965190041074,
+    "dist": 17.62092380387722,
     "extent": 6.23671703338623,
     "theta": -1.4507963267948965,
     "phi": 1.38,
     "fov": 40.0,
     "fixed": true
   },
-  "view_height_um": 12.265543498992917,
+  "view_height_um": 12.826983529768185,
   "output_frames": 288,
   "output_frame_t_s": [
     0.05,
@@ -357,7 +356,7 @@
   "poster": "engine_latest_buckle.png",
   "preview_index": null,
   "outputs": {
-    ".png": "263f348f94c12346ea6e740bab3f58e3095b3d84032e906c79d6503379fc6cea",
-    ".mp4": "b25979cba1a71291fda741fbe0310c0898b4e3eb2af2f9a251872517054caabf"
+    ".png": "c3a5f3397a7fac8608cd211ecfb6aed8232216ae577275fae6b59df89dd79304",
+    ".mp4": "60fa1524abd79e035c46e8c671486171960ea1f80d5f9da9a410036329684278"
   }
 }

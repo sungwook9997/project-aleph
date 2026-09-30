@@ -112,7 +112,7 @@
       }
       // m.color_by "displacement": every strand coloured by how far each node has moved since the first saved step,
       // one viridis scale for the whole scene up to m.displacement_top_um (its 99th percentile), with the legend on screen
-      var BYD = m.color_by === "displacement", TOP = m.displacement_top_um || 1;
+      var BYD = m.color_by === "displacement" || fig.dataset.colorBy === "displacement", TOP = Number(fig.dataset.displacementTop) || m.displacement_top_um || 1;
       var VIR = ["#440154", "#3b528b", "#21918c", "#5ec962", "#fde725"].map(function (h) { return new T.Color(h); });
       function viridis(t, out, o3) { var x = Math.min(1, Math.max(0, t)) * 4, k = Math.min(3, Math.floor(x)), u = x - k, A = VIR[k], B = VIR[k + 1];
         out[o3] = A.r + (B.r - A.r) * u; out[o3 + 1] = A.g + (B.g - A.g) * u; out[o3 + 2] = A.b + (B.b - A.b) * u; }
@@ -132,7 +132,12 @@
         mg.setAttribute("position", mp); mg.setIndex(new T.BufferAttribute(tri, 1));
         var mm = new T.MeshPhongMaterial({ color: 0xafbad1, transparent: true, opacity: 0.28, side: T.DoubleSide, depthWrite: false, shininess: 40 });
         var mesh2 = new T.Mesh(mg, mm); mesh2.frustumCulled = false; mesh2.renderOrder = 2; S.world.add(mesh2);
-        memb = { g: mg, attr: mp };
+        var mc = null;
+        if (BYD) {
+          mc = new T.BufferAttribute(new Float32Array(N * 3), 3); mg.setAttribute("color", mc);
+          mm.vertexColors = true; mm.color.set(0xffffff); mm.opacity = 0.42; mm.needsUpdate = true;
+        }
+        memb = { g: mg, attr: mp, colours: mc };
         // data-ghost: the surface's first saved shape as a faint wire, so a slow change of shape can be seen against it
         if (fig.getAttribute("data-ghost")) {
           var gp = new T.BufferGeometry(); gp.setAttribute("position", new T.BufferAttribute(P.slice(0, N * 3), 3)); gp.setIndex(new T.BufferAttribute(tri, 1));
@@ -273,7 +278,16 @@
             if (BYD) { var dx = cur[3 * i] - P[3 * i], dy = cur[3 * i + 1] - P[3 * i + 1], dz = cur[3 * i + 2] - P[3 * i + 2];
                        viridis(Math.sqrt(dx * dx + dy * dy + dz * dz) / TOP, s.col, 3 * q); } }
           s.g.setPositions(s.buf); if (BYD) s.g.setColors(s.col); });
-        if (memb) { memb.attr.array.set(cur); memb.attr.needsUpdate = true; memb.g.computeVertexNormals(); }
+        if (memb) {
+          memb.attr.array.set(cur); memb.attr.needsUpdate = true; memb.g.computeVertexNormals();
+          if (memb.colours) {
+            for (var mi = 0; mi < N; mi++) {
+              var mx = cur[3*mi]-P[3*mi], my = cur[3*mi+1]-P[3*mi+1], mz = cur[3*mi+2]-P[3*mi+2];
+              viridis(Math.sqrt(mx*mx+my*my+mz*mz)/TOP, memb.colours.array, 3*mi);
+            }
+            memb.colours.needsUpdate = true;
+          }
+        }
         kinds.forEach(function (k) { rel[k].forEach(function (L) {
           var n3 = L.rows.length, arr = new Float32Array(Math.max(1, n3) * 6);
           for (var q = 0; q < n3; q++) endPoints(L.role === "form" ? L.rows[q][0] : L.rows[q][0], arr, 6 * q);

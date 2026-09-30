@@ -11,20 +11,16 @@
     "verify_showcase.py": "b319db027a55db354c2979c3e38d753862f26b0fbec3c4bc35237c715c92d6cf"
   },
   "topology": {
-    "radius_um": 1.0,
+    "basis": "explicit archived scene definition; recorded faces for vesicle",
     "segments": 0,
-    "basis": "explicit static archived scene definition",
-    "floor_z_display_offset_um": -1.0,
+    "faces": 3970,
     "added_display_vertices": 1990,
     "sphere_tessellation": [
       32,
       64
-    ]
+    ],
+    "trampoline_sheet_faces_added": 0
   },
-  "saved_frame_indices": [
-    0,
-    699
-  ],
   "t_s": [
     0.002,
     2.798
@@ -34,10 +30,10 @@
   "display_only": true,
   "physics_run": false,
   "bonds_drawn": false,
-  "colours": "illustrative; pale green filament, amber nodes held by the recorded anchoring wells",
-  "interpolation": "Positions linearly interpolated at evenly spaced physical times from archived frames; no physics computed",
-  "helper_sha256": "a0d785832992e09b98e903127350a5f8746fafb8f7c1cea00ec72d86f8f6f82c",
-  "render_commit": "5f61aa7c1e9e4c9921024e7de2fa634ecd09a490",
+  "colours": "illustrative material colours; not displacement or stress",
+  "interpolation": "Linear positions at evenly spaced physical times from archived frames; no physics computed",
+  "helper_sha256": "ca5dfbe32e62bf6c51b0acf6a75d00026be3f28b8827c783ca2b556b6b35806b",
+  "render_commit": "df8e7d6982da8cc3305dfb1c4461306ada99fa86",
   "renderer": "Aleph Studio default with geometry shadows and optics",
   "renderer_sha256": {
     "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
@@ -54,16 +50,16 @@
     "target": [
       0.0,
       0.0,
-      4.891550064086914
+      4.891550540924072
     ],
-    "dist": 23.04563085272385,
-    "extent": 8.530091857910156,
+    "dist": 24.770058467416725,
+    "extent": 7.3420915603637695,
     "theta": -1.4507963267948965,
     "phi": 1.38,
     "fov": 40.0,
     "fixed": true
   },
-  "view_height_um": 16.77584732055664,
+  "view_height_um": 18.03112796634639,
   "output_frames": 288,
   "output_frame_t_s": [
     0.002,
@@ -360,7 +356,7 @@
   "poster": "engine_latest_drop.png",
   "preview_index": null,
   "outputs": {
-    ".png": "2ff4ee6892518ebb2144487ea623cac40e2a1d9841878e475f1a29e82e33aa3e",
-    ".mp4": "64bdc80735883ad92e64fc45d0ca53309e45c482d7a5e3223d550f4a44ae7a19"
+    ".png": "d1d216d9086af17cb0b54aa4408d73a7de3375c2f6c0ff9146eda8534baabd8b",
+    ".mp4": "cd9511db1d3ac94d92cb2cfdd4fec94b753fcfecce138bed4ce986a7af150854"
   }
 }

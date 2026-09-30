@@ -11,17 +11,16 @@
     "verify_showcase.py": "b319db027a55db354c2979c3e38d753862f26b0fbec3c4bc35237c715c92d6cf"
   },
   "topology": {
-    "radius_um": 0.2,
+    "basis": "explicit archived scene definition; recorded faces for vesicle",
     "segments": 20,
-    "basis": "explicit static archived scene definition",
-    "floor_z_display_offset_um": null,
+    "faces": 0,
     "added_display_vertices": 0,
-    "sphere_tessellation": null
+    "sphere_tessellation": [
+      32,
+      64
+    ],
+    "trampoline_sheet_faces_added": 0
   },
-  "saved_frame_indices": [
-    0,
-    799
-  ],
   "t_s": [
     0.005,
     15.985000000000001
@@ -31,10 +30,10 @@
   "display_only": true,
   "physics_run": false,
   "bonds_drawn": false,
-  "colours": "illustrative; pale green filament, amber nodes held by the recorded anchoring wells",
-  "interpolation": "Positions linearly interpolated at evenly spaced physical times from archived frames; no physics computed",
-  "helper_sha256": "a0d785832992e09b98e903127350a5f8746fafb8f7c1cea00ec72d86f8f6f82c",
-  "render_commit": "5f61aa7c1e9e4c9921024e7de2fa634ecd09a490",
+  "colours": "illustrative material colours; not displacement or stress",
+  "interpolation": "Linear positions at evenly spaced physical times from archived frames; no physics computed",
+  "helper_sha256": "ca5dfbe32e62bf6c51b0acf6a75d00026be3f28b8827c783ca2b556b6b35806b",
+  "render_commit": "df8e7d6982da8cc3305dfb1c4461306ada99fa86",
   "renderer": "Aleph Studio default with geometry shadows and optics",
   "renderer_sha256": {
     "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
@@ -53,14 +52,14 @@
       0.0,
       -5.005221366882324
     ],
-    "dist": 16.875445528949566,
+    "dist": 17.479328722231585,
     "extent": 6.246264266967773,
     "theta": -1.4507963267948965,
     "phi": 1.38,
     "fov": 40.0,
     "fixed": true
   },
-  "view_height_um": 12.284319725036621,
+  "view_height_um": 12.723910739693178,
   "output_frames": 288,
   "output_frame_t_s": [
     0.005,
@@ -357,7 +356,7 @@
   "poster": "engine_latest_chain.png",
   "preview_index": null,
   "outputs": {
-    ".png": "e03911cb6ace725c397890b6506606d96d4690d8da180bbd2864d9a8da0cc4a8",
-    ".mp4": "a3ae676651c62d4c811ee9d9bdcbdb45fc9ecefd8cf549e6b2ff419f939d287c"
+    ".png": "2a98a7136705cc8ff59e9b8f044eb2c2a9cb012e90a7f3da5fae3fc8ca29ab65",
+    ".mp4": "b2eacf9c36e4deee2121a767fd01652ab53e0330adb5f2d28aa804d7ea9a6dd1"
   }
 }
