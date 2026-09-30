@@ -168,3 +168,66 @@
 @media(max-width:1000px){.ex-workspace {grid-template-columns:195px minmax(0,1fr);gap:24px}.ex-parameter-workspace {grid-template-columns:240px minmax(0,1fr)}.ex-heading {display:block}.ex-segment {margin-top:16px}.ex-stage-io,.ex-neighborhood {grid-template-columns:1fr}.ex-research-grid {grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.ex-toolbar {display:block}.ex-search {width:100%;margin-top:16px}.ex-workspace,.ex-parameter-workspace {display:block}.ex-sidebar {border:0;border-bottom:1px solid var(--rule);padding:20px 0}.ex-sidebar:not(.ex-catalog) {display:flex;gap:4px;overflow:auto;white-space:nowrap;padding:15px 0}.ex-sidebar:not(.ex-catalog) .ex-eyebrow {display:none}.ex-nav-item {width:auto;flex-shrink:0;border-left:0;border-bottom:2px solid transparent}.ex-nav-item[aria-current=page] {border-bottom-color:var(--link)}.ex-filters {grid-template-columns:1fr 1fr;gap:12px}.ex-catalog #parameter-list {display:grid;grid-template-columns:1fr 1fr;max-height:240px;overflow:auto}.ex-catalog-item {min-width:0}.ex-content {padding-top:28px}.ex-file-relations {grid-template-columns:1fr}.ex-fields>div {grid-template-columns:1fr;gap:5px}.ex-system {grid-template-columns:26px minmax(0,1fr) 16px;gap:10px}.ex-system strong {font-size:1.2rem}.ex-stage-io {grid-template-columns:1fr}.ex-diagram svg {min-width:600px}.ex-figure-grid {grid-template-columns:1fr}.ex-file-row {grid-template-columns:minmax(0,1fr) 16px}.ex-file-row small {grid-row:2}.ex-research-grid {gap:0 22px}.ex-page-nav {gap:22px}.ex-page-nav a {font-size:.87rem}}
 @media(prefers-reduced-motion:reduce){.explorer-page * {scroll-behavior:auto!important}}
+
+/* The full evidence graph is the workspace, with details beside it. */
+.parameter-page {max-width:none;padding-left:24px;padding-right:24px}
+.parameter-page .page-head {padding:13px 0 3px}.parameter-page .page-head h1 {font-size:1.45rem}
+.parameter-page .ex-page-nav {gap:22px;font-size:.85rem}.parameter-page .ex-page-nav a {padding:10px 0 8px}
+.parameter-page .ex-toolbar {padding:10px 0;gap:12px;flex-wrap:wrap}
+.parameter-page .ex-tabs {gap:3px}.parameter-page .ex-tab {font-size:.8rem;padding:7px 10px}
+.parameter-page .ex-search {width:280px}.parameter-page .ex-search[hidden] {display:none}
+.parameter-page.is-map-mode .ex-snapshot {margin-top:8px;font-size:.74rem;padding:10px 0}
+.net-app {font-size:14px;min-width:0;padding-top:12px}
+.net-app button,.net-app select,.net-app input {font:inherit;color:var(--ink);border:1px solid var(--rule);background:var(--bg);border-radius:5px;padding:8px 10px}
+.net-app button {cursor:pointer}.net-app button:hover {background:var(--surface-2)}
+.net-app button:focus-visible,.net-map:focus-visible {outline:2px solid var(--link);outline-offset:2px}
+.net-controls {display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.net-search {position:relative;flex:1;min-width:230px}.net-search>input {width:100%;padding:10px 12px}
+.net-search-results {position:absolute;top:calc(100% + 5px);left:0;width:max(100%,380px);max-width:90vw;max-height:390px;overflow:auto;z-index:30;border:1px solid var(--rule);border-radius:6px;background:var(--bg);box-shadow:0 8px 28px #0002}
+.net-search-count {padding:10px 14px;margin:0;font-size:.74rem;color:var(--muted);border-bottom:1px solid var(--rule)}
+.net-app .net-search-item {display:block;width:100%;border:0;border-bottom:1px solid var(--rule);border-radius:0;text-align:left;padding:11px 14px}
+.net-search-item strong {display:block;font-size:.86rem;font-weight:500;overflow-wrap:anywhere}.net-search-item small {display:block;font-size:.7rem;color:var(--muted);margin-top:4px}
+.net-view {display:flex}.net-view button {border-radius:0;font-size:.8rem;padding:10px 12px}.net-view button:first-child {border-radius:5px 0 0 5px}.net-view button:last-child {border-radius:0 5px 5px 0;border-left:0}
+.net-view button[aria-pressed=true] {background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.net-filter,.net-depth {display:flex;align-items:center;gap:7px;font-size:.75rem;color:var(--muted)}.net-filter select {max-width:205px;font-size:.78rem}.net-depth select {font-size:.8rem}
+.net-depth:has(select:disabled) {opacity:.4}
+.net-workbench {display:flex;min-width:0;height:max(460px,calc(100dvh - 292px));border:1px solid var(--rule);border-radius:6px;overflow:hidden;background:var(--surface)}
+.net-canvas-wrap {position:relative;flex:1;min-width:0;display:flex;flex-direction:column}
+.net-map {min-height:0;flex:1;overflow:hidden;cursor:grab;touch-action:none;background:var(--bg)}
+.net-map.dragging {cursor:grabbing}.net-svg {display:block;width:100%;height:100%;user-select:none}
+.net-cluster {fill:var(--surface);stroke:var(--rule);stroke-width:1}
+.net-column-title {fill:var(--ink);font:700 var(--net-heading-size,23px) var(--font)}
+.net-group-title {fill:var(--ink-2);font:500 var(--net-group-size,14px) var(--font)}
+.net-dot {cursor:pointer;stroke:var(--bg);stroke-width:1}.net-dot:hover {stroke:var(--ink);stroke-width:3}
+.net-edge {fill:none;stroke-width:1.1;opacity:.14;pointer-events:none}.is-local .net-edge {stroke-width:1.5;opacity:.5}
+.net-edge.is-related {opacity:1;stroke-width:2.3}.has-selection .net-edge:not(.is-related) {opacity:.025}
+.has-selection [data-node]:not(.is-related):not(.is-selected) {opacity:.25}
+.net-dot.is-selected {stroke:var(--ink);stroke-width:3;r:7px}
+.net-node {cursor:pointer}.net-node rect {fill:var(--bg);stroke:var(--node-color);stroke-width:1.5}
+.net-node.is-selected rect,.net-node:hover rect {stroke:var(--ink);stroke-width:2.5;fill:var(--surface)}
+.net-node-kind {fill:var(--muted);font:10px var(--font)}.net-node-name {fill:var(--ink);font:500 15px var(--font)}.net-node-code {fill:var(--muted);font:10px var(--mono)}
+.net-map-tools {display:flex;align-items:center;gap:5px;padding:8px 10px;background:var(--surface);border-top:1px solid var(--rule);flex-wrap:wrap}
+.net-map-tools button {padding:6px 10px;font-size:.74rem}.net-map-tools #net-in,.net-map-tools #net-out {font-size:1rem;line-height:1.2;min-width:30px}
+.net-map-tools #net-zoom {font:400 .72rem var(--mono);min-width:36px;text-align:center;color:var(--muted)}.net-tool-gap {flex:1}
+.net-hover {position:absolute;left:12px;bottom:58px;max-width:calc(100% - 24px);padding:9px 12px;border:1px solid var(--rule);border-radius:5px;background:var(--bg);box-shadow:0 2px 12px #0001;font-size:.8rem;pointer-events:none;overflow-wrap:anywhere}
+.net-inspector {width:350px;flex-shrink:0;border-left:1px solid var(--rule);background:var(--bg);display:flex;flex-direction:column;min-height:0}.net-inspector[hidden] {display:none}
+.net-inspector-tools {display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;border-bottom:1px solid var(--rule)}
+.net-inspector-tools button {font-size:.76rem}.net-inspector-tools #net-close {font-size:1.35rem;line-height:1;border:0;padding:5px 9px}
+.net-inspector .ex-content {padding:18px;overflow:auto;min-height:0;scrollbar-width:thin}.net-inspector .ex-content h2 {font-size:1.3rem}
+.net-inspector .ex-content h3 {font-size:.95rem;margin-top:22px}.net-inspector .ex-value {font-size:1.8rem}.net-inspector .ex-value>span {font-size:1.1rem}
+.net-inspector .ex-source-text {font-size:.86rem;line-height:1.6}.net-inspector .ex-neighborhood {display:block}.net-inspector .ex-relation-group {margin:20px 0}
+.net-inspector .ex-small,.net-inspector .ex-tag-explanation {font-size:.74rem}.net-inspector .ex-fields>div {display:block}.net-inspector .ex-fields dt {margin-bottom:7px}
+.net-footer {display:flex;justify-content:space-between;align-items:start;gap:16px;font-size:.73rem;color:var(--muted);padding:9px 0}.net-footer p {margin:0;color:var(--ink-2)}
+.net-key {display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap;font-size:.74rem;color:var(--muted)}.net-key i {display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}.net-key small {margin-left:auto;font-size:.69rem}
+.net-edge-table {margin-top:12px;font-size:.78rem}.ex-table-scroll {overflow:auto;max-width:100%}.ex-data-table,.net-edge-table table {font-size:.82rem;min-width:640px;width:100%;border-collapse:collapse}.ex-data-table th,.ex-data-table td,.net-edge-table th,.net-edge-table td {padding:10px 12px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top;overflow-wrap:anywhere}.ex-data-table th,.net-edge-table th {color:var(--muted);font-weight:500}
+.net-edge-table .ex-table-scroll {max-height:400px}.net-edge-table td button {border:0;padding:0;font-size:.8rem}
+.net-app.is-expanded {position:fixed;inset:0;z-index:200;background:var(--bg);padding:16px;display:flex;flex-direction:column;overflow:auto}
+.net-app.is-expanded .net-workbench {height:auto;flex:1;min-height:300px}.net-app.is-expanded .net-edge-table {display:none}
+.ex-atlas-records {max-width:1150px;margin:30px auto}.ex-atlas-figure {margin:25px 0}.ex-atlas-figure img {display:block;width:min(100%,960px);background:white}.ex-atlas-figure figcaption {font-size:.8rem;color:var(--muted);margin:12px 0}
+@media(max-width:1050px){.net-controls {gap:8px}.net-filter>span,.net-depth>span {display:none}.net-inspector {width:310px}.net-key small {width:100%;margin:0}.net-workbench {height:max(440px,calc(100dvh - 310px))}}
+@media(max-width:700px){.parameter-page {padding-left:14px;padding-right:14px}.parameter-page .page-head h1 {font-size:1.25rem}.parameter-page .ex-toolbar {overflow:auto;flex-wrap:nowrap}.parameter-page .ex-tabs {flex-wrap:nowrap;white-space:nowrap}.parameter-page .ex-tab {font-size:.76rem}.parameter-page .ex-search {min-width:230px}.net-search {flex-basis:100%}.net-filter {flex:1}.net-filter select {max-width:100%;width:100%}.net-workbench {height:540px;position:relative;display:block}.net-canvas-wrap {height:100%}.net-inspector {position:absolute;bottom:0;left:0;right:0;width:100%;height:48%;border-left:0;border-top:1px solid var(--rule)}.has-inspector .net-canvas-wrap {height:52%}.net-map-tools {gap:3px;padding:6px}.net-map-tools button {font-size:.67rem;padding:5px 7px}.net-footer {display:block}.net-footer>span {display:block;margin-top:6px}.net-key {font-size:.68rem;gap:8px 12px}.net-app.is-expanded {padding:10px}.net-app.is-expanded .net-workbench {min-height:400px;flex:1}.net-app.is-expanded .net-key,.net-app.is-expanded .net-footer>span {display:none}}
+/* A local map is already a relevant subset: keep every step readable. */
+.is-local.has-selection [data-node]:not(.is-related):not(.is-selected){opacity:1}
+.is-local.has-selection .net-edge:not(.is-related){opacity:.55}
+
+@media(max-width:700px){.net-map-tools button{min-height:36px}.net-map-tools #net-in,.net-map-tools #net-out{min-width:34px}}

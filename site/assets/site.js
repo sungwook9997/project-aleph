@@ -73,25 +73,48 @@
   document.querySelectorAll("figure.vscene").forEach(function (f) {
     var v = f.querySelector("video"), clock = f.querySelector(".scene-clock"), bar = f.querySelector(".scene-scale i");
     var t0 = +f.dataset.t0, t1 = +f.dataset.t1, vh = +f.dataset.vh, um = +f.dataset.bar;
-    function size() { var W = v.videoWidth || 1600, H = v.videoHeight || 1000, k = Math.max(v.clientWidth / W, v.clientHeight / H);
+    function size() { var W = v.videoWidth || 1600, H = v.videoHeight || 1000, k = (getComputedStyle(v).objectFit === "contain" ? Math.min : Math.max)(v.clientWidth / W, v.clientHeight / H);
       if (bar) bar.style.width = (um / vh * H * k) + "px"; }
     size(); window.addEventListener("resize", size); v.addEventListener("loadedmetadata", size);
-    function tick() { if (clock && v.duration) clock.textContent = "t = " + (t0 + (t1 - t0) * v.currentTime / v.duration).toFixed(2) + " s simulated"; }
+    function tick() { if (clock && v.duration) clock.textContent = "t = " + (t0 + (t1 - t0) * Math.min(1, v.currentTime / (v.duration - (f.dataset.fps ? 1 / +f.dataset.fps : 0)))).toFixed(2) + " s simulated"; }
     v.addEventListener("timeupdate", tick); tick();
   });
   var vs = document.querySelectorAll("video[data-src]"); if (!vs.length) return;
-  var still = false; try { still = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
-  if (still || !("IntersectionObserver" in window)) { vs.forEach(function (v) { v.src = v.dataset.src; v.controls = true; }); return; }
-  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { var v = e.target;
-    if (e.isIntersecting) { if (!v.src) v.src = v.dataset.src; v.play().catch(function () {}); } else if (v.src) v.pause(); }); }, { rootMargin: "200px" });
+  var reduced = false; try { reduced = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
   vs.forEach(function (v) {
-    io.observe(v);
-    // the loop never cuts from the last saved step straight back to the first: it dims out and comes back in
-    v.style.transition = "opacity 0.35s ease";
-    v.addEventListener("timeupdate", function () {
-      if (!v.duration) return;
-      v.style.opacity = v.currentTime > v.duration - 0.4 ? 0 : 1;
-    });
+    var view = v.parentElement;
+    var player = document.createElement("div"); player.className = "recording-player";
+    view.replaceWith(player); player.appendChild(view);
+    var controls = document.createElement("div"); controls.className = "recording-controls";
+    var toggle = document.createElement("button"); toggle.type = "button"; toggle.textContent = "Play";
+    var seek = document.createElement("input"); seek.type = "range"; seek.min = 0; seek.max = 1000; seek.step = 1; seek.value = 0;
+    seek.setAttribute("aria-label", "Seek recording: " + (v.getAttribute("aria-label") || "recorded scene"));
+    var time = document.createElement("span"); time.className = "recording-time"; time.textContent = "Recorded playback";
+    controls.append(toggle, seek, time); player.appendChild(controls);
+    var userPaused = reduced, onscreen = false, loaded = false;
+    function load() { if (!loaded) { v.src = v.dataset.src; loaded = true; } }
+    function sync() {
+      toggle.textContent = v.paused ? "Play" : "Pause";
+      toggle.setAttribute("aria-label", (v.paused ? "Play" : "Pause") + " recording");
+      if (Number.isFinite(v.duration) && v.duration > 0) {
+        seek.value = Math.round(v.currentTime / v.duration * 1000);
+        time.textContent = v.currentTime.toFixed(1) + " / " + v.duration.toFixed(1) + " s playback";
+      }
+    }
+    function play() { load(); v.play().then(sync).catch(function () { sync(); time.textContent = "Press Play to start"; }); }
+    toggle.addEventListener("click", function () { if (v.paused) { userPaused = false; play(); } else { userPaused = true; v.pause(); } });
+    seek.addEventListener("input", function () { load(); if (Number.isFinite(v.duration)) { v.currentTime = v.duration * Number(seek.value) / 1000; sync(); } });
+    ["play", "pause", "timeupdate", "loadedmetadata"].forEach(function (event) { v.addEventListener(event, sync); });
+    v.addEventListener("error", function () { time.textContent = "Recording could not load"; });
+    v.controls = false; v.style.opacity = 1;
+    if ("IntersectionObserver" in window) {
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (entry) {
+        onscreen = entry.isIntersecting;
+        if (onscreen) { load(); if (!userPaused) play(); } else v.pause();
+      }); }, { threshold: 0.05 });
+      observer.observe(view);
+    } else { load(); }
+    sync();
   });
 })();
 

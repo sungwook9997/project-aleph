@@ -17,6 +17,17 @@
     return m;
   }
 
+  // Instruments provide a quiet boundary around the recorded contact; the cell stays visible through them.
+  function instrumentMaterial(opacity) {
+    return new T.MeshStandardMaterial({ color: 0x536b84, metalness: 0, roughness: 0.92,
+      transparent: true, opacity: opacity, depthWrite: false, side: T.DoubleSide, envMapIntensity: 0.04 });
+  }
+  function instrumentOutline(mesh) {
+    var edge = new T.LineSegments(new T.EdgesGeometry(mesh.geometry, 35),
+      new T.LineBasicMaterial({ color: 0x8ea7bf, transparent: true, opacity: 0.65, depthWrite: false }));
+    edge.renderOrder = 4; mesh.add(edge);
+  }
+
   // a vignette and a faint film grain, after the bloom
   var GRADE = { uniforms: { tDiffuse: { value: null }, time: { value: 0 } },
     vertexShader: "varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
@@ -142,10 +153,10 @@
       // instruments the record holds as ONE node with a declared surface (a sphere of radius r; a plane face through the node,
       // its normal into the cell): drawn as that surface at the node's recorded position, step by step
       var probes = (m.probes || []).map(function (pr) {
-        var pm = new T.MeshStandardMaterial({ color: 0x7f9cc0, metalness: 0, roughness: 0.7, transparent: true, opacity: 0.32,
-                                              depthWrite: false, side: T.DoubleSide, envMapIntensity: 0.15 });   // matte: no glare under the bloom
+        var pm = instrumentMaterial(pr.shape === "sphere" ? 0.24 : 0.20);
         var geo = pr.shape === "sphere" ? new T.SphereGeometry(pr.radius, 96, 64) : new T.BoxGeometry(2 * pr.half, 0.12, 2 * pr.half);
         var pmesh = new T.Mesh(geo, pm); pmesh.renderOrder = 3; pmesh.frustumCulled = false;
+        if (pr.shape !== "sphere") instrumentOutline(pmesh);
         var nrm = pr.normal ? new T.Vector3().fromArray(pr.normal).normalize() : null;
         if (nrm) pmesh.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), nrm);
         S.world.add(pmesh); return { pr: pr, mesh: pmesh, nrm: nrm };
@@ -510,8 +521,8 @@
     fetch(base + ".json").then(function (r) { return r.json(); }).then(function (m) {
       S.world.rotation.x = -Math.PI / 2;                   // the record's z is up
       var b = m.plate_box, sx = b.max[0] - b.min[0], sy = b.max[1] - b.min[1], sz = b.max[2] - b.min[2];
-      var plate = new T.Mesh(new T.BoxGeometry(sx, sy, sz), new T.MeshPhysicalMaterial({ color: 0x9fc4ff, metalness: 0.1, roughness: 0.15,
-        transparent: true, opacity: 0.55, clearcoat: 1 }));
+      var plate = new T.Mesh(new T.BoxGeometry(sx, sy, sz), instrumentMaterial(0.20));
+      instrumentOutline(plate);
       plate.position.set((b.max[0] + b.min[0]) / 2, (b.max[1] + b.min[1]) / 2, (b.max[2] + b.min[2]) / 2); S.world.add(plate);
       var ball = new T.Mesh(new T.SphereGeometry(m.R, 64, 40), new T.MeshStandardMaterial({ color: 0xb8863b, metalness: 0.6, roughness: 0.35, envMapIntensity: 0.6 }));
       S.world.add(ball);

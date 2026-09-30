@@ -1,0 +1,216 @@
+{
+  "record": "afm2_t0x_20260930_191704_007_de2d9af12",
+  "record_name": "afm2_t0x_20260930_191704_007_de2d9af12",
+  "simulation_commit": "de2d9af126e94c6c02b1ff0b2f5eb3516449e3d2",
+  "simulation_commit_source": "datapack.json evidence.commit; manifest commit may be null",
+  "manifest_sha256": "41b57b43d7ece65d2a3bdacc3a2febf30bd5529775c64b06d9a586d54209bcc0",
+  "spec_sha256": "047479055781d11d0f97eacb72db9090b99fb85be878c782e33c8e85d030df8d",
+  "input_steps": [
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55,
+    60,
+    65,
+    70,
+    75,
+    80,
+    85,
+    90,
+    95,
+    100
+  ],
+  "steps": [
+    5,
+    100
+  ],
+  "t_s": [
+    0.05,
+    1.0
+  ],
+  "video": "latest_afm.mp4",
+  "poster": "latest_afm.png",
+  "output_pixels": [
+    1280,
+    800
+  ],
+  "fps": 24,
+  "subframes_per_interval": 6,
+  "instrument": {
+    "shape": "sphere",
+    "radius_um": 2.5,
+    "size_source": "instrument.bead.radius",
+    "display_tessellation": [
+      32,
+      64
+    ],
+    "carrier_node": 1669899
+  },
+  "instrument_axis_source": "recorded-build aleph/cell/build/instrument.py: placement on +x",
+  "topology": "each saved frame's live segments and node activity; left endpoint during interpolation",
+  "bonds_drawn": false,
+  "bonds_reason": "dynamic endpoints not present at every saved frame",
+  "interpolation": "linear positions for display only; topology held to left endpoint",
+  "face_alpha": 0.28,
+  "max_node_radius_px": 3.0,
+  "display_only": true,
+  "physics_run": false,
+  "evidence": "recorded preview; no physical validation",
+  "helper_sha256": "af02622fdfbfa87ce6f8e55377309a09c39c9130273874033186455421e8ebb9",
+  "render_commit": "5f61aa7c1e9e4c9921024e7de2fa634ecd09a490",
+  "renderer": "aleph.studio.app.App(default, optics=True)",
+  "renderer_files": {
+    "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
+    "materials.py": "1f17d5ad26217e1c0a2a10275e3adba3edd2e6f6eaf87e16c5b999fbcb0a512d",
+    "composite.py": "5ed3b9b8dd7cf6155b3db36b5287bfaf5b0bacb2694f9254ff30a8ca05848d3a",
+    "optics.py": "869be7961bb42a1a7b04c960e57898e792ee8917fe17fd7c774bbb2271ec1320"
+  },
+  "camera": {
+    "target": [
+      2.6697983741760254,
+      0.025997161865234375,
+      -0.014690041542053223
+    ],
+    "dist": 14.010793363014823,
+    "extent": 4.691550803184509,
+    "theta": -1.5007963267948965,
+    "phi": 1.4,
+    "fov": 40.0,
+    "fixed": true
+  },
+  "view_height_um": 10.199023485183716,
+  "output_frames": 115,
+  "inputs": {
+    "5": {
+      "positions_sha256": "2586582de39a46ffed75fbf638677ffde6b649ddcebca4fb5cfdfd68382c9873",
+      "topology_sha256": "2670e97072b67188dfe94ca18671fb0fcf6070b4bc66b10b1c52e52764b8e734",
+      "active_segments": 1670184,
+      "alive_nodes": 1523552
+    },
+    "10": {
+      "positions_sha256": "92b6609ea55ef40ab6b75d95ceb4d7e9938b30ec0841e08c3d3732e52f89a1ae",
+      "topology_sha256": "d4f681b791bae4e18fd50b459f47c967e5f61648f7be09916bfaac73d74a263d",
+      "active_segments": 1670184,
+      "alive_nodes": 1523552
+    },
+    "15": {
+      "positions_sha256": "db06662182f901a6b68d264f3d686fa10e5f096d9dd91dcf98c78e67d39df19d",
+      "topology_sha256": "668af56f9ab1a9477119e6d09978423529f3c97d2e96a839ab0809a67ab68062",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "20": {
+      "positions_sha256": "45a189542f177e89bfb8389d336faea0537a8c72b5a6a120c5d57eaf816ba1ff",
+      "topology_sha256": "0383da9ff203e55cfaffda8fef84d077b951f9b048eabecea6299f0b5e70ed54",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "25": {
+      "positions_sha256": "f8fe4ab53e87c86169ec65e3913f09339f2795a8a3326d5b97fc5a20a2c9d635",
+      "topology_sha256": "3633a530950e24e3e6ab13bfb1d48b213fad665b14e80d3e40bebbc232aa994c",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "30": {
+      "positions_sha256": "f311ab7d7004e002591961e9329a5e17aa206d1ebe612e183e3376766387879b",
+      "topology_sha256": "3be5ad9d36163152c286cae396f971fb9cba1ba4e449649072d4a41c766f27c6",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "35": {
+      "positions_sha256": "43709e15fec52fa0f45f44a0a303ca330b997a1a9d10da651bb464151d119ec2",
+      "topology_sha256": "53d162267249d716f2b13d5d1642a1cc824df18d83639fe9ccea029f725bddfb",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "40": {
+      "positions_sha256": "08619b7b961324076c50cb8e0b7e5a73b56613ea8bcba29c586fca14c6f1bedc",
+      "topology_sha256": "6ebb66971100e5248dd9d6f604d61f44bd86b12dabd8073f5124647fb2f3ffa0",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "45": {
+      "positions_sha256": "ff015e4ecdf1269394ae301fe98b6cdd1e825f03860380564e39ef88465b53a6",
+      "topology_sha256": "9d804026b5c4996cf79a9967b5689efad15a18f254f6faaca570504e9c7b7dac",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "50": {
+      "positions_sha256": "c8a410cdb6190805ef5a1eadf4911135354f52b9f417e9e0620fdd59792dae90",
+      "topology_sha256": "1f379bac74a9926e2030769bb8bad60a53bb72a10aba9d211169cd16033ea6fa",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "55": {
+      "positions_sha256": "27f23feece54b0a551988a341b071184bd4feff9c46199e704e4a1583a4da249",
+      "topology_sha256": "b65f26bd4e76db8f50e9ae4c3826536b6e86ef7e5ef5e0bebcee5257cef2cc77",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "60": {
+      "positions_sha256": "9980326969c1594d6f27e9d4acb190ec41864d180589c64d05d14f3f3211effd",
+      "topology_sha256": "e78ffcfecd45cd4ce2a66804b5d22d881a93a2d77afc334482947827beaf1330",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "65": {
+      "positions_sha256": "00f67b08866d7f8e9126afafc5a41309ba84cd3d3cf20424d59f5d8b7d9323e1",
+      "topology_sha256": "3150afc2d4387e5d19ba45bbed69986d619978c0fe661d0755d093c98d61ea41",
+      "active_segments": 1669931,
+      "alive_nodes": 1523298
+    },
+    "70": {
+      "positions_sha256": "1a25b30a77aa5351c192b9b0370f97389097060641528ea429c7ea09a0c42e88",
+      "topology_sha256": "05281970aae3095bd5da6386f3681d2ded726c01f2772ce05684f842d00f2009",
+      "active_segments": 1669678,
+      "alive_nodes": 1523044
+    },
+    "75": {
+      "positions_sha256": "2496085f277b3e08288a3e70c1d0094ef866dd82a460bde79e21b7ae06608c08",
+      "topology_sha256": "d2de591b256e6631c587908f34166e2de24e5bcf302f9dcbfbf5f86b8ace8ea3",
+      "active_segments": 1669678,
+      "alive_nodes": 1523044
+    },
+    "80": {
+      "positions_sha256": "08c4b5c2a38afa180ee227b88041abe9201e3ad003f8ad01a0a008f4459494d8",
+      "topology_sha256": "dab8351b948ba2ac8312b1caa51200a3c87f104cfcd736e1407ed65d2342c659",
+      "active_segments": 1669678,
+      "alive_nodes": 1523044
+    },
+    "85": {
+      "positions_sha256": "d0540a7124057a2ce04b11abee28777a1b0158f30d8a5de7e8ac9d642e4aa181",
+      "topology_sha256": "fa2f371f23e071a23685be9d26c9d2cdec236e3e402b34635276f8617f870aa8",
+      "active_segments": 1669678,
+      "alive_nodes": 1523044
+    },
+    "90": {
+      "positions_sha256": "94d53df751c74450823db2f3c2272945b41f73b203ef9bbe66127a3d0613b413",
+      "topology_sha256": "4fb9b4c08b1174ed8d2a95aea6d65c43ba0a414ee2a9b9a54fdc5265ddb2c6b8",
+      "active_segments": 1669678,
+      "alive_nodes": 1523044
+    },
+    "95": {
+      "positions_sha256": "b766d3bb8f372ae83d7e53aabfee145200eefbbf8eab18a4ee9fc75fb83bfaac",
+      "topology_sha256": "b118a19e57de4e08fdb0a75a3f9a1666a7262eb5048bcaaaa4c0ecdc37662d40",
+      "active_segments": 1669678,
+      "alive_nodes": 1523044
+    },
+    "100": {
+      "positions_sha256": "84bf2f7694f7b414e7f38ca9344e2cae53bc55e68f31a411f20f1a3e4c3a4d1b",
+      "topology_sha256": "4fd55e69a3c4ffbd6004aaf643662ed9a09aba55a7892c67a1050fa8c8f02c10",
+      "active_segments": 1669678,
+      "alive_nodes": 1523044
+    }
+  },
+  "outputs": {
+    ".png": "786fe2b7df77310aa2184bf6500716c2a9674ce9cd27597bbf24e1271ff2ddd6",
+    ".mp4": "953ecc6a966defeb25f9bd87b7299651c09c529e692bcc5f21b60211e40505bd"
+  }
+}

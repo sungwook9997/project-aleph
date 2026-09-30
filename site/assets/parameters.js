@@ -1,24 +1,26 @@
 import {$,esc,el,button,data,fail,tabs,setURL,record,disclosure,lazyDisclosure,reveal,empty,count,valueText,words} from './explorer-ui.js';
 import {topics,inputName,displayUnit} from './parameter-guide.js';
+import {mountNetwork} from './parameter-network.js';
 
 const root=$('#parameter-app'),base='../../media/explorers/parameters/';
 const kinds={parameter:'Parameters',research_parameter_review:'Research reviews',example_review:'Example reviews',research_source_card:'Source records',bibliographic_doi_key:'Publications',research_source_comparison:'Source comparisons',literal_reference_token:'Reference mentions',registry_source:'Source registry',advisory_review:'Advisory reviews',example_reference:'Example references',review_reference:'Review references',example_primary_review:'Primary reviews',research_static_transform:'Quantity conversions',example_relation:'Example relationships',code_card:'Construction records',shared_fit:'Shared fits'};
 const edgeNames={bound_to:'Alias of',research_review_describes_parameter:'Review of',review_describes_parameter:'Review of',parameter_in_source_comparison:'Compared in',research_review_uses_source_card:'Uses source',record_has_bibliographic_doi:'Publication',source_comparison_uses_source_card:'Uses source',review_cites_reference:'Cites',declaration_mentions_reference:'Mentions',selected_input_to_code_card:'Used in construction',selected_input_to_example_relation:'Related in review',selected_input_to_quantity_transform:'Converted in',reference_has_registry_identity:'Registered as',example_reference_lists_registry_record:'Registered as',example_review_cites_primary_card:'Primary source',parameter_in_shared_fit:'Shares fit'};
-let A,G,figures,N,P,adjacent,knownFiles,mode='relationships',query='',group='',tag='',page=0,selected='',whole=false,recordKind='';
+let A,G,figures,N,P,adjacent,knownFiles,mode='graph',query='',group='',tag='',page=0,selected='',whole=false,recordKind='';
 const pageSize=32;
 const tagLabel=t=>({EXAMPLE:'Example',SOURCED:'Sourced',SWEPT:'Swept'}[t]||t);
 const parameterMode=()=>mode==='parameters';
-let topicId='cortex_shell_population';
-const href=id=>'?'+new URLSearchParams(id.startsWith('parameter:')?{parameter:id.slice(10)}:{record:id});
+let topicId='cortex_shell_population',network=null,graphState={};
+const href=id=>'?'+new URLSearchParams(mode==='graph'?{mode:'graph',focus:id}:id.startsWith('parameter:')?{parameter:id.slice(10)}:{record:id});
 function nodeLink(id,label){const a=el('a','ex-related-link',esc(label||N.get(id)?.label||id));a.href=href(id);a.onclick=e=>{if(e.metaKey||e.ctrlKey)return;e.preventDefault();select(id);};return a;}
 function heading(text){return el('h3','ex-section-title',esc(text));}
 function switchMode(next){mode=next;query='';page=0;if(mode==='parameters'){group='';tag='';if(!P.has(selected))selected='parameter:cortex.thickness';}setURL(mode==='relationships'?{mode,topic:topicId}:{mode});render();}
 function shell(){
-  root.innerHTML='<div class="ex-toolbar"><div class="ex-tabs" id="parameter-tabs" aria-label="Ways to explore parameters"></div><label class="ex-search"><span class="sr-only">Search parameters and evidence</span><input id="parameter-search" type="search" placeholder="Find a parameter or topic…"></label></div><div id="parameter-workspace"></div>';
-  tabs($('#parameter-tabs'),[['relationships','Relationships'],['parameters','All parameters'],['research','Sources & figures'],['records','Evidence index']],mode==='graph'?'records':mode,switchMode);
-  $('#parameter-search').value=query;$('#parameter-search').oninput=e=>{query=e.target.value;page=0;if(parameterMode()&&query.trim()){group='';tag='';$('#parameter-group').value='';$('#parameter-tag').value='';}if(mode==='research')renderResearch();else if(mode==='relationships')renderGuide();else renderList();};
+  root.innerHTML='<div class="ex-toolbar"><div class="ex-tabs" id="parameter-tabs" aria-label="Atlas views"></div><label class="ex-search"><span class="sr-only">Search parameters and evidence</span><input id="parameter-search" type="search" placeholder="Search this view…"></label></div><div id="parameter-workspace"></div>';
+  tabs($('#parameter-tabs'),[['graph','Relationship map'],['parameters','Parameters'],['relationships','Calculation groups'],['research','Research & figures'],['facets','Declaration types'],['mirror','Source comparison'],['records','Records']],mode,switchMode);
+  $('.ex-search',root).hidden=mode==='graph';root.closest('.parameter-page').classList.toggle('is-map-mode',mode==='graph');
+  $('#parameter-search').value=query;$('#parameter-search').oninput=e=>{query=e.target.value;page=0;if(parameterMode()&&query.trim()){group='';tag='';$('#parameter-group').value='';$('#parameter-tag').value='';}if(mode==='research')renderResearch();else if(mode==='relationships')renderGuide();else if(mode==='facets')renderFacets();else if(mode==='mirror')renderMirror();else renderList();};
 }
-function render(){shell();if(mode==='relationships'){renderGuide();return;}if(mode==='research'){renderResearch();return;}
+function render(){if(network){graphState=network.state();network.destroy();network=null;}shell();if(mode==='graph'){renderNetwork();return;}if(mode==='facets'){renderFacets();return;}if(mode==='mirror'){renderMirror();return;}if(mode==='relationships'){renderGuide();return;}if(mode==='research'){renderResearch();return;}
   const work=$('#parameter-workspace');work.className='ex-workspace ex-parameter-workspace';
   work.innerHTML='<aside class="ex-sidebar ex-catalog" aria-label="Parameter and record list"><div class="ex-filters" id="parameter-filters"></div><p id="parameter-count" class="ex-result-count" aria-live="polite"></p><div id="parameter-list"></div><div id="parameter-pager" class="ex-pager"></div></aside><section class="ex-content" id="parameter-detail" aria-live="polite"></section>';
   const filters=$('#parameter-filters');
@@ -31,7 +33,7 @@ function render(){shell();if(mode==='relationships'){renderGuide();return;}if(mo
     $('#record-kind').value=recordKind;$('#record-kind').onchange=e=>{recordKind=e.target.value;page=0;renderList();};
     filters.append(button('View all evidence connections →',()=>switchMode('graph'),'ex-text-button'));
   }
-  renderList();if(mode==='graph')renderWholeGraph();else renderDetail();
+  renderList();renderDetail();
 }
 function results(){const q=query.toLowerCase().trim();return (parameterMode()?A.parameters:G.nodes).filter(n=>{
   if(parameterMode()&&(group&&n.group!==group||tag&&n.declaration.tag!==tag))return false;
@@ -49,9 +51,10 @@ function renderList(){
 }
 function select(id,push=true){
   if(!N.has(id))return;
+  if(mode==='graph'&&network){network.select(id);return;}
   const previous=mode;selected=id;whole=false;
   if(mode==='relationships'){mode=P.has(id)?'parameters':'records';if(P.has(id))group=P.get(id).group;}
-  if(mode==='research'||mode==='graph')mode=P.has(id)?'parameters':'records';
+  if(['research','facets','mirror'].includes(mode))mode=P.has(id)?'parameters':'records';
   if(push)setURL(P.has(id)?{mode,parameter:id.slice(10)}:{record:id});
   if(mode!==previous)render();else{renderList();renderDetail();}
   reveal($('#parameter-detail'));
@@ -62,7 +65,8 @@ function renderDetail(){
   if(!n){main.append(el('h2','','Explore the evidence'),empty('Choose a parameter or record to see its declaration, source context and relationships.'));return;}
   const p=P.get(n.id),d=n.declaration;
   main.innerHTML=`<p class="ex-eyebrow">${esc(kinds[n.kind]||words(n.kind))}${p?' / '+esc(p.group):''}</p><h2 class="ex-parameter-name">${esc(p?inputName(p.name):n.label)}</h2>${p&&inputName(p.name)!==p.name?`<p class="ex-input-code">${esc(p.name)}</p>`:''}`;
-  if(p){const paths=topics.filter(t=>N.get('code_card:'+t.id)?.card.parameters.includes(p.name));if(paths.length){const maps=el('div','ex-context-links');maps.append(el('span','','See this input in context:'));paths.forEach(t=>maps.append(button(esc(t.title)+' →',()=>{topicId=t.id;switchMode('relationships');},'ex-text-button')));main.append(maps);}}
+  if(mode!=='graph')main.append(button('Show this record in the relationship map →',()=>{graphState={view:'local',root:n.id,focus:n.id,hops:1};mode='graph';setURL({mode,view:'local',root:n.id,focus:n.id,hops:1});render();},'ex-text-button'));
+  if(p&&mode!=='graph'){const paths=topics.filter(t=>N.get('code_card:'+t.id)?.card.parameters.includes(p.name));if(paths.length){const maps=el('div','ex-context-links');maps.append(el('span','','See this input in context:'));paths.forEach(t=>maps.append(button(esc(t.title)+' →',()=>{topicId=t.id;switchMode('relationships');},'ex-text-button')));main.append(maps);}}
   if(d){
     const value=p?.independent_input===false?`<span class="ex-value-prefix">Alias of</span> ${esc(d.bound||p.root)}`:`${esc(valueText(d.value))} <span>${esc(displayUnit(d.unit))}</span>`;
     main.append(el('div','ex-value',`${value}<i class="ex-tag ${esc(d.tag.toLowerCase())}">${tagLabel(d.tag)}</i>`));
@@ -74,6 +78,10 @@ function renderDetail(){
     const detail=n.card||n.record||n.review||n.relation||n.reference||n;
     const summary=detail.finding||detail.statement||detail.scope||detail.reviewer_rationale||detail.verdict;
     if(summary)main.append(el('p','ex-source-text',esc(summary)));
+    const display=n.display||{};for(const [key,title] of [['summary','Summary'],['expression','Calculation'],['context','Context'],['limits','Limits']])if(display[key])main.append(heading(title),record(display[key]));
+    if(n.card?.expression)main.append(heading('Recorded calculation'),el('p','ex-source-text',esc(n.card.expression)));
+    if(n.card?.qualification)main.append(el('p','ex-small',esc(n.card.qualification)));
+    if(n.doi){const a=el('a','ex-text-button','Open publication ↗');a.href='https://doi.org/'+encodeURI(n.doi);main.append(a);}
   }
   const paths=new Set();function collect(value){if(!value)return;if(typeof value==='object'){if(typeof value.path==='string'&&knownFiles.has(value.path))paths.add(value.path);Object.values(value).forEach(collect);}else if(typeof value==='string')for(const m of value.matchAll(/((?:aleph|neural|dev|tests)\/[\w./-]+\.py)/g))if(knownFiles.has(m[1]))paths.add(m[1]);}collect(p||n);
   for(const site of p?.static_lookup_sites||[])paths.delete(site.path);
@@ -124,14 +132,24 @@ function renderGuide(){
   main.append(button('Open the complete relationship record →',()=>select(n.id),'ex-text-button'));
   main.append(el('p','ex-guide-footnote','Reading map of the saved model. Arrows mean “used in this calculation”, not measured biological correlation. The listed inputs follow the selected source record; they are not an exhaustive dependency list.'));
 }
-function renderWholeGraph(){
-  const main=$('#parameter-detail');main.innerHTML=`<p class="ex-eyebrow">All recorded relationships</p><h2>The complete evidence graph</h2><p class="ex-intro">${count(G.nodes.length)} records · ${count(G.edges.length)} relationships. Select a point, or find a named record in the list.</p>`;
-  main.append(button('← Return to selected record',()=>{mode=P.has(selected)?'parameters':'records';setURL(P.has(selected)?{parameter:selected.slice(10)}:{record:selected});render();},'ex-back'));
-  const holder=el('div','ex-whole-graph'),canvas=document.createElement('canvas');canvas.setAttribute('aria-label','All 2,168 evidence records and 3,031 relationships, grouped by type. Use the record list for keyboard navigation.');canvas.tabIndex=0;holder.append(canvas);main.append(holder);
-  const legend=el('div','ex-graph-legend');const kindList=Object.keys(kinds).filter(k=>G.nodes.some(n=>n.kind===k)),colors=['#0b7285','#364fc7','#946200','#c2255c','#2b8a3e','#d9480f'];kindList.forEach((k,i)=>legend.append(el('span','',`<i style="background:${colors[i%colors.length]}"></i>${esc(kinds[k])}`)));main.append(legend);
-  let points=[];function draw(){if(!canvas.isConnected)return;const w=holder.clientWidth,h=620,ratio=Math.min(devicePixelRatio,2);canvas.width=w*ratio;canvas.height=h*ratio;canvas.style.height=h+'px';const c=canvas.getContext('2d');c.scale(ratio,ratio);c.clearRect(0,0,w,h);const byKind=new Map(kindList.map(k=>[k,G.nodes.filter(n=>n.kind===k)]));points=[];let pos=new Map();kindList.forEach((k,j)=>{const ns=byKind.get(k),cols=Math.max(1,Math.ceil(ns.length/65)),x=22+(j%4)*(w-44)/4,y=25+Math.floor(j/4)*145;ns.forEach((n,i)=>{const pt={n,x:x+(i%cols)*Math.min(7,(w/4-30)/cols),y:y+Math.floor(i/cols)*1.8,color:colors[j%colors.length]};points.push(pt);pos.set(n.id,pt);});});c.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();c.globalAlpha=.055;c.lineWidth=.6;for(const edge of G.edges){const a=pos.get(edge.source),b=pos.get(edge.target);if(!a||!b)continue;c.beginPath();c.moveTo(a.x,a.y);c.lineTo(b.x,b.y);c.stroke();}c.globalAlpha=1;for(const p of points){c.fillStyle=p.color;c.beginPath();c.arc(p.x,p.y,p.n.id===selected?4:1.7,0,Math.PI*2);c.fill();}}
-  canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const p=points.reduce((best,p)=>!best||Math.hypot(x-p.x,y-p.y)<Math.hypot(x-best.x,y-best.y)?p:best,null);if(p&&Math.hypot(x-p.x,y-p.y)<12)select(p.n.id);};
-  requestAnimationFrame(draw);const resize=new ResizeObserver(()=>{if(canvas.isConnected)draw();else resize.disconnect();});resize.observe(holder);
+function renderNetwork(){
+  network=mountNetwork($('#parameter-workspace'),{G,kinds,initial:graphState,onSelect:id=>{selected=id;renderDetail();},onState:state=>{graphState=state;setURL({mode:'graph',...state});}});
+}
+function table(headers,rows){const wrap=el('div','ex-table-scroll'),t=el('table','ex-data-table',`<thead><tr>${headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead>`),body=el('tbody','');for(const cells of rows){const tr=el('tr','');for(const item of cells){const td=el('td','');if(item instanceof Node)td.append(item);else td.textContent=valueText(item);tr.append(td);}body.append(tr);}t.append(body);wrap.append(t);return wrap;}
+function renderFacets(){
+  const work=$('#parameter-workspace');work.className='ex-atlas-records';work.replaceChildren();
+  const s=A.facets.summary;work.innerHTML=`<h2>What the declarations contain</h2><p class="ex-intro">${s.rows} declarations include ${s.declaration_shapes.bound_alias} aliases and ${s.valued_rows} rows with values. Transition fields, numerical controls and biological inputs have different roles.</p>`;
+  const image=el('figure','ex-atlas-figure',`<img src="${base}declaration_shapes.svg" alt="Declaration types and the distribution of example values"><figcaption>Counts of declarations, not sensitivity or confidence scores. <a href="${base}declaration_shapes.pdf">PDF</a> · <a href="${base}declaration_facets.csv">Full CSV</a></figcaption>`);work.append(image);
+  work.append(heading('Transition fields'),el('p','ex-small','A zero in a declaration does not establish that its runtime path is inactive. Original tags and prior information are preserved.'));
+  const q=query.toLowerCase(),rows=A.facets.transition_groups.filter(g=>JSON.stringify(g).toLowerCase().includes(q));work.append(table(['Transition','Bound fields','Fields with a zero value','Rate-input units'],rows.map(g=>[g.prefix,g.bound_fields.join(', '),g.valued_zero_fields.join(', '),g.rate_input_units.join(', ')])));
+  work.append(lazyDisclosure('Complete declaration inventory',()=>record(A.facets)));
+}
+function renderMirror(){
+  const work=$('#parameter-workspace');work.className='ex-atlas-records';work.replaceChildren();
+  work.innerHTML='<h2>Declared inputs and source-registry records</h2><p class="ex-intro">The saved parameter file and the saved knowledge-base mirror do not always agree. This view preserves both values; it does not automatically change either.</p>';
+  const q=query.toLowerCase(),rows=A.kb_comparisons.flatMap(p=>p.differences.map(d=>({p,d}))).filter(({p,d})=>JSON.stringify([p.name,d]).toLowerCase().includes(q));
+  work.append(el('p','ex-result-count',`${count(rows.length)} differences`),table(['Parameter','Input type','Field','Registry value','Parameter file'],rows.map(({p,d})=>[nodeLink('parameter:'+p.name,p.name),p.independent_input?'Value':'Alias',d.field,d.kb,d.spec])));
+  work.append(lazyDisclosure('Comparison summary and scope',()=>record(A.kb_summary)),lazyDisclosure('All matched registry records',()=>record(A.kb_comparisons)));
 }
 function renderResearch(){
   const work=$('#parameter-workspace');work.className='';work.innerHTML='<div class="ex-research-head"><p class="ex-eyebrow">Research library</p><h2>Follow a number back to its evidence.</h2><p class="ex-intro">Source readings, quantity conversions and uncertainty reviews from the saved parameter atlas.</p></div>';
@@ -148,6 +166,11 @@ function openPacket(id,push=true){const packet=A.research_catalog.packets.find(p
   const links=el('div','ex-packet-parameters');for(const name of packet.parameter_names||[])links.append(nodeLink('parameter:'+name,name));detail.append(disclosure(`Parameters in this packet (${packet.parameter_names?.length||0})`,links));
   if(body){const metaKeys=new Set(['schema','authority_status','created_utc','provenance','scope','input_sha256']);detail.append(record(Object.fromEntries(Object.entries(body).filter(([k])=>!metaKeys.has(k)))));detail.append(disclosure('Provenance and scope',record(Object.fromEntries(Object.entries(body).filter(([k])=>metaKeys.has(k))))));}const a=el('a','ex-text-button','Download the saved record ↗');a.href=base+packet.file;detail.append(a);detail.scrollIntoView({block:'start',behavior:'smooth'});
 }
-function restore(){const s=new URLSearchParams(location.search);mode=s.get('mode')||(s.has('parameter')?'parameters':'relationships');if(!['relationships','parameters','records','graph','research'].includes(mode))mode='relationships';if(location.hash==='#records')mode='research';selected=s.get('record')||'parameter:'+(s.get('parameter')||'cortex.thickness');if(s.has('record'))mode='records';group=parameterMode()&&s.has('parameter')?P.get(selected)?.group||'':'';query='';tag='';recordKind='';page=0;whole=mode==='graph';topicId=topics.some(t=>t.id===s.get('topic'))?s.get('topic'):'cortex_shell_population';render();if(s.has('packet'))openPacket(s.get('packet'),false);}
+function restore(){const s=new URLSearchParams(location.search);if(network){network.destroy();network=null;}
+  mode=s.get('mode')||(s.has('parameter')?'parameters':s.has('record')?'records':'graph');if(!['relationships','parameters','records','graph','research','facets','mirror'].includes(mode))mode='graph';if(location.hash==='#records')mode='research';
+  selected=s.get('record')||'parameter:'+(s.get('parameter')||'cortex.thickness');if(s.has('record')&&mode!=='graph')mode='records';group=parameterMode()&&s.has('parameter')?P.get(selected)?.group||'':'';query='';tag='';recordKind='';page=0;
+  graphState={view:s.get('view')||'all',filter:s.get('filter')||'',hops:Number(s.get('hops')||1),root:s.get('root')||s.get('focus')||'parameter:cortex.thickness',focus:s.get('focus')||null};
+  topicId=topics.some(t=>t.id===s.get('topic'))?s.get('topic'):'cortex_shell_population';render();if(s.has('packet'))openPacket(s.get('packet'),false);
+}
 
 Promise.all([data('../../media/explorers/native/parameters.json'),data(base+'evidence_graph.json'),data('../../media/explorers/native/figures.json'),data('../../media/explorers/structure/locations.json')]).then(([a,g,f,files])=>{A=a;G=g;figures=f;knownFiles=new Set(files);N=new Map(g.nodes.map(n=>[n.id,n]));P=new Map(a.parameters.map(p=>[p.id,p]));adjacent=new Map();for(const e of G.edges)for(const id of new Set([e.source,e.target])){if(!adjacent.has(id))adjacent.set(id,[]);adjacent.get(id).push(e);}restore();addEventListener('popstate',restore);}).catch(e=>fail(e,root));

@@ -1,0 +1,214 @@
+{
+  "record": "plate2_t0x_20260930_191704_008_de2d9af12",
+  "record_name": "plate2_t0x_20260930_191704_008_de2d9af12",
+  "simulation_commit": "de2d9af12",
+  "simulation_commit_source": "datapack.json evidence.commit; manifest commit may be null",
+  "manifest_sha256": "2ddef4a6054a867d031807cf5bdc89fd9a98f978b534e6e37713aeee5ebc89a7",
+  "spec_sha256": "631cda3696a4f083f03bb3729b9e5a3de719f72482dda2b817d15fcccc4913cf",
+  "input_steps": [
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55,
+    60,
+    65,
+    70,
+    75,
+    80,
+    85,
+    90,
+    95,
+    100
+  ],
+  "steps": [
+    5,
+    100
+  ],
+  "t_s": [
+    0.05,
+    1.0
+  ],
+  "video": "latest_plate.mp4",
+  "poster": "latest_plate.png",
+  "output_pixels": [
+    1280,
+    800
+  ],
+  "fps": 24,
+  "subframes_per_interval": 6,
+  "instrument": {
+    "shape": "plane",
+    "normal_axis": "x",
+    "half_width_um": 10.0,
+    "thickness_drawn": 0,
+    "size_source": "instrument.plate.half_width",
+    "carrier_node": 1669897
+  },
+  "instrument_axis_source": "recorded-build aleph/cell/build/instrument.py: placement on +x",
+  "topology": "each saved frame's live segments and node activity; left endpoint during interpolation",
+  "bonds_drawn": false,
+  "bonds_reason": "dynamic endpoints not present at every saved frame",
+  "interpolation": "linear positions for display only; topology held to left endpoint",
+  "face_alpha": 0.28,
+  "max_node_radius_px": 3.0,
+  "display_only": true,
+  "physics_run": false,
+  "evidence": "recorded preview; no physical validation",
+  "helper_sha256": "af02622fdfbfa87ce6f8e55377309a09c39c9130273874033186455421e8ebb9",
+  "render_commit": "5f61aa7c1e9e4c9921024e7de2fa634ecd09a490",
+  "renderer": "aleph.studio.app.App(default, optics=True)",
+  "renderer_files": {
+    "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
+    "materials.py": "1f17d5ad26217e1c0a2a10275e3adba3edd2e6f6eaf87e16c5b999fbcb0a512d",
+    "composite.py": "5ed3b9b8dd7cf6155b3db36b5287bfaf5b0bacb2694f9254ff30a8ca05848d3a",
+    "optics.py": "869be7961bb42a1a7b04c960e57898e792ee8917fe17fd7c774bbb2271ec1320"
+  },
+  "camera": {
+    "target": [
+      -0.06135356426239014,
+      0.025997161865234375,
+      -0.014690041542053223
+    ],
+    "dist": 13.434847497793493,
+    "extent": 4.498693823814392,
+    "theta": -1.5007963267948965,
+    "phi": 1.4,
+    "fov": 40.0,
+    "fixed": true
+  },
+  "view_height_um": 9.7797691822052,
+  "output_frames": 115,
+  "inputs": {
+    "5": {
+      "positions_sha256": "10f9258290b346c8f5ee7058e857a39695a7b0f07537e95e8a556f6c366ced60",
+      "topology_sha256": "babf44edcfb5afc45a5ec6f78d485476df0e5e60fcc5caefa714dc1ec21162b3",
+      "active_segments": 1670184,
+      "alive_nodes": 1523551
+    },
+    "10": {
+      "positions_sha256": "ed5bdff84772ca89c2638597387f5ba5ffc6cfdc77152cfb766fea6f9bd805c6",
+      "topology_sha256": "2b6d32b8949a15128075d0aa772923787f88a47ce773a9823dc14fd50572c7ff",
+      "active_segments": 1670184,
+      "alive_nodes": 1523551
+    },
+    "15": {
+      "positions_sha256": "c9f43179090f5ee3d5efc9a19d33097b6ae18ed259f4b27a68b9e99171f87aba",
+      "topology_sha256": "bfb12956d5c3debba3f65ffe5e5eee7518a41ed92c756e574b137edf6158f5c9",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "20": {
+      "positions_sha256": "0a39087ff17026fb0f11888a9e5f451aa7ae1444bc98938651e3d8d574123a34",
+      "topology_sha256": "7acc8ba6cc6039410df5d614f9b6599a00755fbcd14ba7d51a5f9f45e24818bf",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "25": {
+      "positions_sha256": "a53ffe16121578d23e7a668960252009bf17906a88c06154028eac708072bb3d",
+      "topology_sha256": "83fb95f24008ce12630d25b9b694b743f53cb7dece926abd35d5d99497f9a934",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "30": {
+      "positions_sha256": "c88aa3a6b035b76101ee5f81011a1b4d34d99e5ce18080ed94f4b27fac8fd84d",
+      "topology_sha256": "5c63fbddfbaf729581b02feb591495280fa4dba47e7e3ee61610805ddd77fe1a",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "35": {
+      "positions_sha256": "6a24a161862e63ccaf1680abb68ca20d5f7fcaa39611bed79ee56719dad5ed5c",
+      "topology_sha256": "185173c069b286c5a11d148889189f04b8fa4652285773d55c8914bf9623c324",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "40": {
+      "positions_sha256": "c3586ab5747828aaf98b5e252b2989c608fff31a4a257ca5969811d5859cedf7",
+      "topology_sha256": "00e3b14454c12474ccdd8dbb60c575526da414aa3b995ac925598129087b8a91",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "45": {
+      "positions_sha256": "c324957c9fd6f256260d2bd74051db53436e31241a7e1970bb8ea953969dc148",
+      "topology_sha256": "7b34ef99e06ef3067f0ba01a55ca4b274087662b89f1bed5066a22f66d93726b",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "50": {
+      "positions_sha256": "c11f5be5c77cc0ad0c3843e5f27c5152d1f9e6027c9bfef3543ca213fe206dea",
+      "topology_sha256": "944ec06d0a9f163eccdbdeb1ffe2b504976e7b35abb13eb07d58631aaea89068",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "55": {
+      "positions_sha256": "7dffac2a98cbc42d6dd5fad6b6dbbaffd62e3dc37e12bed636c46ba4393a0999",
+      "topology_sha256": "60df5c7c5ce643885e1b9c219f500b2e9fa1a3fb3d721e1d71c575953abd3903",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "60": {
+      "positions_sha256": "c7c29c5d0139a6a8bfc5499d87c5ec3f2c4c491741c15a55211880c8c724023d",
+      "topology_sha256": "e2fe2cee8a197f5925ca3cd715ad095c7a46e13cb9bd29e66bcdd9022ca6b1be",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "65": {
+      "positions_sha256": "14c5ec8a9796780273e89efb3a0a79eca7ce37d88d26301007c4d1232468f972",
+      "topology_sha256": "8edb5890c23da1f3a5009507c96f008f46d6e56cd9ef76109439b9c450d5d776",
+      "active_segments": 1669931,
+      "alive_nodes": 1523297
+    },
+    "70": {
+      "positions_sha256": "3b5c964c7abec39547b47adc6a920aae54fcb990f6fd0e4aa95050746d5c731c",
+      "topology_sha256": "e14b084510f5cfbbf60641d43deb66558cef1f91b3b6d2f7591b1d40a1ee5175",
+      "active_segments": 1669678,
+      "alive_nodes": 1523043
+    },
+    "75": {
+      "positions_sha256": "afc35444beb5be563c1554c9e1f3e317d6f83f08f6b442a2a76ef888a46ed516",
+      "topology_sha256": "a8d356f8d6627754da5d177faa5d3053105a7a71189661b2626c2db027807b58",
+      "active_segments": 1669678,
+      "alive_nodes": 1523043
+    },
+    "80": {
+      "positions_sha256": "cf0b24c4555332528da791ca50f7f8c9e2d256f98d4439e5dfe95d46dafafcda",
+      "topology_sha256": "7d2bff4d119cb3059452ecd324082b2a4bbbd5ff1e0065484d59d1881edf0243",
+      "active_segments": 1669678,
+      "alive_nodes": 1523043
+    },
+    "85": {
+      "positions_sha256": "2a7e48ac1aa424bac96f8daaf426be925bbc072d18a6e6c3e8638cd39f32512b",
+      "topology_sha256": "316a4b9ed72afac1da9d72309808251ac55fe03c4cc79ea4982c6f300a1cf502",
+      "active_segments": 1669678,
+      "alive_nodes": 1523043
+    },
+    "90": {
+      "positions_sha256": "c8b1d693fa8bd0e2068538165efc16e52e98b88e9bc0e2f48e9580a85c073d57",
+      "topology_sha256": "7014d2cc414ae855b5187ddac00bfe722e1149fa10893c9b20aa0f3328b09fc3",
+      "active_segments": 1669678,
+      "alive_nodes": 1523043
+    },
+    "95": {
+      "positions_sha256": "c34be0f3def3f2c7f726507ca54df32ebd8e17f77dec756ea091aea4ebc4caec",
+      "topology_sha256": "fed01aa87e11d27fc28e282f1d0555ab77de024694b6f66a99f5703fd2e429fd",
+      "active_segments": 1669678,
+      "alive_nodes": 1523043
+    },
+    "100": {
+      "positions_sha256": "7810db7c67a0c012942e1fdec3925dd731b93fdb1e495ff26fbdb19987dd4f45",
+      "topology_sha256": "5cfd03caf718d63d8731444e7c1309e3655dbe112e160410862b11dff281df58",
+      "active_segments": 1669678,
+      "alive_nodes": 1523043
+    }
+  },
+  "outputs": {
+    ".png": "fcac3ab3c94812293ba9a67af9e1e731c7c7ce53757e8935010702106dafba37",
+    ".mp4": "e5dcf656e66d3cd7d5357e507a6bed346b74eecc0f685ff64c552cf9abb0794a"
+  }
+}
