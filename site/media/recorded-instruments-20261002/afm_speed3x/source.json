@@ -1,0 +1,268 @@
+{
+  "case": "afm_speed3x",
+  "source_record": "showcase_afm_speed3x_20261001_234344_101_eff1f7455",
+  "source_commit": "eff1f74551a527b74c71e32b6a8bf017ab4c4c19 (COMMIT_STAMP, hand-deployed)",
+  "valid_frame_range": [
+    5,
+    100
+  ],
+  "steps": [
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55,
+    60,
+    65,
+    70,
+    75,
+    80,
+    85,
+    90,
+    95,
+    100
+  ],
+  "physical_seconds": [
+    0.05,
+    1.0
+  ],
+  "position_sources": [
+    {
+      "step": 5,
+      "path": "00000005_pos.npy",
+      "sha256": "b32b020d37256c200310c0e87766a81a928b74e4159b81877c30a303d049e67b"
+    },
+    {
+      "step": 10,
+      "path": "00000010_pos.npy",
+      "sha256": "d068c5850aefbc4d25357e2193939b4d1bbe4a3d7b85cc1ebbdf7a015768060a"
+    },
+    {
+      "step": 15,
+      "path": "00000015_pos.npy",
+      "sha256": "4a52ac871aff1b31640fa4157e603e294adaad94a6096b2a9b99c9e60b71e4aa"
+    },
+    {
+      "step": 20,
+      "path": "00000020_pos.npy",
+      "sha256": "74397008a48fd4fa5369819229177c21adcc2273506aab173bd30669a912335d"
+    },
+    {
+      "step": 25,
+      "path": "00000025_pos.npy",
+      "sha256": "db9274503ba930e92c759c5b1cced7484742246da4c852fcae23dfd6111940c2"
+    },
+    {
+      "step": 30,
+      "path": "00000030_pos.npy",
+      "sha256": "225c7622a6518657f6e55305a6025c97d916393644a65af9d78e211f5d656728"
+    },
+    {
+      "step": 35,
+      "path": "00000035_pos.npy",
+      "sha256": "c6277f1fd63239fc27db23e031bb27c354d6781a3148b8f2eeed3e57f4f15c33"
+    },
+    {
+      "step": 40,
+      "path": "00000040_pos.npy",
+      "sha256": "bc714d01a74bdb77ec96a3f95931923fb8a4d004d1c5ea617aaf86b526c9bf6a"
+    },
+    {
+      "step": 45,
+      "path": "00000045_pos.npy",
+      "sha256": "0256acf55c21fd93f7020ac6bb40b8e2f467d6189565763f18297703e4a29cdd"
+    },
+    {
+      "step": 50,
+      "path": "00000050_pos.npy",
+      "sha256": "90df07529f7905e8f2be4045b3bee761d8c4c5f7708e7252216d22a6c8116642"
+    },
+    {
+      "step": 55,
+      "path": "00000055_pos.npy",
+      "sha256": "6c5a6bf1222689bd1fcdb5b9146917864535b621168fa37c27f1504484b29d69"
+    },
+    {
+      "step": 60,
+      "path": "00000060_pos.npy",
+      "sha256": "3b7aa86e0d8c6187a12dfcf7a3605d38215bb1a7bc752cacbbb8bb6e3a69580b"
+    },
+    {
+      "step": 65,
+      "path": "00000065_pos.npy",
+      "sha256": "04f678086c562f4abe8ec13a2181c7fd358925e22fda8a5c772e9f6e91fa42e8"
+    },
+    {
+      "step": 70,
+      "path": "00000070_pos.npy",
+      "sha256": "c2fc8c583090ef52c70c052c6c058d15e2df44d1aad6f53308c9b651b7e52316"
+    },
+    {
+      "step": 75,
+      "path": "00000075_pos.npy",
+      "sha256": "17c1fed9ce4b7b9fe2ec42adb046eb9554ed58f6b3aecb68e89acf86be539fbf"
+    },
+    {
+      "step": 80,
+      "path": "00000080_pos.npy",
+      "sha256": "88e06281d39a3be70ada6b6f78704d6d4e1bf40821252a248df70f851b32f6d8"
+    },
+    {
+      "step": 85,
+      "path": "00000085_pos.npy",
+      "sha256": "ebf936b5c1613ab7008eb798821cee49f16f000d32b652c24afa9b18d3c0f9e7"
+    },
+    {
+      "step": 90,
+      "path": "00000090_pos.npy",
+      "sha256": "f6732487dbed837de1b176cdb4eeb0a6e5adbd3c918f997fb5bdccf6278e734d"
+    },
+    {
+      "step": 95,
+      "path": "00000095_pos.npy",
+      "sha256": "52b5066679e4990266fad5e828ed925df0b3951a25da55f8c2feb34a40953343"
+    },
+    {
+      "step": 100,
+      "path": "00000100_pos.npy",
+      "sha256": "22b572215a5cba25c18b4b2a5a44354116efc37a4e3a8bdd3b976d5bb8dd48f2"
+    }
+  ],
+  "geometry_source": "tables.npz",
+  "geometry_sha256": "41cb32ce39c5412de65cb26aa5fdda06c8da0a0385775e3e19b69fca4575727e",
+  "spec_sha256": "97a0a3cb530d79da6bac9a69e45a921617e461023c052c1e0775cdbad208e979",
+  "measurement_sha256": "48ad8e39bb6aa57f84fa0dea3726ab564b0a2d89f57d2e8fa36c828f0d98f6d7",
+  "geometry_amplification": 1,
+  "interpolation": "Linear between saved positions for display only; no extrapolation. Discrete status changes only at recorded samples.",
+  "renderer": "Unchanged Aleph Studio Scene / materials / ShadowMap / DepthComposite; macOS CGL framebuffer adapter",
+  "render_style_reference": "aleph-showcase-v6.mp4",
+  "renderer_files": {
+    "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
+    "materials.py": "1f17d5ad26217e1c0a2a10275e3adba3edd2e6f6eaf87e16c5b999fbcb0a512d",
+    "composite.py": "5ed3b9b8dd7cf6155b3db36b5287bfaf5b0bacb2694f9254ff30a8ca05848d3a",
+    "optics.py": "869be7961bb42a1a7b04c960e57898e792ee8917fe17fd7c774bbb2271ec1320"
+  },
+  "display_only": true,
+  "new_physics": false,
+  "reference_step": 5,
+  "total_displacement_max_um": 0.5574384573456587,
+  "total_displacement_scale_um": [
+    0,
+    0.6
+  ],
+  "visible_internal_segments": {
+    "microtubule": {
+      "stable_live_segments": 6464,
+      "omitted_changing_segments": 0
+    },
+    "intermediate_filament": {
+      "stable_live_segments": 7982,
+      "omitted_changing_segments": 0
+    }
+  },
+  "instrument_geometry": {
+    "loaded_probe": {
+      "shape": "sphere",
+      "radius_um": 2.5,
+      "size_source": "instrument.bead.radius",
+      "display_tessellation": [
+        32,
+        64
+      ]
+    },
+    "base": {
+      "shape": "plane",
+      "normal_axis": "x",
+      "half_width_um": 10.0,
+      "thickness_drawn": 0,
+      "size_source": "instrument.plate.half_width"
+    },
+    "placement": "Input analytic face at recorded carrier coordinates; unused plate carrier hidden in bead runs"
+  },
+  "variants": {
+    "overview": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          1.4,
+          0.0,
+          0.0
+        ],
+        "distance": 16.0,
+        "theta": -1.4,
+        "phi": 1.42
+      },
+      "scalar": false,
+      "probe_hidden": false
+    },
+    "detail": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          3.45,
+          0.0,
+          0.0
+        ],
+        "distance": 8.0,
+        "theta": -1.35,
+        "phi": 1.45
+      },
+      "scalar": false,
+      "probe_hidden": false
+    },
+    "displacement": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          3.4,
+          0.0,
+          0.0
+        ],
+        "distance": 5.8,
+        "theta": -0.45,
+        "phi": 1.45
+      },
+      "scalar": true,
+      "probe_hidden": true
+    }
+  },
+  "helper_sha256": "704a487551a247e4aa888b90d36d3925207d8e1245d678ef893d19cb241656a5",
+  "public_media": {
+    "video": {
+      "path": "media/recorded-instruments-20261002/afm_speed3x/clip.mp4",
+      "sha256": "ab731a2ca73cd2bdd1a060cb36bb2dc83dbe97c2b77da5cd255ba11b958c7848"
+    },
+    "poster": {
+      "path": "media/recorded-instruments-20261002/afm_speed3x/poster.png",
+      "sha256": "929b3e8cc668f1702bdca9bfa955a60f03a77736c4fb0ec7a4479825dce12739"
+    },
+    "overview": {
+      "path": "media/recorded-instruments-20261002/afm_speed3x/overview.mp4",
+      "sha256": "1ad8197dbb68a37c4a66447366877155d52de8659bd9f7e2ab40348bf58fd2e1"
+    },
+    "detail": {
+      "path": "media/recorded-instruments-20261002/afm_speed3x/detail.mp4",
+      "sha256": "c4a808a49baac5f03c7446c117f56fdd159e59eaf9653f35f1053cc503aefa09"
+    },
+    "displacement": {
+      "path": "media/recorded-instruments-20261002/afm_speed3x/displacement.mp4",
+      "sha256": "36968eea65d2b3e3915359583ca4b3ca7a56a8d3cef8b3b086e4ea58077feb5e"
+    },
+    "contact_sheet": {
+      "path": "media/recorded-instruments-20261002/afm_speed3x/contact-sheet.jpg",
+      "sha256": "dd6f410027d53d024dd73afa78c0bff1f9821f7c7de0767f44d2873cc3572ff8"
+    }
+  }
+}

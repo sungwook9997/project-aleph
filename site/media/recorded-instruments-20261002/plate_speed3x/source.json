@@ -1,0 +1,254 @@
+{
+  "case": "plate_speed3x",
+  "source_record": "showcase_plate_speed3x_20261001_234344_202_eff1f7455",
+  "source_commit": "eff1f74551a527b74c71e32b6a8bf017ab4c4c19 (COMMIT_STAMP, hand-deployed)",
+  "valid_frame_range": [
+    5,
+    90
+  ],
+  "steps": [
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55,
+    60,
+    65,
+    70,
+    75,
+    80,
+    85,
+    90
+  ],
+  "physical_seconds": [
+    0.05,
+    0.9
+  ],
+  "position_sources": [
+    {
+      "step": 5,
+      "path": "00000005_pos.npy",
+      "sha256": "a35005b0df487a9f24682ebd7124ac3fe8b2c6ff6c074b60d30d635df63fdf56"
+    },
+    {
+      "step": 10,
+      "path": "00000010_pos.npy",
+      "sha256": "84208c3d5f3869e99b758cdc73ae07198809f9e46bfec4d1386023d7b70b1743"
+    },
+    {
+      "step": 15,
+      "path": "00000015_pos.npy",
+      "sha256": "bdf424a801792f73d85737fb70b103e2792616f8d2c5cc0050bfa26ab67692dd"
+    },
+    {
+      "step": 20,
+      "path": "00000020_pos.npy",
+      "sha256": "02caf3172ca64357c92b419b97cb0f55593b06cb4e442c835115806f149a345b"
+    },
+    {
+      "step": 25,
+      "path": "00000025_pos.npy",
+      "sha256": "7be92cec81d5beccc9a0932bbfdd143e21097d5cb62b9f950354b56dce0e0d14"
+    },
+    {
+      "step": 30,
+      "path": "00000030_pos.npy",
+      "sha256": "f84dd7aee035f4505aaa8aafc8ccbda1caadb1d3225420db0932961276c55e7c"
+    },
+    {
+      "step": 35,
+      "path": "00000035_pos.npy",
+      "sha256": "a89170cc56418029d53884cb0e77233f1a1ff9d4cfa8fb35d0ec95d73fd77817"
+    },
+    {
+      "step": 40,
+      "path": "00000040_pos.npy",
+      "sha256": "e437684e89fece91cd67e73dec03942c578db9431c32149d900574d9a43b003e"
+    },
+    {
+      "step": 45,
+      "path": "00000045_pos.npy",
+      "sha256": "21e8968483290701f31c00c47a56e8e28d609a37ad5f99b9506ce28380dc2c9b"
+    },
+    {
+      "step": 50,
+      "path": "00000050_pos.npy",
+      "sha256": "6c8bdfb097812059f9967b3ff6d3d32107230110f05bb234ad8a42247195e454"
+    },
+    {
+      "step": 55,
+      "path": "00000055_pos.npy",
+      "sha256": "2434fc0061776689134dd6467da2c146a160395657867c705b363a1e3eaeb8ba"
+    },
+    {
+      "step": 60,
+      "path": "00000060_pos.npy",
+      "sha256": "370b965133881790b28ec7d18589e9493e972adf782c7059b0276d58ac6524c1"
+    },
+    {
+      "step": 65,
+      "path": "00000065_pos.npy",
+      "sha256": "471fbc4a1da1a0a6da308a42597a8a97f77c89f352602b1475b137f5d4793553"
+    },
+    {
+      "step": 70,
+      "path": "00000070_pos.npy",
+      "sha256": "d7534d2e3b1189257f64efb68ab8ae1b9f592c280aa17241ebaccad6c9e4b3ae"
+    },
+    {
+      "step": 75,
+      "path": "00000075_pos.npy",
+      "sha256": "2252c2164e798bcf9f422f5b03624f1c45ad5f672afca973f026af94b4e10fb2"
+    },
+    {
+      "step": 80,
+      "path": "00000080_pos.npy",
+      "sha256": "9bb2b01f41dde757b231106415edd58e51be82a308e511150bef9926a3f297cd"
+    },
+    {
+      "step": 85,
+      "path": "00000085_pos.npy",
+      "sha256": "3c4db84a106efdb66a427fc45e5e211194994b1eacd279282d0ad605b6b2819d"
+    },
+    {
+      "step": 90,
+      "path": "00000090_pos.npy",
+      "sha256": "482325b7410eb00b44140a3ef4ce369ec3b2472516291c483a921de78bec398e"
+    }
+  ],
+  "geometry_source": "tables.npz",
+  "geometry_sha256": "565ce8ac6634c06600892b302739d8a010f5cc05453a8e286a36c1d093b38767",
+  "spec_sha256": "d8e2a7e39759bda1e8744bbf29d6a46ee56b706f97e698689b777dacfe54a2f4",
+  "measurement_sha256": "22e37c27d4b185498b9a918c5a34a59fb9cc78fdea690f3789f2624991ef6c1f",
+  "geometry_amplification": 1,
+  "interpolation": "Linear between saved positions for display only; no extrapolation. Discrete status changes only at recorded samples.",
+  "renderer": "Unchanged Aleph Studio Scene / materials / ShadowMap / DepthComposite; macOS CGL framebuffer adapter",
+  "render_style_reference": "aleph-showcase-v6.mp4",
+  "renderer_files": {
+    "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
+    "materials.py": "1f17d5ad26217e1c0a2a10275e3adba3edd2e6f6eaf87e16c5b999fbcb0a512d",
+    "composite.py": "5ed3b9b8dd7cf6155b3db36b5287bfaf5b0bacb2694f9254ff30a8ca05848d3a",
+    "optics.py": "869be7961bb42a1a7b04c960e57898e792ee8917fe17fd7c774bbb2271ec1320"
+  },
+  "display_only": true,
+  "new_physics": false,
+  "reference_step": 5,
+  "total_displacement_max_um": 0.32402633851941526,
+  "total_displacement_scale_um": [
+    0,
+    0.4
+  ],
+  "visible_internal_segments": {
+    "microtubule": {
+      "stable_live_segments": 6464,
+      "omitted_changing_segments": 0
+    },
+    "intermediate_filament": {
+      "stable_live_segments": 7982,
+      "omitted_changing_segments": 0
+    }
+  },
+  "instrument_geometry": {
+    "loaded_probe": {
+      "shape": "plane",
+      "normal_axis": "x",
+      "half_width_um": 10.0,
+      "thickness_drawn": 0,
+      "size_source": "instrument.plate.half_width"
+    },
+    "base": {
+      "shape": "plane",
+      "normal_axis": "x",
+      "half_width_um": 10.0,
+      "thickness_drawn": 0,
+      "size_source": "instrument.plate.half_width"
+    },
+    "placement": "Input analytic face at recorded carrier coordinates; unused plate carrier hidden in bead runs"
+  },
+  "variants": {
+    "overview": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "distance": 42.0,
+        "theta": -1.4,
+        "phi": 1.42
+      },
+      "scalar": false,
+      "probe_hidden": false
+    },
+    "detail": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          3.45,
+          0.0,
+          0.0
+        ],
+        "distance": 8.0,
+        "theta": -1.35,
+        "phi": 1.45
+      },
+      "scalar": false,
+      "probe_hidden": false
+    },
+    "context": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "distance": 17.0,
+        "theta": -1.5,
+        "phi": 1.42
+      },
+      "scalar": false,
+      "probe_hidden": false
+    }
+  },
+  "helper_sha256": "ca78170d8de06415ec58bb4846acb4247eced0af29cec542c7d4229f08b78839",
+  "public_media": {
+    "video": {
+      "path": "media/recorded-instruments-20261002/plate_speed3x/clip.mp4",
+      "sha256": "12ce64d6645f01e07b2aea1b0a3ab3c46ecc1cb7a5d2576bc57a3cee7bfd27d8"
+    },
+    "poster": {
+      "path": "media/recorded-instruments-20261002/plate_speed3x/poster.png",
+      "sha256": "7cabd0fb8f252cdd507aeb39ce5c245bd80ea51b34b42d51aa32d715598cd127"
+    },
+    "overview": {
+      "path": "media/recorded-instruments-20261002/plate_speed3x/overview.mp4",
+      "sha256": "79757f5b205fed5ee7b9cdf4b4b1408628670a282986fd1082f2b77f3c4fb20e"
+    },
+    "detail": {
+      "path": "media/recorded-instruments-20261002/plate_speed3x/detail.mp4",
+      "sha256": "145404e99009c25603607ffb8f3cf5f4b8d0e6cc65e16988fdae7dbb341fbc6e"
+    },
+    "context": {
+      "path": "media/recorded-instruments-20261002/plate_speed3x/context.mp4",
+      "sha256": "ee8f75ea0c6eae5e27f613f324990a49f58ed72c943270ed12b1719c48428dbd"
+    },
+    "contact_sheet": {
+      "path": "media/recorded-instruments-20261002/plate_speed3x/contact-sheet.jpg",
+      "sha256": "b3966352d5742170cb119d377f5e60299fd79bd84da25491a58f97484ce376ad"
+    }
+  }
+}

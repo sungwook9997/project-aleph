@@ -1,0 +1,139 @@
+{
+  "case": "tether_preadhered",
+  "source_record": "showcase_tether_preadhered_20261001_234344_402_eff1f7455",
+  "source_commit": "eff1f74551a527b74c71e32b6a8bf017ab4c4c19 (COMMIT_STAMP, hand-deployed)",
+  "valid_frame_range": [
+    10,
+    50
+  ],
+  "steps": [
+    10,
+    20,
+    30,
+    40,
+    50
+  ],
+  "physical_seconds": [
+    0.1,
+    0.5
+  ],
+  "position_sources": [
+    {
+      "step": 10,
+      "path": "00000010_pos.npy",
+      "sha256": "9524e70fc6e82a69479afc03a9317aa3f57ea015aca02e4b1e5505fb7e594579"
+    },
+    {
+      "step": 20,
+      "path": "00000020_pos.npy",
+      "sha256": "ebf21366d85db9c5a683c9ca97d5992b5c0cefc69567a3305946ea396e15c983"
+    },
+    {
+      "step": 30,
+      "path": "00000030_pos.npy",
+      "sha256": "b682122d12896a150a6d843fea5d18f05e48e969b11c2b66c507c2a6910afc48"
+    },
+    {
+      "step": 40,
+      "path": "00000040_pos.npy",
+      "sha256": "cedabb7789bc78c2e388e190336dec536783a4b97cfb405e339c4fd3b23d349f"
+    },
+    {
+      "step": 50,
+      "path": "00000050_pos.npy",
+      "sha256": "c400e50fff33e56b7e894f2a7b57fc81ddab047ed15e412ca209c622cf8afa8c"
+    }
+  ],
+  "geometry_source": "tables.npz",
+  "geometry_sha256": "5647a70eac47538a65b66a8b5b349f834e84a4f5edb0879bdac1a18bfaf73295",
+  "spec_sha256": "3c4e224312b15df0d3a8bef37b5326095b71436d72811135d5affc0d11ce8780",
+  "measurement_sha256": "cb368b6ad260e85a8f503e48c061da3410fa5e903003b95f9f89d5b4411b959a",
+  "geometry_amplification": 1,
+  "interpolation": "Linear between saved positions for display only; no extrapolation. Discrete status changes only at recorded samples.",
+  "renderer": "Unchanged Aleph Studio Scene / materials / ShadowMap / DepthComposite; macOS CGL framebuffer adapter",
+  "render_style_reference": "aleph-showcase-v6.mp4",
+  "renderer_files": {
+    "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
+    "materials.py": "1f17d5ad26217e1c0a2a10275e3adba3edd2e6f6eaf87e16c5b999fbcb0a512d",
+    "composite.py": "5ed3b9b8dd7cf6155b3db36b5287bfaf5b0bacb2694f9254ff30a8ca05848d3a",
+    "optics.py": "869be7961bb42a1a7b04c960e57898e792ee8917fe17fd7c774bbb2271ec1320"
+  },
+  "display_only": true,
+  "new_physics": false,
+  "reference_step": 10,
+  "total_displacement_max_um": 0.01931415473756124,
+  "total_displacement_scale_um": [
+    0,
+    0.1
+  ],
+  "visible_internal_segments": {
+    "microtubule": {
+      "stable_live_segments": 6464,
+      "omitted_changing_segments": 0
+    },
+    "intermediate_filament": {
+      "stable_live_segments": 7982,
+      "omitted_changing_segments": 0
+    }
+  },
+  "instrument_geometry": "Recorded tether bead mesh; no new membrane tether drawn",
+  "variants": {
+    "overview": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "distance": 14.5,
+        "theta": -1.4,
+        "phi": 1.42
+      },
+      "scalar": false,
+      "probe_hidden": false
+    },
+    "detail": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          4.143619317665181,
+          -0.2831002037590861,
+          0.07097118665330611
+        ],
+        "distance": 4.8,
+        "theta": -1.18,
+        "phi": 1.45
+      },
+      "scalar": false,
+      "probe_hidden": false
+    }
+  },
+  "helper_sha256": "704a487551a247e4aa888b90d36d3925207d8e1245d678ef893d19cb241656a5",
+  "public_media": {
+    "video": {
+      "path": "media/recorded-instruments-20261002/tether_preadhered/clip.mp4",
+      "sha256": "f588982e8c13fcfb4482d0c185534bc6d8a5290a42f62962d5888da1e31bf7ee"
+    },
+    "poster": {
+      "path": "media/recorded-instruments-20261002/tether_preadhered/poster.png",
+      "sha256": "b26c6a826e81fc04514b45ddae3b325e42a54e351c7be789f6837f7911f9342f"
+    },
+    "overview": {
+      "path": "media/recorded-instruments-20261002/tether_preadhered/overview.mp4",
+      "sha256": "b8e7e87c89be41bade31afe0dfceeb96f31f3f496ec6f94947bf7bdaa7d15d68"
+    },
+    "detail": {
+      "path": "media/recorded-instruments-20261002/tether_preadhered/detail.mp4",
+      "sha256": "395f1b4a5024fbbb2e3b3777747d4fc2c1c79949c328c1e92df472a8d64a2c68"
+    },
+    "contact_sheet": {
+      "path": "media/recorded-instruments-20261002/tether_preadhered/contact-sheet.jpg",
+      "sha256": "b8b6a64d846bc6f487949e3915fa2b57ed8cbb05edd8485218cc015a5c863d30"
+    }
+  }
+}

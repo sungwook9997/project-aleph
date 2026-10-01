@@ -1,0 +1,159 @@
+{
+  "case": "mpa_default20",
+  "source_record": "showcase_mpa_default20_20261001_234344_302_f919e506d",
+  "source_commit": "f919e506daa3c95667e82223187467e54b2aeec2",
+  "valid_frame_range": [
+    0,
+    45
+  ],
+  "steps": [
+    0,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45
+  ],
+  "physical_seconds": [
+    0.0,
+    0.45
+  ],
+  "position_sources": [
+    {
+      "step": 0,
+      "path": "pos_00000.npy",
+      "sha256": "d5fb21435b173d380b3def29c267f91865e985eefd72ec52b40e15c54cebd7d6"
+    },
+    {
+      "step": 5,
+      "path": "pos_00005.npy",
+      "sha256": "8cc2765173ae3b3e26712fddae60f77c6836be9fb5f097bc108ba4a457301fb7"
+    },
+    {
+      "step": 10,
+      "path": "pos_00010.npy",
+      "sha256": "d75e56c5f889e0a8f36ee220e78503696814df0af744d8ee79e3415b54b52112"
+    },
+    {
+      "step": 15,
+      "path": "pos_00015.npy",
+      "sha256": "f62ddf6c8cdda6198e088b20b6e9f94c0da227634f72665201e330662a1cd58e"
+    },
+    {
+      "step": 20,
+      "path": "pos_00020.npy",
+      "sha256": "2d99b17f902b54b853d1f75b75938dbc05c32a012c40d00e5e8ec62c4861cf58"
+    },
+    {
+      "step": 25,
+      "path": "pos_00025.npy",
+      "sha256": "9198c410ab3dbf2d00a4595e0eb12ba33ca4de1af4b0c2c46bb06102e32ea091"
+    },
+    {
+      "step": 30,
+      "path": "pos_00030.npy",
+      "sha256": "1a575725cacfddc9fa9d9b6779e9d3a534e27ec86e880bba3d07ef818a9feb49"
+    },
+    {
+      "step": 35,
+      "path": "pos_00035.npy",
+      "sha256": "fea896f9c9d9654ca3538a119ec797825ba5c36f06f84cbd4f66a9e68a66d3e1"
+    },
+    {
+      "step": 40,
+      "path": "pos_00040.npy",
+      "sha256": "789babc3e13865b43c3d3bbb78962a85bc6fff6c96db3be786f17e79e055faba"
+    },
+    {
+      "step": 45,
+      "path": "pos_00045.npy",
+      "sha256": "4a10f75c3e20667110bff09cc8347ef4df5bb4e905813bac2a92d04d0eccbd09"
+    }
+  ],
+  "geometry_source": "render_geometry.npz",
+  "geometry_sha256": "5870b5826612ef389f4af433ea43ef2f1e989f3cc1efd611c75cf8c14d74a6c4",
+  "spec_sha256": "1776eec28abe03503d11616c77ee456e4e4668e37c8a6f8ec5e97bc3757a7222",
+  "measurement_sha256": "b9b23d893b0aace7e7e29021316f4750d431539977dbe2bd0fb28b9946268554",
+  "geometry_amplification": 1,
+  "interpolation": "Linear between saved positions for display only; no extrapolation. Discrete status changes only at recorded samples.",
+  "renderer": "Unchanged Aleph Studio Scene / materials / ShadowMap / DepthComposite; macOS CGL framebuffer adapter",
+  "render_style_reference": "aleph-showcase-v6.mp4",
+  "renderer_files": {
+    "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
+    "materials.py": "1f17d5ad26217e1c0a2a10275e3adba3edd2e6f6eaf87e16c5b999fbcb0a512d",
+    "composite.py": "5ed3b9b8dd7cf6155b3db36b5287bfaf5b0bacb2694f9254ff30a8ca05848d3a",
+    "optics.py": "869be7961bb42a1a7b04c960e57898e792ee8917fe17fd7c774bbb2271ec1320"
+  },
+  "display_only": true,
+  "new_physics": false,
+  "reference_step": 0,
+  "total_displacement_max_um": 0.02657168361468536,
+  "total_displacement_scale_um": [
+    0,
+    0.1
+  ],
+  "instrument_geometry": "Recorded pipette mesh; no added tube or motion",
+  "variants": {
+    "overview": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          5.8,
+          0.0,
+          0.0
+        ],
+        "distance": 24.0,
+        "theta": -1.4,
+        "phi": 1.42
+      },
+      "scalar": false,
+      "probe_hidden": false
+    },
+    "detail": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          3.6,
+          0.0,
+          0.0
+        ],
+        "distance": 9.0,
+        "theta": -1.25,
+        "phi": 1.45
+      },
+      "scalar": false,
+      "probe_hidden": false
+    }
+  },
+  "helper_sha256": "704a487551a247e4aa888b90d36d3925207d8e1245d678ef893d19cb241656a5",
+  "public_media": {
+    "video": {
+      "path": "media/recorded-instruments-20261002/mpa_default20/clip.mp4",
+      "sha256": "09d660d51dbd6cb7b23a9fe3c70cb28565ae2eaa574ac67bb6e07e1dff6b4b96"
+    },
+    "poster": {
+      "path": "media/recorded-instruments-20261002/mpa_default20/poster.png",
+      "sha256": "dbaf0673c4f92c65c59c4f07be4d967faadcd2e77fb9b824146ad9f928569869"
+    },
+    "overview": {
+      "path": "media/recorded-instruments-20261002/mpa_default20/overview.mp4",
+      "sha256": "65fb7c099b31cc29ff6ea4539ce30b4111ca21453637c5acc7ff258654efcd9a"
+    },
+    "detail": {
+      "path": "media/recorded-instruments-20261002/mpa_default20/detail.mp4",
+      "sha256": "2fc271da66833e132e308986c06bc2053255fb9483d1e1b287448f4f46a1824c"
+    },
+    "contact_sheet": {
+      "path": "media/recorded-instruments-20261002/mpa_default20/contact-sheet.jpg",
+      "sha256": "b75af286b02ffcfcb35ae042e021786dca47fe4049f9cd3390b347035535caae"
+    }
+  }
+}

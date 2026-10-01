@@ -1,0 +1,181 @@
+{
+  "case": "bead_speed3x",
+  "source_record": "showcase_bead_speed3x_20261001_234344_201_eff1f7455",
+  "source_commit": "eff1f74551a527b74c71e32b6a8bf017ab4c4c19 (COMMIT_STAMP, hand-deployed)",
+  "valid_frame_range": [
+    5,
+    45
+  ],
+  "steps": [
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45
+  ],
+  "physical_seconds": [
+    0.05,
+    0.45
+  ],
+  "position_sources": [
+    {
+      "step": 5,
+      "path": "00000005_pos.npy",
+      "sha256": "47fe87ee10b849f741b940c4c25a088d9240f5c0105648271ce75077d0f301d5"
+    },
+    {
+      "step": 10,
+      "path": "00000010_pos.npy",
+      "sha256": "a670fb21654c81cda3845a6ad2380e2585b6f32f41fa7cbb2534c46037661a58"
+    },
+    {
+      "step": 15,
+      "path": "00000015_pos.npy",
+      "sha256": "711a9896093139f27ed4f2047f07535ac01dbffa7c0f551821d8f60105b4d213"
+    },
+    {
+      "step": 20,
+      "path": "00000020_pos.npy",
+      "sha256": "08b19b6a1d6bd60d1a803b1aa53284e059c3c141d70a1e4faa50d604e7074187"
+    },
+    {
+      "step": 25,
+      "path": "00000025_pos.npy",
+      "sha256": "87b6b3d342ba123e00b53ea288e08688bedf8f9e9c8ee24a26d5ad9a324d5474"
+    },
+    {
+      "step": 30,
+      "path": "00000030_pos.npy",
+      "sha256": "0a2ea6cc08d307c7b0b302edb2324bbf6379afeefbc34906e8c4787063103bfc"
+    },
+    {
+      "step": 35,
+      "path": "00000035_pos.npy",
+      "sha256": "ae0dedefd559b59ba8a453829c4f6cf31ce4c6c09f526b8ce0220521a084a923"
+    },
+    {
+      "step": 40,
+      "path": "00000040_pos.npy",
+      "sha256": "192c15616d6594623e5a6f2c61083731eb9a817e5445254c01f091fa86b3554e"
+    },
+    {
+      "step": 45,
+      "path": "00000045_pos.npy",
+      "sha256": "f461a04f90e119a3adcff3508113bc023db52439b18a139e70d4b16ec239fd24"
+    }
+  ],
+  "geometry_source": "tables.npz",
+  "geometry_sha256": "41cb32ce39c5412de65cb26aa5fdda06c8da0a0385775e3e19b69fca4575727e",
+  "spec_sha256": "8a6bbf5530e751d2f9bb6faf7079ef7c9c1cc505b5031cc7104c2ee5e7544123",
+  "measurement_sha256": "cbb070b8a2f4427b28a24edc8bb1e2bdaf3610f83d7edabb08eba541c8e64607",
+  "geometry_amplification": 1,
+  "interpolation": "Linear between saved positions for display only; no extrapolation. Discrete status changes only at recorded samples.",
+  "renderer": "Unchanged Aleph Studio Scene / materials / ShadowMap / DepthComposite; macOS CGL framebuffer adapter",
+  "render_style_reference": "aleph-showcase-v6.mp4",
+  "renderer_files": {
+    "app.py": "bba0def0e096711a167427f20b2ded4c42135af0253aa2e57594051991a5d1a4",
+    "materials.py": "1f17d5ad26217e1c0a2a10275e3adba3edd2e6f6eaf87e16c5b999fbcb0a512d",
+    "composite.py": "5ed3b9b8dd7cf6155b3db36b5287bfaf5b0bacb2694f9254ff30a8ca05848d3a",
+    "optics.py": "869be7961bb42a1a7b04c960e57898e792ee8917fe17fd7c774bbb2271ec1320"
+  },
+  "display_only": true,
+  "new_physics": false,
+  "reference_step": 5,
+  "total_displacement_max_um": 0.1780091178377878,
+  "total_displacement_scale_um": [
+    0,
+    0.2
+  ],
+  "visible_internal_segments": {
+    "microtubule": {
+      "stable_live_segments": 6464,
+      "omitted_changing_segments": 0
+    },
+    "intermediate_filament": {
+      "stable_live_segments": 7982,
+      "omitted_changing_segments": 0
+    }
+  },
+  "instrument_geometry": {
+    "loaded_probe": {
+      "shape": "sphere",
+      "radius_um": 2.5,
+      "size_source": "instrument.bead.radius",
+      "display_tessellation": [
+        32,
+        64
+      ]
+    },
+    "base": {
+      "shape": "plane",
+      "normal_axis": "x",
+      "half_width_um": 10.0,
+      "thickness_drawn": 0,
+      "size_source": "instrument.plate.half_width"
+    },
+    "placement": "Input analytic face at recorded carrier coordinates; unused plate carrier hidden in bead runs"
+  },
+  "variants": {
+    "overview": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          1.4,
+          0.0,
+          0.0
+        ],
+        "distance": 16.0,
+        "theta": -1.4,
+        "phi": 1.42
+      },
+      "scalar": false,
+      "probe_hidden": false
+    },
+    "detail": {
+      "frames": 288,
+      "fps": 24,
+      "duration": 12,
+      "camera": {
+        "target": [
+          3.45,
+          0.0,
+          0.0
+        ],
+        "distance": 8.0,
+        "theta": -1.35,
+        "phi": 1.45
+      },
+      "scalar": false,
+      "probe_hidden": false
+    }
+  },
+  "helper_sha256": "704a487551a247e4aa888b90d36d3925207d8e1245d678ef893d19cb241656a5",
+  "public_media": {
+    "video": {
+      "path": "media/recorded-instruments-20261002/bead_speed3x/clip.mp4",
+      "sha256": "8cb59a492a60cf32de30419347a678849da0e73c9a8df66d3fd78708c34ab546"
+    },
+    "poster": {
+      "path": "media/recorded-instruments-20261002/bead_speed3x/poster.png",
+      "sha256": "af8945156b3dc524786c71532a1c258bddb43d6064fc2b304805d04a137e7078"
+    },
+    "overview": {
+      "path": "media/recorded-instruments-20261002/bead_speed3x/overview.mp4",
+      "sha256": "e909383581a43b2255b01998dbfd10c1dbd09c6dc00a419c94868ccdf260bf65"
+    },
+    "detail": {
+      "path": "media/recorded-instruments-20261002/bead_speed3x/detail.mp4",
+      "sha256": "8c1de4f4ad52b6e75eb11db7d6d27a4a17bb2266e535bf5e3602576be0cdf934"
+    },
+    "contact_sheet": {
+      "path": "media/recorded-instruments-20261002/bead_speed3x/contact-sheet.jpg",
+      "sha256": "0f45fe16a354a87c9345a3b00aacbdfdac37e4020a60a151d10fd381275ec216"
+    }
+  }
+}
