@@ -1,9 +1,9 @@
 import {$,esc,el,button,data,fail,tabs,setURL,record,disclosure,reveal,empty,count} from './explorer-ui.js?v=3e6f66bbc6';
-import {structureGraph,nodeLabels} from './structure-topology.js?v=1007efad20';
+import {structureGraph,nodeLabels} from './structure-topology.js?v=1007merge';
 import {mountRoutes} from './pathways.js?v=7e0f0c5576';
 
 const root=$('#structure-app');
-const groups=[['Overview',[0]],['Physics engine',[10,1]],['Inner learning',[2,3]],['Outer models',[5,4,6,7,8]],['Current app',[9]]];
+const groups=[['Overview',[0]],['Physics engine',[10,1,11]],['Inner learning',[2,3]],['Outer models',[5,4,6,7,8]],['Current app',[9]]];
 let D,view=0,technical=false,mode='structure',fileQuery='',filePage=0;
 const pageSize=40;
 let fileMap,incoming;
@@ -44,7 +44,7 @@ function renderView(){
   } else {
     const graph=structureGraph(view,a,drawDiagram); if(graph) main.append(graph);
     const list=stepList(a); main.append(graph?disclosure(`All ${a.nodes.length} stages and references`,list):list);
-    if(a.commit)main.append(el('p','ex-note',esc('This view reflects commit '+a.commit+' (branch lead/1004-integ, 2026-10-07); the other views are from the 25 September snapshot.')));
+    if(a.commit)main.append(el('p','ex-note',esc('This view reflects commit '+a.commit+' (branch '+(a.branch||'lead/1004-integ')+', 2026-10-07); the other views are from the 25 September snapshot.')));
     if(a.note)main.append(disclosure('How to read this structure',el('p','ex-note',esc(a.note))));
   }
   main.append(el('section','ex-step-detail','<p class="ex-empty">Select a stage to read its inputs, work and outputs.</p>'));
@@ -79,7 +79,7 @@ function drawOriginalDiagram(nodes,edges,width,height){
   let svg=`<svg viewBox="0 0 ${width} ${height}" aria-label="${esc(viewName(view))}" xmlns="http://www.w3.org/2000/svg"><defs><marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs>`;
   for(const e of edges){const a=byId.get(e.a),b=byId.get(e.b);if(!a||!b)continue;const d=e.d||`M${a.x+a.w} ${a.y+a.h/2}H${(a.x+a.w+b.x)/2}V${b.y+b.h/2}H${b.x}`;svg+=`<path class="sm-halo" d="${d}"/><path class="ex-edge" d="${d}" marker-end="url(#flow-arrow)" ${e.dashed?'stroke-dasharray="5 5"':''}/>`;svg+=`<path class="sm-pulse" d="${d}" pathLength="100"/>`;if(e.label)svg+=`<text class="ex-edge-label" x="${e.tx}" y="${e.ty}">${esc(e.label)}</text>`;}
   nodes.forEach((n,i)=>{const mapped=!technical&&nodeLabels[view]?.[n.id];const label=mapped?mapped[0]:n.label,detail=mapped?[mapped[1]]:n.detail||[];
-    svg+=`<g class="ex-diagram-node" data-node="${i}" tabindex="0" role="button" aria-label="${esc(label)}"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="8"/><text class="ex-node-title" x="${n.x+14}" y="${n.y+29}">${esc(label)}</text>${detail.map((t,k)=>`<text class="ex-node-sub" x="${n.x+14}" y="${n.y+51+k*18}">${esc(t)}</text>`).join('')}</g>`;});
+    svg+=`<g class="ex-diagram-node" data-node="${i}" tabindex="0" role="button" aria-label="${esc(label)}"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="8"${n.plan?' stroke-dasharray="6 5"':''}/><text class="ex-node-title" x="${n.x+14}" y="${n.y+29}">${esc(label)}</text>${detail.map((t,k)=>`<text class="ex-node-sub" x="${n.x+14}" y="${n.y+51+k*18}">${esc(t)}</text>`).join('')}</g>`;});
   wrap.innerHTML=svg+'</svg>';
   wrap.querySelectorAll('[data-node]').forEach(g=>{const go=()=>{wrap.querySelectorAll('[aria-pressed]').forEach(n=>n.removeAttribute('aria-pressed'));g.setAttribute('aria-pressed','true');const n=nodes[Number(g.dataset.node)];showStep({...n.ref,title:n.label});};g.onclick=go;g.onkeydown=e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();go();}};});
   return wrap;
@@ -114,5 +114,5 @@ function openFile(path,push=true){
   data('../../media/explorers/native/parameters.json').then(a=>{if(!matches.isConnected)return;const ps=a.parameters.filter(p=>p.static_lookup_sites.some(s=>s.path===path));matches.innerHTML=`<h3>Parameters read here <small>${ps.length}</small></h3>`;if(!ps.length)matches.append(empty('No literal parameter lookup is listed for this file in the parameter snapshot.'));ps.forEach(p=>{const link=el('a','ex-file-link',esc(p.name));link.href='../parameters/?'+new URLSearchParams({parameter:p.name});matches.append(link);});}).catch(e=>{matches.append(empty(e.message));});
   reveal(main);
 }
-function restore(){const s=state();fileQuery='';view=Math.min(10,Math.max(0,Number(s.view)||0));mode=s.mode==='files'||s.file?'files':'structure';render();if(s.file)openFile(s.file,false);}
+function restore(){const s=state();fileQuery='';view=Math.min(11,Math.max(0,Number(s.view)||0));mode=s.mode==='files'||s.file?'files':'structure';render();if(s.file)openFile(s.file,false);}
 data('../../media/explorers/native/structure.json').then(d=>{D=d;fileMap=new Map(D.files.map(f=>[f.path,f]));incoming=new Map();D.files.forEach((f,i)=>{for(const [id] of f.imports){const path=D.files[id]?.path;if(!path)continue;if(!incoming.has(path))incoming.set(path,[]);if(!incoming.get(path).includes(i))incoming.get(path).push(i);}});restore();addEventListener('popstate',restore);}).catch(e=>fail(e,root));
