@@ -1,5 +1,5 @@
 import {$,esc,el,button,data,fail,tabs,setURL,record,disclosure,reveal,empty,count} from './explorer-ui.js?v=3e6f66bbc6';
-import {structureGraph,nodeLabels} from './structure-topology.js?v=be6e58f7a9';
+import {structureGraph,nodeLabels} from './structure-topology.js?v=1007efad20';
 import {mountRoutes} from './pathways.js?v=7e0f0c5576';
 
 const root=$('#structure-app');
@@ -44,6 +44,7 @@ function renderView(){
   } else {
     const graph=structureGraph(view,a,drawDiagram); if(graph) main.append(graph);
     const list=stepList(a); main.append(graph?disclosure(`All ${a.nodes.length} stages and references`,list):list);
+    if(a.commit)main.append(el('p','ex-note',esc('This view reflects commit '+a.commit+' (branch lead/1004-integ, 2026-10-07); the other views are from the 25 September snapshot.')));
     if(a.note)main.append(disclosure('How to read this structure',el('p','ex-note',esc(a.note))));
   }
   main.append(el('section','ex-step-detail','<p class="ex-empty">Select a stage to read its inputs, work and outputs.</p>'));
@@ -89,7 +90,7 @@ function showStep(n){
   if(l){panel.append(el('p','ex-intro',esc(l.why)));const flow=el('div','ex-stage-io');for(const [k,label] of [['input','01 / Inputs'],['action','02 / Work'],['output','03 / Outputs']])flow.append(el('div','',`<h4>${label}</h4><p>${esc(l[k])}</p>`));panel.append(flow);if(l.limit)panel.append(el('p','ex-note',esc(l.limit)));if(l.terms?.length)panel.append(disclosure('Terms used in this stage',record(l.terms)));}
   const node=D.architecture.flatMap(a=>a.nodes).find(a=>a.path===n.path&&a.line===n.line);
   if(node)panel.append(disclosure('Technical description',el('p','',esc(node.description))));
-  panel.append(fileLink(n.path,`Explore related file · ${n.path}`));
+  panel.append(fileMap.has(n.path)?fileLink(n.path,`Explore related file · ${n.path}`):el('p','ex-note',esc(`Source · ${n.path}:${n.line} (newer than the saved file index)`)));
   panel.scrollIntoView({block:'nearest',behavior:'smooth'});
 }
 function matchingFiles(){const q=fileQuery.toLowerCase().trim();return D.files.filter(f=>q==='@app'?/^aleph\/(application|studio)\//.test(f.path):!q||f.path.toLowerCase().includes(q)||f.symbols.some(s=>s.name.toLowerCase().includes(q)));}
