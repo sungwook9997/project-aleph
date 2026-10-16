@@ -10,10 +10,10 @@
     function opts(_, vals) { return vals.map(function (v) { return '<option value="' + esc(v) + '">' + esc(v || "any") + "</option>"; }).join(""); }
     function uniq(f) { var s = {}; P.forEach(function (p) { s[f(p)] = 1; }); return Object.keys(s).sort(); }
     root.innerHTML =
-      ["engine", "cell"].map(function (l) { return '<details class="pg-layer"' + (l === "engine" ? " open" : "") + '><summary><h3>' + l.toUpperCase() + ' layer <span class="muted">' + A.layers[l].rows.toLocaleString() + " rows · " + A.layers[l].groups + ' groups</span></h3><div class="pg-groups ' + l + '">' +
+      ["engine", "cell", "instrument"].map(function (l) { return '<details class="pg-layer"' + (l === "engine" ? " open" : "") + '><summary><h3>' + l.toUpperCase() + ' layer <span class="muted">' + A.layers[l].rows.toLocaleString() + " rows · " + A.layers[l].groups + ' groups</span></h3><div class="pg-groups ' + l + '">' +
         G.map(function (g) { return g.l === l ? '<button data-g="' + esc(g.id) + '" aria-pressed="false"><b>' + g.n + "</b>" + esc(g.g) + "</button>" : ""; }).join("") + "</div></details>"; }).join("") +
       '<form class="inp-filters" onsubmit="return false"><input type="search" name="q" placeholder="Name, unit, citation or source…" aria-label="Search" value="' + esc(want) + '">' +
-      '<select name="l" aria-label="Layer"><option value="">Both layers</option><option value="engine">ENGINE</option><option value="cell">CELL</option></select>' +
+      '<select name="l" aria-label="Layer"><option value="">All layers</option><option value="engine">ENGINE</option><option value="cell">CELL</option><option value="instrument">INSTRUMENT</option></select>' +
       '<select name="t" aria-label="Tag"><option value="">All tags</option>' + opts("t", uniq(function (p) { return p.t; })) + "</select>" +
       '<select name="st" aria-label="Wiring state"><option value="">Any state</option><option>executed</option><option>read</option><option>unread</option></select>' +
       '<button type="reset">Clear</button></form><p class="small muted pg-count" role="status"></p><div class="pg-readers small"></div>' +

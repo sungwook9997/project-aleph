@@ -20,10 +20,10 @@
     var sel = gi["cell:cortex"] !== undefined ? gi["cell:cortex"] : 0, focus = false;
     root.innerHTML =
       '<div class="atlas-whole"><div class="whole-system-head"><h3>All input groups, connected</h3><div><button class="atlas-show-all">Show all links</button></div></div>' +
-      '<p class="small"><span class="spill dev">ENGINE · ' + A.layers.engine.groups + ' groups · ' + A.layers.engine.rows.toLocaleString() + ' rows</span> <span class="spill approx">CELL · ' + A.layers.cell.groups + ' groups · ' + A.layers.cell.rows.toLocaleString() + ' rows</span></p>' +
+      '<p class="small"><span class="spill dev">ENGINE · ' + A.layers.engine.groups + ' groups · ' + A.layers.engine.rows.toLocaleString() + ' rows</span> <span class="spill approx">CELL · ' + A.layers.cell.groups + ' groups · ' + A.layers.cell.rows.toLocaleString() + ' rows</span> <span class="spill">INSTRUMENT · ' + A.layers.instrument.groups + ' groups · ' + A.layers.instrument.rows.toLocaleString() + ' rows</span></p>' +
       '<div class="atlas-whole-scroll"><svg viewBox="-520 -520 1040 1040" role="group" aria-label="All input groups, joined where one part reads both"></svg></div>' +
       '<p class="small muted">Each dot is an input group (engine left, cell right); each line means one part of the engine reads both groups. Choose a group to see its readers and rows.</p></div>' +
-      '<label class="atlas-group-picker">Explore an input group <select>' + ["engine", "cell"].map(function (l) { return '<optgroup label="' + l.toUpperCase() + '">' + G.map(function (g, i) { return g.l === l ? '<option value="' + i + '">' + esc(g.g) + ' · ' + g.n + ' rows</option>' : ""; }).join("") + "</optgroup>"; }).join("") + '</select></label>' +
+      '<label class="atlas-group-picker">Explore an input group <select>' + ["engine", "cell", "instrument"].map(function (l) { return '<optgroup label="' + l.toUpperCase() + '">' + G.map(function (g, i) { return g.l === l ? '<option value="' + i + '">' + esc(g.g) + ' · ' + g.n + ' rows</option>' : ""; }).join("") + "</optgroup>"; }).join("") + '</select></label>' +
       '<div class="atlas-grid"><div class="atlas-ring"><div class="atlas-route-heading"></div><div class="atlas-routes"></div></div>' +
       '<div class="atlas-side"><label class="atlas-search">Find an input <input type="search" list="atlas-names" placeholder="e.g. cortex.thickness or newton.tol_F"></label>' +
       '<datalist id="atlas-names">' + P.map(function (p) { return '<option value="' + esc(p.n) + '">'; }).join("") + '</datalist>' +
