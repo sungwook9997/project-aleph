@@ -253,3 +253,7 @@
 .show1016 .s16-card .pills, .show1016 > .pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 6px; }
 .show1016 .s16-card .cap { margin: 8px 0 4px; }
 .show1016 .s16-card .review-record dd { overflow-wrap: anywhere; }
+.motor-change .mc-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; margin: 12px 0; }
+.motor-change .mc-still { margin: 0; } .motor-change .mc-still img { width: 100%; height: auto; display: block; border-radius: 6px; }
+.motor-change .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.motor-change td { vertical-align: top; }
