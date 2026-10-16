@@ -1,0 +1,47 @@
+{
+ "guv": {
+  "ratio": 0.9518200000463876,
+  "omega_MS": 31850.7619548082,
+  "omega_engine": 30316.19224530302,
+  "vol_max_rel": 1.7891185158299077e-13
+ },
+ "ladder": {
+  "W1 chain vs exact implicit step": 7.903963722494118e-07,
+  "W3 vesicle volume": 0.00022371508343922643,
+  "Internal force balance": 9.095944411901994e-09
+ },
+ "m3": {
+  "no load": {
+   "v": 0.7514314614911266,
+   "three_se": 0.03319174655286775,
+   "oracle": 0.7500017954525144
+  },
+  "half-stall load, 1057.69 pN": {
+   "v": 0.36635635930667465,
+   "three_se": 0.026993679037488852,
+   "oracle": 0.375001496606733
+  }
+ },
+ "census": {
+  "source": "census_latest/fig1_table.json (read 2026-10-16 11:33 KST)",
+  "worlds": 25,
+  "classes": [
+   "all steps reached tol_F",
+   "tol_F, short or wall-stopped",
+   "partly",
+   "failed / none"
+  ],
+  "best": [
+   17,
+   5,
+   0,
+   3
+  ],
+  "latest": [
+   11,
+   3,
+   2,
+   9
+  ]
+ }
+}

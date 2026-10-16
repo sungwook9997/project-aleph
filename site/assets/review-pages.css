@@ -233,3 +233,18 @@
 .flow-key small { color: var(--muted); }
 .motor-key { position: static; display: flex; flex-wrap: wrap; gap: 7px 18px; padding: 12px 20px 0; background: transparent; color: var(--ink-2); }
 .motor-key b { margin: 0; color: var(--ink-2); }
+.engine-now .engine-rules { padding-left: 1.3em; line-height: 1.55; }
+.engine-now .engine-rules li { margin: 0 0 10px; }
+.engine-now .table-scroll { overflow-x: auto; max-width: 100%; }
+.engine-status { width: 100%; min-width: 640px; border-collapse: collapse; font-size: .9rem; }
+.engine-status th, .engine-status td { padding: 10px 12px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+.engine-status thead th { color: var(--muted); font-weight: 500; }
+.engine-status tbody th { font-weight: 600; width: 18%; }
+.engine-status td:last-child { width: 26%; }
+@media (max-width: 640px) {
+  .engine-status { min-width: 0; }
+  .engine-status thead { display: none; }
+  .engine-status tr, .engine-status th, .engine-status td { display: block; width: auto !important; }
+  .engine-status tbody th { padding-bottom: 2px; border-bottom: 0; }
+  .engine-status tbody td { padding-top: 4px; }
+}

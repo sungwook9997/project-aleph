@@ -184,3 +184,20 @@
 @media (prefers-reduced-motion: reduce) {
   .learning-guide .lg-top-pulse { animation: none !important; display: none; }
 }
+/* Solver assistance (16 Oct): reuses the topology map's language */
+.learning-guide .lg-solver-assist { margin-top: 48px; }
+.learning-guide .lg-sa-node { cursor: default; }
+.learning-guide .lg-sa-node:hover rect { stroke-width: 1.4; fill: var(--bg); }
+.learning-guide .lg-top-solver.lg-sa-node:hover rect { stroke: #8c72b8; }
+.learning-guide .lg-sa-check rect { stroke: var(--ink); stroke-width: 2.2; }
+.learning-guide .lg-sa-verdict { border-left: 3px solid #aa8244; padding: 8px 0 8px 16px; margin: 18px 0 6px; max-width: 860px; }
+.learning-guide .lg-sa-table-wrap { overflow-x: auto; margin: 24px 0; }
+.learning-guide .lg-sa-table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: .86rem; }
+.learning-guide .lg-sa-table caption { text-align: left; color: var(--muted); font-size: .8rem; padding-bottom: 8px; }
+.learning-guide .lg-sa-table th, .learning-guide .lg-sa-table td { text-align: left; vertical-align: top; padding: 10px 12px; border-top: 1px solid var(--rule); }
+.learning-guide .lg-sa-table thead th { color: var(--muted); font-weight: 600; font-size: .78rem; }
+.learning-guide .lg-sa-table small { color: var(--ink-2); font-weight: 400; }
+.learning-guide .lg-sa-film { margin: 28px 0 0; }
+.learning-guide .lg-sa-film video { width: 100%; height: auto; display: block; border-radius: 8px; background: #0f1416; aspect-ratio: 16 / 9; }
+.learning-guide .lg-sa-film figcaption p { color: var(--ink-2); font-size: .9rem; max-width: 900px; }
+.learning-guide .lg-sa-film figcaption { margin-top: 14px; }

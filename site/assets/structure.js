@@ -1,5 +1,5 @@
 import {$,esc,el,button,data,fail,tabs,setURL,record,disclosure,reveal,empty,count} from './explorer-ui.js?v=3e6f66bbc6';
-import {structureGraph,nodeLabels} from './structure-topology.js?v=1007merge';
+import {structureGraph,nodeLabels} from './structure-topology.js?v=270147e17e';
 import {mountRoutes} from './pathways.js?v=7e0f0c5576';
 
 const root=$('#structure-app');

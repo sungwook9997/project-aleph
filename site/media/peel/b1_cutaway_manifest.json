@@ -95,7 +95,7 @@
   "length": "um"
  },
  "commit": "4732ede50",
- "record": "/Users/sw1/ffn_cellsim/aleph/outputs/workstation_archive/20260925/host-home/aleph_hold/records/qs_fluid_B1_20260925_023200_4732ede50",
+ "record": "records:workstation_archive/20260925/host-home/aleph_hold/records/qs_fluid_B1_20260925_023200_4732ede50",
  "solve": "000001_solve.npz",
  "caveat": "0 of 1 steps converged (FORCE-ACCEPTED); defective build: crossbridge owners shifted (C1 03:1x) \u2014 every motor force and NMII head is the defective build's",
  "step": 1,

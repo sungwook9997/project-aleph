@@ -1,0 +1,410 @@
+{
+ "read_at": "2026-10-16 11:33 KST",
+ "tally": {
+  "ALL": 22,
+  "PART": 0,
+  "FAIL": 3
+ },
+ "rows": [
+  {
+   "world": "B1_chain",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "10/10",
+    "4.68e-11",
+    "g2s1/run5 | T0_li@bc1015"
+   ],
+   "latest": [
+    "10/10",
+    "7.28e-11",
+    "g3s8/run7 | T0_fluid@bc1015"
+   ],
+   "n_cases": 39
+  },
+  {
+   "world": "B2_lattice",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "10/10",
+    "3.18e-08",
+    "g2s1/run5 | T0@bc1015"
+   ],
+   "latest": [
+    "10/10",
+    "6.73e-07",
+    "g1s7/rsync/run_r/out_g1s7r_42bbb076f | T0_fluid@bc1015_r"
+   ],
+   "n_cases": 9
+  },
+  {
+   "world": "B3_vesicle",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "10/10",
+    "2.56e-06",
+    "g1s7/rsync/run_r/out_g1s7r_42bbb076f | T0@bc1015_r"
+   ],
+   "latest": [
+    "10/10",
+    "2.56e-06",
+    "g1s7/rsync/run_r/out_g1s7r_42bbb076f | T0@bc1015_r"
+   ],
+   "n_cases": 20
+  },
+  {
+   "world": "B4_vesicle_rigid",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "10/10",
+    "2.21e-06",
+    "g1s3/rsync/run5/out_g1s3_42bbb076f | T0@bc1015"
+   ],
+   "latest": [
+    "10/10",
+    "4.45e-06",
+    "g1s5/rsync/run5/out_g1s5_42bbb076f | T0_fluid@bc1015"
+   ],
+   "n_cases": 6
+  },
+  {
+   "world": "P01_membrane",
+   "status_best": "ALL",
+   "status_latest": "FAIL",
+   "best": [
+    "450/450",
+    "0.0072",
+    "vastA5000:vastA5000_915e8c6b4 | smooth_T310_long_dt1e-3@phys2"
+   ],
+   "latest": [
+    "stopped wall",
+    "\u2014",
+    "g6s6/run12/out_g6s6md2_b09a6cea8 | c29_p01_monolithic__smoother_sweeps=2__minres_iters=2000__rfd_eps=1e-08@mono_diag1"
+   ],
+   "n_cases": 71
+  },
+  {
+   "world": "P02_envelope_lamina",
+   "status_best": "ALL",
+   "status_latest": "PART",
+   "best": [
+    "10/10",
+    "0.00549",
+    "g3s10/run7 | T310_held_pc@retry_bendfloor"
+   ],
+   "latest": [
+    "14/17 (wall-stopped)",
+    "0.00546",
+    "g3s11/run7 | T310_held_pc_ex@held_operator_train"
+   ],
+   "n_cases": 40
+  },
+  {
+   "world": "P03_chromatin",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "20/20",
+    "1.32e-13",
+    "b23_wave1_A_eae75aa12 | T0"
+   ],
+   "latest": [
+    "1/1",
+    "1.11e-13",
+    "g1s7/rsync/run_dc3/out_g1s7d_e46ea3f9c | T0@reach_mcoh45"
+   ],
+   "n_cases": 9
+  },
+  {
+   "world": "P04_cortex_formin",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "500/500",
+    "0.00195",
+    "vastA4000b:vastA4000b_915e8c6b4 | T0_long@phys2"
+   ],
+   "latest": [
+    "10/10",
+    "0.00648",
+    "g5s7y/run4 | T310@rowsplit_fluid__rowsplit_fluid_off_fix"
+   ],
+   "n_cases": 160
+  },
+  {
+   "world": "P05_cortex_arp23",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "20/20",
+    "0.0059",
+    "g1s7/rsync/run7/out_g1s7m_42bbb076f | T310_angle_form1@salm_off"
+   ],
+   "latest": [
+    "5/5",
+    "0.00615",
+    "g5s7y/run4 | T310_angle_form1@rowsplit_fluid__rowsplit_fluid_on_fix"
+   ],
+   "n_cases": 215
+  },
+  {
+   "world": "P06_cytoplasm_actin_filamin",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "2/2",
+    "0.00699",
+    "g1s7/rsync/run_dc3/out_g1s7d_e46ea3f9c | T310@xlink_balance_on"
+   ],
+   "latest": [
+    "2/2",
+    "0.00699",
+    "g1s7/rsync/run_dc3/out_g1s7d_e46ea3f9c | T310@xlink_balance_on"
+   ],
+   "n_cases": 32
+  },
+  {
+   "world": "P07_nmii_free",
+   "status_best": "ALL",
+   "status_latest": "PART",
+   "best": [
+    "20/20",
+    "1.39e-10",
+    "b23_wave1_A_eae75aa12 | T0"
+   ],
+   "latest": [
+    "30/50",
+    "0.00571",
+    "b23_wave1_A_eae75aa12 | T310"
+   ],
+   "n_cases": 2
+  },
+  {
+   "world": "P08_mt_aster",
+   "status_best": "ALL",
+   "status_latest": "FAIL",
+   "best": [
+    "50/50",
+    "0.00328",
+    "vastA5000b:vastA5000b_915e8c6b4 | T310_arm2_straight@phys2"
+   ],
+   "latest": [
+    "0/50",
+    "37.1",
+    "g1s7/rsync/run_d2/out_g1s7d2_42bbb076f | T310_arm2_straight@fumt_pf_morse_r"
+   ],
+   "n_cases": 66
+  },
+  {
+   "world": "P09_if_network",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "50/50",
+    "0.00541",
+    "vastA5000b:vastA5000b_915e8c6b4 | T310@phys2"
+   ],
+   "latest": [
+    "50/50",
+    "0.00541",
+    "vastA5000b:vastA5000b_915e8c6b4 | T310@phys2"
+   ],
+   "n_cases": 5
+  },
+  {
+   "world": "P10_cargo",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "200/200",
+    "0",
+    "b23_wave1_A_eae75aa12 | T310"
+   ],
+   "latest": [
+    "100/100",
+    "0",
+    "ws/b26_tsfixconf_4b85f2cc2 | T310_fluid@tsfixconf_white_s3"
+   ],
+   "n_cases": 16
+  },
+  {
+   "world": "P11_osmotic_pools",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "50/50",
+    "0.0036",
+    "vastA4000b:vastA4000b_075626970 | T0_shock@phys"
+   ],
+   "latest": [
+    "5/5",
+    "0.00447",
+    "g5s2 | T0_shock@bc1015"
+   ],
+   "n_cases": 4
+  },
+  {
+   "world": "P12_unit_chemistry",
+   "status_best": "FAIL",
+   "status_latest": "FAIL",
+   "best": [
+    "stopped wall",
+    "\u2014",
+    "g1s5/rsync/run5/out_g1s5_42bbb076f | T0_fluid@bc1015"
+   ],
+   "latest": [
+    "stopped wall",
+    "\u2014",
+    "g1s5/rsync/run5/out_g1s5_42bbb076f | T0_fluid@bc1015"
+   ],
+   "n_cases": 2
+  },
+  {
+   "world": "M3_motor_trap",
+   "status_best": "ALL",
+   "status_latest": "FAIL",
+   "best": [
+    "5000/5000",
+    "1.78e-09",
+    "g5s5m/run7 | dt3e-05_T0_m0_bypass"
+   ],
+   "latest": [
+    "done",
+    "\u2014",
+    "g2s1/run7_meta | dt3e-05_T0_m1"
+   ],
+   "n_cases": 23
+  },
+  {
+   "world": "C01_membrane_cortex_erm",
+   "status_best": "ALL",
+   "status_latest": "FAIL",
+   "best": [
+    "13/13 (wall-stopped)",
+    "0.00212",
+    "g6s2/run7/out_g6s2m_42bbb076f | T0_fluid@nnv2_ab"
+   ],
+   "latest": [
+    "stopped wall",
+    "\u2014",
+    "g1s9/rsync/run9/out_g1s9d_e46ea3f9c | T0_fluid@B_membrane_growth"
+   ],
+   "n_cases": 39
+  },
+  {
+   "world": "C02_cortex_nmii",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "50/50",
+    "0.00163",
+    "g2s1/run7 | T0_fluid_ratchet"
+   ],
+   "latest": [
+    "50/50",
+    "0.00205",
+    "g1s7/rsync/run_dc3/out_g1s7d_e46ea3f9c | T0_fluid_ratchet_noattach"
+   ],
+   "n_cases": 56
+  },
+  {
+   "world": "C03_cortex_crosslink_branches",
+   "status_best": "ALL",
+   "status_latest": "FAIL",
+   "best": [
+    "47/47 (wall-stopped)",
+    "0.00658",
+    "g1s3/rsync/run8/out_g1s3n_42bbb076f | T310_fluid@DIR_OFF"
+   ],
+   "latest": [
+    "failed",
+    "\u2014",
+    "g6s1/run14/out_g6s1rf_95fcfdea3 | T0_fluid@DIR_ON_DER_rf"
+   ],
+   "n_cases": 57
+  },
+  {
+   "world": "C04_nucleus",
+   "status_best": "FAIL",
+   "status_latest": "FAIL",
+   "best": [
+    "stopped term",
+    "\u2014",
+    "g1s8/rsync/run9/out_g1s8d_e46ea3f9c | T0_fluid@B_r0.005_E1e+07_k533.333"
+   ],
+   "latest": [
+    "stopped term",
+    "\u2014",
+    "g1s8/rsync/run9/out_g1s8d_e46ea3f9c | T0_fluid@B_r0.005_E1e+07_k533.333"
+   ],
+   "n_cases": 31
+  },
+  {
+   "world": "C05_mt_motors_cargo",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "100/100",
+    "0.000663",
+    "g1s7/rsync/run_dc3/out_g1s7d_e46ea3f9c | T310_fluid@c05_alm_only_plain_finish"
+   ],
+   "latest": [
+    "20/20",
+    "0.00914",
+    "g5s7y/run4 | T310_fluid@rowsplit_fluid__rowsplit_fluid_off_fix"
+   ],
+   "n_cases": 134
+  },
+  {
+   "world": "C06_membrane_transport",
+   "status_best": "ALL",
+   "status_latest": "ALL",
+   "best": [
+    "2/2",
+    "0.00203",
+    "g3s7/run7 | T0_fluid_shock@spd_absorb"
+   ],
+   "latest": [
+    "2/2",
+    "0.00203",
+    "g3s7/run7 | T0_fluid_shock@spd_absorb"
+   ],
+   "n_cases": 7
+  },
+  {
+   "world": "C07_mt_nucleus_wrap",
+   "status_best": "FAIL",
+   "status_latest": "FAIL",
+   "best": [
+    "failed",
+    "\u2014",
+    "g3s5/run5_42bb | T0_arm4_fluid@bc1015"
+   ],
+   "latest": [
+    "failed",
+    "\u2014",
+    "g3s5/run5_42bb | T0_arm4_fluid@bc1015"
+   ],
+   "n_cases": 4
+  },
+  {
+   "world": "U1_ultramini",
+   "status_best": "ALL",
+   "status_latest": "FAIL",
+   "best": [
+    "13/13 (wall-stopped)",
+    "0.027",
+    "g6s7/run8/out_g6s7m_ef1b02189 | T310_fluid@u1lc_t310_s1"
+   ],
+   "latest": [
+    "stopped term",
+    "\u2014",
+    "g1s7/rsync/run_r/out_g1s7r_42bbb076f | T0_trace@u1pcjc_r"
+   ],
+   "n_cases": 99
+  }
+ ]
+}
