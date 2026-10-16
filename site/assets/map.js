@@ -1,102 +1,87 @@
-// The Map page's input explorer: the parameter evidence map (tools/extract_atlas.py -> media/map/atlas.json) as a circle of
-// the 52 input groups joined by the records that link their inputs, and a look-up of any one input. A link is a review or
-// construction record, never a correlation; its kind is kept, and nothing is weighted by how many links an input has.
+// The Map overview's input explorer (media/map/atlas.json, tools/extract_map.py): every input group of both layers on one
+// circle, ENGINE on one arc and CELL on the other, joined where one part of the engine reads both groups. A line is a
+// shared reader, never a correlation or a causal link.
 (function () {
   var root = document.getElementById("atlas"); if (!root) return;
-  var KINDS = [["alias", "Aliases", "One input declared as another's value"], ["construction", "Built together", "Inputs read together where the cell is built (selected, not complete)"],
-               ["example", "Reviewed relations", "Inputs discussed together in a review; no joint law inferred"], ["transform", "Conversions", "A static conversion from one quantity to another"],
-               ["fit", "Shared fits", "Estimates from the same published fit; covariance unknown"], ["comparison", "Source comparisons", "Inputs compared with the same source, not fitted jointly by it"]];
-  var NAME = {}; KINDS.forEach(function (k) { NAME[k[0]] = k[1]; });
-  var TAG = { EXAMPLE: "example value", SOURCED: "from the literature", SWEPT: "swept range" };
+  var STATE = { executed: "executed on the live path", read: "read by code, not on the live path", unread: "not read by any code" };
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   fetch(root.getAttribute("data-src")).then(function (r) { return r.json(); }).then(function (A) {
-    var selectedInput = null;
-    var P = A.params, on = { alias: 1, construction: 1, example: 1, transform: 1, fit: 1, comparison: 1 };
-    var groups = [], gi = {}; P.forEach(function (p, i) { if (!(p.g in gi)) { gi[p.g] = groups.length; groups.push({ g: p.g, ps: [] }); } groups[gi[p.g]].ps.push(i); });
-    groups.sort(function (a, b) { return a.g < b.g ? -1 : 1; }); groups.forEach(function (G, i) { gi[G.g] = i; });
-    var hubsOf = P.map(function () { return []; }), aliasOf = P.map(function () { return { root: null, deps: [] }; });
-    A.hubs.forEach(function (h, k) { h.p.forEach(function (i) { hubsOf[i].push(k); }); });
-    A.alias.forEach(function (e) { aliasOf[e[0]].root = e[1]; aliasOf[e[1]].deps.push(e[0]); });
-    var byName = {}; P.forEach(function (p, i) { byName[p.n] = i; });
+    var G = A.groups, P = A.params, parts = A.parts, gi = {}, byName = {}, rowsOf = G.map(function () { return []; });
+    G.forEach(function (g, i) { gi[g.id] = i; });
+    P.forEach(function (p, i) { byName[p.n] = i; rowsOf[gi[p.g]].push(i); });
+    var hubsOf = {}; A.authored.hubs.forEach(function (h, k) { h.p.forEach(function (n) { (hubsOf[n] = hubsOf[n] || []).push(k); }); });
+    var links = {};                       // "a|b" -> part indices reading both groups
+    parts.forEach(function (pt, k) { var gs = pt.g.map(function (g) { return gi[g]; });
+      for (var x = 0; x < gs.length; x++) for (var y = x + 1; y < gs.length; y++) { var a = Math.min(gs[x], gs[y]), b = Math.max(gs[x], gs[y]); (links[a + "|" + b] = links[a + "|" + b] || []).push(k); } });
+    var nE = G.filter(function (g) { return g.l === "engine"; }).length, gap = 0.12;
+    var pos = G.map(function (g, i) {      // engine arc on the left, cell arc on the right, a gap between them
+      var span = Math.PI - gap, a = g.l === "engine" ? Math.PI / 2 + gap / 2 + span * (i + 0.5) / nE : -Math.PI / 2 + gap / 2 + span * (i - nE + 0.5) / (G.length - nE);
+      return [360 * Math.cos(a), 360 * Math.sin(a), a]; });
+    var sel = gi["cell:cortex"] !== undefined ? gi["cell:cortex"] : 0, focus = false;
     root.innerHTML =
-      '<div class="atlas-kinds" role="group" aria-label="Kinds of link">' + KINDS.map(function (k) {
-        return '<label title="' + esc(k[2]) + '"><input type="checkbox" data-k="' + k[0] + '"' + (on[k[0]] ? " checked" : "") + '> <i class="k-' + k[0] + '"></i>' + esc(k[1]) + "</label>"; }).join("") + "</div>" +
-      '<div class="atlas-whole"><div class="whole-system-head"><h3>All input groups, connected</h3><div><button class="atlas-show-all">Show all links</button> <button class="atlas-flow-toggle">Pause flow</button></div></div><div class="atlas-whole-scroll"><svg viewBox="-470 -470 940 940" role="group" aria-label="All input groups, joined where records link their inputs"></svg></div>' +
-      '<p class="small muted">Each dot is a group of inputs; each line is a recorded relationship. Choose a group to highlight its links, then read them one by one below. Flow is a visual guide, not a physical signal.</p></div>' +
-      '<label class="atlas-group-picker">Explore an input group <select>' + groups.map(function(G,i){return '<option value="'+i+'">'+esc(G.g)+' · '+G.ps.length+' inputs</option>';}).join('') + '</select></label><div class="atlas-grid"><div class="atlas-ring"><div class="atlas-route-heading"></div><div class="atlas-routes"></div></div>' +
-      '<div class="atlas-side"><label class="atlas-search">Find an input <input type="search" list="atlas-names" placeholder="e.g. erm.k_off0 or cortex.thickness"></label>' +
-      '<datalist id="atlas-names">' + P.map(function (p) { return '<option value="' + esc(p.n) + '">'; }).join("") + "</datalist>" +
-      '<div class="atlas-group"></div><div class="atlas-detail" aria-live="polite"><p class="muted">Pick a group on the circle, or find an input by name.</p></div></div></div>' +
-      '<details class="atlas-added"><summary>' + A.added.length + " inputs added to the file since the map was built (no records reviewed for them yet)</summary><ul>" +
-      A.added.map(function (a) { return "<li><code>" + esc(a.n) + "</code> " + esc(a.v) + " " + esc(a.u || "") + ' <span class="tag ' + esc(a.t) + '">' + esc((a.t || "").toLowerCase()) + "</span></li>"; }).join("") + "</ul></details>";
-    var highlightGroup=false, paused=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var svg = root.querySelector("svg"), NS = "http://www.w3.org/2000/svg", R = 360, sel = gi.cortex === undefined ? 0 : gi.cortex;
-    var pos = groups.map(function (G, i) { var a = 2 * Math.PI * i / groups.length - Math.PI / 2; return [R * Math.cos(a), R * Math.sin(a), a]; });
+      '<div class="atlas-whole"><div class="whole-system-head"><h3>All input groups, connected</h3><div><button class="atlas-show-all">Show all links</button></div></div>' +
+      '<p class="small"><span class="spill dev">ENGINE · ' + A.layers.engine.groups + ' groups · ' + A.layers.engine.rows.toLocaleString() + ' rows</span> <span class="spill approx">CELL · ' + A.layers.cell.groups + ' groups · ' + A.layers.cell.rows.toLocaleString() + ' rows</span></p>' +
+      '<div class="atlas-whole-scroll"><svg viewBox="-520 -520 1040 1040" role="group" aria-label="All input groups, joined where one part reads both"></svg></div>' +
+      '<p class="small muted">Each dot is an input group (engine left, cell right); each line means one part of the engine reads both groups. Choose a group to see its readers and rows.</p></div>' +
+      '<label class="atlas-group-picker">Explore an input group <select>' + ["engine", "cell"].map(function (l) { return '<optgroup label="' + l.toUpperCase() + '">' + G.map(function (g, i) { return g.l === l ? '<option value="' + i + '">' + esc(g.g) + ' · ' + g.n + ' rows</option>' : ""; }).join("") + "</optgroup>"; }).join("") + '</select></label>' +
+      '<div class="atlas-grid"><div class="atlas-ring"><div class="atlas-route-heading"></div><div class="atlas-routes"></div></div>' +
+      '<div class="atlas-side"><label class="atlas-search">Find an input <input type="search" list="atlas-names" placeholder="e.g. cortex.thickness or newton.tol_F"></label>' +
+      '<datalist id="atlas-names">' + P.map(function (p) { return '<option value="' + esc(p.n) + '">'; }).join("") + '</datalist>' +
+      '<div class="atlas-group"></div><div class="atlas-detail" aria-live="polite"></div></div></div>';
+    var svg = root.querySelector("svg"), NS = "http://www.w3.org/2000/svg";
     function el(tag, at) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); return e; }
+    function label(i) { return G[i].l.toUpperCase() + " · " + G[i].g; }
     function draw() {
       svg.textContent = "";
-      var w = {};
-      function add(a, b, kind) { if (a === b) return; var key = a < b ? a + "|" + b : b + "|" + a; (w[key] = w[key] || { n: 0, kinds: {} }).n++; w[key].kinds[kind] = 1; }
-      if (on.alias) A.alias.forEach(function (e) { add(gi[P[e[0]].g], gi[P[e[1]].g], "alias"); });
-      A.hubs.forEach(function (h) { if (!on[h.k]) return; var gs = {}; h.p.forEach(function (i) { gs[gi[P[i].g]] = 1; }); var ks = Object.keys(gs).map(Number);
-        for (var x = 0; x < ks.length; x++) for (var y = x + 1; y < ks.length; y++) add(ks[x], ks[y], h.k); });
-      var connected = Object.keys(w).map(function(key){var ab=key.split('|').map(Number);return {ab:ab,W:w[key]};}).filter(function(e){return e.ab.indexOf(sel)!==-1;});
-      root.querySelector('.atlas-route-heading').innerHTML='<h3>'+esc(groups[sel].g)+' <span class="muted">relationships</span></h3><p class="small muted">Each row is one connection to another input group. The moving mark follows a record link, not a physical signal.</p>';
-      root.querySelector('.atlas-routes').innerHTML=connected.length?connected.map(function(e){var other=e.ab[0]===sel?e.ab[1]:e.ab[0];return '<div class="atlas-route-row"><span>'+esc(groups[sel].g)+'</span><span class="atlas-route-line">'+e.W.n+' records<small>'+Object.keys(e.W.kinds).map(function(k){return esc(NAME[k]);}).join(' · ')+'</small></span><button data-group="'+other+'">'+esc(groups[other].g)+' →</button></div>';}).join(''):'<p class="small muted">No cross-group links of these types. The input records on the right may still link values within this group.</p>';
-      root.classList.toggle('atlas-paused',paused);
-      root.querySelector('.atlas-flow-toggle').textContent=paused?'Play flow':'Pause flow';
-      root.querySelector('.atlas-flow-toggle').setAttribute('aria-pressed',String(!paused));
-      root.querySelector('.atlas-flow-toggle').onclick=function(){paused=!paused;draw();};
-      root.querySelector('.atlas-show-all').onclick=function(){highlightGroup=false;draw();};
       var lines = el("g", { "class": "ring-links" }); svg.appendChild(lines);
-      Object.keys(w).forEach(function (key) { var ab = key.split("|").map(Number), a = pos[ab[0]], b = pos[ab[1]], W = w[key];
-        var kind = Object.keys(W.kinds).length > 1 ? "mixed" : Object.keys(W.kinds)[0];
-        var hit = sel !== null && (ab[0] === sel || ab[1] === sel);
+      Object.keys(links).forEach(function (key) { var ab = key.split("|").map(Number), a = pos[ab[0]], b = pos[ab[1]], ks = links[key];
+        var cross = G[ab[0]].l !== G[ab[1]].l, hit = ab[0] === sel || ab[1] === sel;
         var path = el("path", { d: "M" + a[0] + " " + a[1] + " Q" + (a[0] + b[0]) * 0.18 + " " + (a[1] + b[1]) * 0.18 + " " + b[0] + " " + b[1],
-          "class": "k-" + kind + (!highlightGroup ? "" : hit ? " hot" : " dim"), "stroke-width": Math.min(9, 0.8 + 1.4 * Math.log(1 + W.n)) });
-        var t = el("title", {}); t.textContent = groups[ab[0]].g + " – " + groups[ab[1]].g + ": " + W.n + " record" + (W.n > 1 ? "s" : ""); path.appendChild(t);
-        lines.appendChild(path);
-        if((highlightGroup&&hit)||(!highlightGroup&&ab[0]%9===0)){
-          var pulse=el('path',{d:path.getAttribute('d'),'class':'atlas-pulse',pathLength:100,'style':'animation-delay:-'+(ab[0]%7)*.6+'s'});lines.appendChild(pulse);
-        } });
-      groups.forEach(function (G, i) { var p = pos[i], r = 4 + Math.sqrt(G.ps.length) * 1.9;
-        var g = el("g", { "class": "ring-node" + (i === sel ? " on" : ""), tabindex: 0, role: "button", "aria-label": G.g + ", " + G.ps.length + " inputs" });
-        g.appendChild(el("circle", { cx: p[0], cy: p[1], r: r }));
-        var deg = p[2] * 180 / Math.PI, flip = Math.cos(p[2]) < 0, lx = (R + r + 8) * Math.cos(p[2]), ly = (R + r + 8) * Math.sin(p[2]);
+          "class": (cross ? "k-cross" : "k-" + G[ab[0]].l) + (!focus ? "" : hit ? " hot" : " dim"), "stroke-width": Math.min(6, 0.8 + Math.log(ks.length + 1)) });
+        var t = el("title", {}); t.textContent = label(ab[0]) + " – " + label(ab[1]) + ": read together by " + ks.map(function (k) { return parts[k].t; }).join(", "); path.appendChild(t);
+        lines.appendChild(path); });
+      G.forEach(function (g, i) { var p = pos[i], r = 3 + Math.sqrt(g.n) * 0.9;
+        var n = el("g", { "class": "ring-node l-" + g.l + (i === sel ? " on" : ""), tabindex: 0, role: "button", "aria-label": label(i) + ", " + g.n + " rows" });
+        n.appendChild(el("circle", { cx: p[0], cy: p[1], r: r }));
+        var deg = p[2] * 180 / Math.PI, flip = Math.cos(p[2]) < 0, lx = (360 + r + 6) * Math.cos(p[2]), ly = (360 + r + 6) * Math.sin(p[2]);
         var tx = el("text", { x: lx, y: ly, transform: "rotate(" + (flip ? deg + 180 : deg) + " " + lx + " " + ly + ")", "text-anchor": flip ? "end" : "start", dy: "0.35em" });
-        tx.textContent = G.g; g.appendChild(tx);
-        g.addEventListener("click", function () { pickGroup(i); });
-        g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pickGroup(i); } });
-        svg.appendChild(g); });
+        tx.textContent = g.g; n.appendChild(tx);
+        n.addEventListener("click", function () { pick(i); });
+        n.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(i); } });
+        svg.appendChild(n); });
+      var g = G[sel], readers = g.p.map(function (k) { return parts[k]; }), other = {};
+      Object.keys(links).forEach(function (key) { var ab = key.split("|").map(Number); if (ab.indexOf(sel) < 0) return; other[ab[0] === sel ? ab[1] : ab[0]] = links[key]; });
+      var ks = Object.keys(other).map(Number).sort(function (a, b) { return other[b].length - other[a].length; });
+      root.querySelector(".atlas-route-heading").innerHTML = "<h3>" + esc(label(sel)) + ' <span class="muted">connections</span></h3><p class="small">Read by ' +
+        (readers.length ? readers.map(function (pt) { return '<span class="spill ' + (pt.s === "engine" ? "dev" : "approx") + '">' + esc(pt.t) + "</span>"; }).join(" ") : '<span class="spill">no part lists this group</span>') + "</p>";
+      root.querySelector(".atlas-routes").innerHTML = ks.length ? ks.map(function (o) { return '<div class="atlas-route-row"><span>' + esc(g.g) + '</span><span class="atlas-route-line">' + other[o].length + " shared part" + (other[o].length > 1 ? "s" : "") + "<small>" + other[o].map(function (k) { return esc(parts[k].t); }).join(" · ") + '</small></span><button data-group="' + o + '">' + esc(label(o)) + " →</button></div>"; }).join("")
+        : '<p class="small muted">No other group shares a reader with this one.</p>';
     }
-    function chip(i) { var p = P[i]; return '<button class="pchip' + (p.x ? " x" : "") + '" data-i="' + i + '">' + esc(p.n) + "</button>"; }
-    function pickGroup(i,focus) { highlightGroup=focus!==false; sel = i; selectedInput = null;root.querySelector('.atlas-detail').innerHTML='<p class="muted">Select an input above to read its linked records.</p>'; root.querySelector('.atlas-group-picker select').value=String(i); draw(); var G = groups[i];
-      root.querySelector(".atlas-group").innerHTML = "<h3>" + esc(G.g) + ' <span class="muted">' + G.ps.length + " inputs</span></h3><p>" + G.ps.map(chip).join(" ") + "</p>"; }
+    function chip(i) { return '<button class="pchip st-' + P[i].st + '" data-i="' + i + '">' + esc(P[i].n) + "</button>"; }
+    function pick(i, f) { focus = f !== false; sel = i; root.querySelector(".atlas-group-picker select").value = String(i); draw();
+      var st = {}; rowsOf[i].forEach(function (j) { st[P[j].st] = (st[P[j].st] || 0) + 1; });
+      root.querySelector(".atlas-group").innerHTML = "<h3>" + esc(label(i)) + ' <span class="muted">' + G[i].n + " rows</span></h3><p class=\"small\">" +
+        Object.keys(st).map(function (s) { return '<span class="spill ' + (s === "executed" ? "good" : s === "unread" ? "bad" : "") + '">' + st[s] + " " + esc(s) + "</span>"; }).join(" ") + "</p><p>" + rowsOf[i].map(chip).join(" ") + "</p>";
+      root.querySelector(".atlas-detail").innerHTML = '<p class="muted">Select an input to read its value and source.</p>'; }
     function show(i) {
-      var p = P[i], al = aliasOf[i];
-      if (sel !== gi[p.g]) pickGroup(gi[p.g]);
-      var val = p.b ? "alias of <button class=\"pchip\" data-i=\"" + byName[p.b] + "\">" + esc(p.b) + "</button>" : "<b>" + esc(p.v) + "</b> " + esc(p.u || "");
-      var h = "<h3>" + esc(p.n) + '</h3><p class="pval">' + val + ' <span class="tag ' + esc(p.t) + '">' + esc(TAG[p.t] || p.t) + "</span></p>";
-      if (p.x) h += '<p class="warn-line small">' + (p.x === "removed" ? "Not in the parameter file in use now." : "Changed in the parameter file in use now; the records below were reviewed before the change.") + "</p>";
+      var p = P[i]; if (sel !== gi[p.g]) pick(gi[p.g]);
+      var rg = p.rg ? " · range " + esc(p.rg.join("–")) : "";
+      var h = "<h3>" + esc(p.n) + '</h3><p class="pval"><b>' + esc(p.v) + "</b> " + esc(p.u || "") + rg + ' <span class="tag ' + esc(p.t) + '">' + esc(p.t.toLowerCase()) + "</span> " +
+        '<span class="spill ' + (p.st === "executed" ? "good" : p.st === "unread" ? "bad" : "") + '">' + esc(STATE[p.st]) + "</span></p>";
+      if (p.sc || p.c) h += '<p class="small">' + (p.sc ? "Source class: " + esc(p.sc.replace(/_/g, " ").toLowerCase()) : "") + (p.c ? (p.sc ? " · " : "") + "cites " + esc(p.c) : "") + "</p>";
       if (p.s) h += '<p class="psrc">' + esc(p.s) + "</p>";
-      if (p.r) h += '<p class="small muted">Citations named in its source text: ' + p.r.map(esc).join(", ") + " (named, not checked here).</p>";
-      if (al.deps.length) h += '<p class="small">Inputs declared as this one\'s value: ' + al.deps.map(chip).join(" ") + "</p>";
-      var hs = hubsOf[i].filter(function (k) { return on[A.hubs[k].k]; });
-      h += "<h4>" + (hs.length ? "In " + hs.length + " record" + (hs.length > 1 ? "s" : "") + " of the kinds shown" : "No record of the kinds shown links this input") + "</h4>";
-      h += hs.map(function (k) { var H = A.hubs[k], others = H.p.filter(function (j) { return j !== i; });
-        return '<div class="hub"><p class="hub-k"><i class="k-' + H.k + '"></i>' + esc(NAME[H.k]) + (H.re ? ' <span class="warn-line">reviewed lines changed since: needs re-review</span>' : "") + "</p><p><b>" + esc(H.title) + "</b></p>" +
-          (H.text ? "<p>" + esc(H.text) + "</p>" : "") + (H.notes.length ? '<ul class="small">' + H.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>" : "") +
-          (H.refs.length ? '<p class="small muted">Sources: ' + H.refs.map(esc).join(", ") + "</p>" : "") +
-          (others.length ? '<p class="small">With: ' + others.slice(0, 24).map(chip).join(" ") + (others.length > 24 ? " and " + (others.length - 24) + " more" : "") + "</p>" : "") + "</div>"; }).join("");
-      root.querySelector(".atlas-detail").innerHTML = h; selectedInput = i;
+      var hs = hubsOf[p.n] || [];
+      if (hs.length) h += '<details class="fold"><summary><span class="fold-head">' + hs.length + " review record" + (hs.length > 1 ? "s" : "") + '</span> <span class="pills"><span class="spill">authored ' + esc(A.authored.date) + '</span></span><span class="more">More</span></summary><p class="small muted">' + esc(A.authored.note) + "</p>" +
+        hs.map(function (k) { var H = A.authored.hubs[k]; return '<div class="hub"><p><b>' + esc(H.title) + "</b></p>" + (H.text ? "<p>" + esc(H.text) + "</p>" : "") + (H.refs && H.refs.length ? '<p class="small muted">Sources: ' + H.refs.map(esc).join(", ") + "</p>" : "") + "</div>"; }).join("") + "</details>";
+      root.querySelector(".atlas-detail").innerHTML = h;
     }
-    root.addEventListener("click", function (e) { var b = e.target.closest(".pchip"); if (b) show(+b.getAttribute("data-i"));var group=e.target.closest("[data-group]");if(group)pickGroup(+group.dataset.group); });
-    root.querySelectorAll(".atlas-kinds input").forEach(function (c) { c.addEventListener("change", function () { on[c.getAttribute("data-k")] = c.checked ? 1 : 0; draw(); if(selectedInput !== null)show(selectedInput); }); });
+    root.addEventListener("click", function (e) { var b = e.target.closest(".pchip"); if (b) show(+b.getAttribute("data-i")); var g = e.target.closest("[data-group]"); if (g) pick(+g.dataset.group); });
+    root.querySelector(".atlas-show-all").onclick = function () { focus = false; draw(); };
     var q = root.querySelector(".atlas-search input");
     q.addEventListener("change", function () { if (q.value in byName) show(byName[q.value]); });
-    root.querySelector('.atlas-group-picker select').onchange=function(){pickGroup(+this.value);};
-    pickGroup(sel,false);
+    root.querySelector(".atlas-group-picker select").onchange = function () { pick(+this.value); };
+    pick(sel, false);
     var want = decodeURIComponent((location.hash.match(/#input=([^&]+)/) || [])[1] || "");
-    if (want in byName) show(byName[want]);else if('cortex.thickness' in byName)show(byName['cortex.thickness']);
+    if (want in byName) show(byName[want]);
   }).catch(function (e) { root.innerHTML = '<p class="warn-line">The map could not load (' + esc(e.message) + ").</p>"; });
 })();

@@ -779,3 +779,15 @@ details.fold > p { margin: 6px 0 0; }
 .s16-strip-grid a { display: block; text-decoration: none; color: var(--ink); }
 .s16-strip-grid img { display: block; width: 100%; height: auto; border-radius: 8px; background: var(--field); }
 .s16-strip-grid span { display: block; margin-top: 6px; font-weight: 600; }
+/* Map inputs (2026-10-16, tools/extract_map.py): engine and cell groups on one circle, coloured by layer */
+.k-engine { stroke: var(--p-dev); } .k-cell { stroke: var(--p-approx); } .k-cross { stroke: var(--muted); stroke-dasharray: 4 3; }
+.ring-node.l-engine circle { fill: var(--p-dev-bg); stroke: var(--p-dev); } .ring-node.l-cell circle { fill: var(--p-approx-bg); stroke: var(--p-approx); }
+.ring-node.on circle { fill: var(--ink); }
+.atlas .ring-node text { font-size: 11px; }
+.pchip.st-unread { border-style: dashed; color: var(--p-bad); } .pchip.st-read { color: var(--ink-2); }
+.map-stamp { font: 500 0.82rem var(--mono); color: var(--muted); margin: 4px 0 10px; overflow-wrap: anywhere; }
+.pg-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 6px; margin: 8px 0 18px; }
+.pg-groups button { text-align: left; font: inherit; font-size: 0.85rem; padding: 6px 9px; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); color: var(--ink); cursor: pointer; min-width: 0; overflow-wrap: anywhere; }
+.pg-groups button b { display: block; font: 700 1.05rem var(--display); } .pg-groups button[aria-pressed="true"] { border-color: var(--link); outline: 2px solid var(--link); }
+.pg-groups.engine button b { color: var(--p-dev); } .pg-groups.cell button b { color: var(--p-approx); }
+.pg-layer > summary { cursor: pointer; } .pg-layer > summary h3 { display: inline; } .pg-layer { margin: 10px 0; }
