@@ -130,7 +130,7 @@
       else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
     });
     controls.append(toggle, seek, time, expand); player.appendChild(controls);
-    var userPaused = reduced, onscreen = false, loaded = false;
+    var userPaused = reduced || v.hasAttribute("data-click"), onscreen = false, loaded = false;
     function load() { if (!loaded) { v.src = v.dataset.src; loaded = true; } }
     function sync() {
       toggle.textContent = v.paused ? "Play" : "Pause";

@@ -248,3 +248,8 @@
   .engine-status tbody th { padding-bottom: 2px; border-bottom: 0; }
   .engine-status tbody td { padding-top: 4px; }
 }
+/* 16 October films */
+.show1016 .s16-card h4 { margin: 0 0 6px; }
+.show1016 .s16-card .pills, .show1016 > .pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 6px; }
+.show1016 .s16-card .cap { margin: 8px 0 4px; }
+.show1016 .s16-card .review-record dd { overflow-wrap: anywhere; }

@@ -774,3 +774,8 @@ details.fold > p { margin: 6px 0 0; }
 /* Newton diagram: readable on phones — scroll inside its box instead of shrinking the text */
 .newton-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 @media (max-width:700px){.newton-scroll .newton-svg{min-width:720px}}
+/* home strip: 16 October films */
+.s16-strip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; margin-top: 12px; }
+.s16-strip-grid a { display: block; text-decoration: none; color: var(--ink); }
+.s16-strip-grid img { display: block; width: 100%; height: auto; border-radius: 8px; background: var(--field); }
+.s16-strip-grid span { display: block; margin-top: 6px; font-weight: 600; }
