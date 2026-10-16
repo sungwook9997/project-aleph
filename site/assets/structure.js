@@ -1,5 +1,5 @@
 import {$,esc,el,button,data,fail,tabs,setURL,record,disclosure,reveal,empty,count} from './explorer-ui.js?v=3e6f66bbc6';
-import {structureGraph,nodeLabels} from './structure-topology.js?v=270147e17e';
+import {structureGraph,nodeLabels} from './structure-topology.js?v=1c3a279673';
 import {mountRoutes} from './pathways.js?v=7e0f0c5576';
 
 const root=$('#structure-app');
@@ -44,7 +44,7 @@ function renderView(){
   } else {
     const graph=structureGraph(view,a,drawDiagram); if(graph) main.append(graph);
     const list=stepList(a); main.append(graph?disclosure(`All ${a.nodes.length} stages and references`,list):list);
-    if(a.commit)main.append(el('p','ex-note',esc('This view reflects commit '+a.commit+' (branch '+(a.branch||'lead/1004-integ')+', 2026-10-07); the other views are from the 25 September snapshot.')));
+    if(a.currency)main.append(el('p','ex-note',esc(a.currency)));
     if(a.note)main.append(disclosure('How to read this structure',el('p','ex-note',esc(a.note))));
   }
   main.append(el('section','ex-step-detail','<p class="ex-empty">Select a stage to read its inputs, work and outputs.</p>'));
@@ -64,13 +64,13 @@ function drawDiagram(nodes,edges,width,height){
     const fork=branch.findIndex((n,k)=>k<branch.length-1&&main.filter(e=>e.a===n.id).length>1);const via=fork>=0?branch[fork+1]:null;const hint=via&&(nodeLabels[view]?.[via.id]?.[1]||label(via));
     return {title:paths.length===1?'From input to output':`${hint&&via!==branch.at(-1)?hint+' → ':label(branch[0])+' → '}${label(branch.at(-1))}`,
       purpose:paths.length>1?'One branch shown separately. Other branches may supply inputs to the same stage.':'Read the stages in order; open any stage for its inputs and outputs.',
-      status:edges.some(e=>e.dashed&&e.a===ids[0]&&e.b===ids[1])?'Feedback / refresh path from the saved structure.':'Saved structure · animated explanation, not a live trace',
+      status:edges.some(e=>e.dashed&&e.a===ids[0]&&e.b===ids[1])?'Feedback / refresh path from the saved structure.':'Authored structure · animated explanation, not a live trace',
       steps:branch.map(n=>{const l=n.ref&&lesson(n.ref);return {title:label(n),subtitle:!technical&&nodeLabels[view]?.[n.id]?.[1]||(n.detail||[])[0],text:l?.action||l?.why||(n.detail||[]).join(' · '),ref:n.ref&&{...n.ref,title:n.label}};})};
   });
   const full=el('section','ex-whole-topology');
   let paused=matchMedia('(prefers-reduced-motion: reduce)').matches;full.classList.toggle('is-paused',paused);
   const control=button(paused?'Play flow':'Pause flow',()=>{paused=!paused;full.classList.toggle('is-paused',paused);control.textContent=paused?'Play flow':'Pause flow';},'pw-toggle');
-  const head=el('div','whole-system-head');head.append(el('h3','','All branches together'),control);full.append(head,drawOriginalDiagram(nodes,edges,width,height),el('p','ex-note','The complete saved topology. Select a stage for its inputs and outputs, or follow each branch separately below. Moving marks are an explanatory guide.'));wrap.append(full);
+  const head=el('div','whole-system-head');head.append(el('h3','','All branches together'),control);full.append(head,drawOriginalDiagram(nodes,edges,width,height),el('p','ex-note','The complete authored topology. Select a stage for its inputs and outputs, or follow each branch separately below. Moving marks are an explanatory guide.'));wrap.append(full);
   mountRoutes(wrap,routes,{onStep:showStep,compact:paths.length>1});
   return wrap;
 }
@@ -102,11 +102,11 @@ function renderFiles(){
   const pager=el('div','ex-pager');const prev=button('← Previous',()=>{filePage--;renderFiles();});prev.disabled=!filePage;const next=button('Next →',()=>{filePage++;renderFiles();});next.disabled=(filePage+1)*pageSize>=files.length;pager.append(prev,el('span','',`${files.length?filePage*pageSize+1:0}–${Math.min((filePage+1)*pageSize,files.length)} of ${count(files.length)}`),next);main.append(pager);
 }
 function openFile(path,push=true){
-  const f=fileMap.get(path);if(!f){mode='files';render();$('#structure-content').prepend(empty('This file is not included in the saved structure snapshot.'));return;}
+  const f=fileMap.get(path);if(!f){mode='files';render();$('#structure-content').prepend(empty('This file is not in the engine file list at this commit.'));return;}
   mode='files';if(push)setURL({file:path});shell();const main=$('#structure-content');
-  main.append(button('← Browse files',()=>{setURL({mode:'files'});renderFiles();},'ex-back'),el('p','ex-eyebrow','File / '+f.category),el('h2','ex-file-title',esc(path.split('/').at(-1))),el('p','ex-file-path',esc(path)),el('p','ex-intro',`${count(f.lines)} lines · ${f.symbols.length} definitions · snapshot ${D.commit.slice(0,9)}`));
+  main.append(button('← Browse files',()=>{setURL({mode:'files'});renderFiles();},'ex-back'),el('p','ex-eyebrow','File / '+f.category),el('h2','ex-file-title',esc(path.split('/').at(-1))),el('p','ex-file-path',esc(path)),el('p','ex-intro',`${count(f.lines)} lines · ${f.symbols.length} definitions · engine ${D.commit.slice(0,9)}`));
   const relations=el('div','ex-file-relations');
-  for(const [label,ids] of [['Imports', [...new Set(f.imports.map(([i])=>i))]],['Imported by',incoming.get(path)||[]]]){const section=el('section','');section.append(el('h3','',`${label} <small>${ids.length}</small>`));if(!ids.length)section.append(empty('None recorded in this snapshot.'));for(const id of ids.slice(0,8))section.append(fileLink(D.files[id].path));if(ids.length>8){const more=el('div','');for(const id of ids.slice(8))more.append(fileLink(D.files[id].path));section.append(disclosure(`Show ${ids.length-8} more files`,more));}relations.append(section);}main.append(relations,el('p','ex-note','These are static import relationships. They do not establish a runtime call.'));
+  for(const [label,ids] of [['Imports', [...new Set(f.imports.map(([i])=>i))]],['Imported by',incoming.get(path)||[]]]){const section=el('section','');section.append(el('h3','',`${label} <small>${ids.length}</small>`));if(!ids.length)section.append(empty('None recorded at this engine commit.'));for(const id of ids.slice(0,8))section.append(fileLink(D.files[id].path));if(ids.length>8){const more=el('div','');for(const id of ids.slice(8))more.append(fileLink(D.files[id].path));section.append(disclosure(`Show ${ids.length-8} more files`,more));}relations.append(section);}main.append(relations,el('p','ex-note','These are static import relationships. They do not establish a runtime call.'));
   const lessons=Object.entries(D.explanations.nodes).filter(([k])=>k.startsWith(path+':'));if(lessons.length){const list=el('div','ex-lesson-links');lessons.forEach(([key,l])=>list.append(disclosure(l.title,record(l))));main.append(disclosure('Roles in the structure explorer',list));}
   const defs=el('div','ex-definitions');f.symbols.forEach(s=>defs.append(el('div','',`<code>${esc(s.name)}</code><span>${esc(s.kind)} · line ${s.line}</span>`)));main.append(disclosure(`Definitions (${f.symbols.length})`,defs));
   const models=D.models.filter(m=>m.path===path);if(models.length)main.append(disclosure('Model layers recorded in this file',record(models)));
