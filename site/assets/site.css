@@ -771,3 +771,6 @@ details.fold > p { margin: 6px 0 0; }
 .inp-more { margin: 32px 0; } .inp-more summary { cursor: pointer; font-weight: 700; }
 .inp-more dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 12px; }
 .inp-more dd { margin: 0; }
+/* Newton diagram: readable on phones — scroll inside its box instead of shrinking the text */
+.newton-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media (max-width:700px){.newton-scroll .newton-svg{min-width:720px}}
